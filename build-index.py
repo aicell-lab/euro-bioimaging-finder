@@ -605,8 +605,8 @@ async def process_tech_data(tech_data: List[Dict], tech_to_nodes: Dict[str, List
             summary = description_text[:150] + "..." if len(description_text) > 150 else description_text
             keywords = []
         
-        # Convert available_in to use short node IDs (we'll need to create a node mapping)
-        available_in_original = tech_to_nodes.get(tech['id'], [])
+        # Convert provider_node_ids to use short node IDs (we'll need to create a node mapping)
+        provider_node_ids_original = tech_to_nodes.get(tech['id'], [])
         
         # Create the indexed entry with short ID
         short_id = tech_id_mapping[tech['id']]
@@ -617,7 +617,7 @@ async def process_tech_data(tech_data: List[Dict], tech_to_nodes: Dict[str, List
             'description': summary,
             'keywords': keywords,
             'documentation': convert_html_to_markdown(get_description_text(tech)),
-            'available_in': available_in_original,  # Will be converted to short IDs later
+            'provider_node_ids': provider_node_ids_original,  # Will be converted to short IDs later
             # Preserve essential original fields
             'abbr': tech.get('abbr', ''),
             'category': tech.get('category', {})
@@ -653,8 +653,8 @@ async def process_nodes_data(nodes_data: List[Dict]) -> tuple[List[Dict], Dict[s
             summary = description_text[:150] + "..." if len(description_text) > 150 else description_text
             keywords = []
         
-        # Convert technologies list to use short tech IDs (will be done later)
-        technologies_original = node.get('technologies', [])
+        # Convert offer_technology_ids list to use short tech IDs (will be done later)
+        offer_technology_ids_original = node.get('technologies', [])
         
         # Create the indexed entry with short ID
         short_id = node_id_mapping[node['id']]
@@ -665,7 +665,7 @@ async def process_nodes_data(nodes_data: List[Dict]) -> tuple[List[Dict], Dict[s
             'description': summary,
             'keywords': keywords,
             'documentation': convert_html_to_markdown(get_description_text(node)),
-            'technologies': technologies_original,  # Will be converted to short IDs later
+            'offer_technology_ids': offer_technology_ids_original,  # Will be converted to short IDs later
             # Preserve essential original fields
             'country': node.get('country', {})
         }
@@ -835,13 +835,13 @@ async def main():
     # Convert cross-references to use short IDs
     print("🔄 Converting cross-references to short IDs...")
     
-    # Update available_in in tech_index to use short node IDs
+    # Update provider_node_ids in tech_index to use short node IDs
     for tech in tech_index:
-        tech['available_in'] = [node_id_mapping.get(node_id, node_id) for node_id in tech['available_in'] if node_id in node_id_mapping]
+        tech['provider_node_ids'] = [node_id_mapping.get(node_id, node_id) for node_id in tech['provider_node_ids'] if node_id in node_id_mapping]
     
-    # Update technologies in nodes_index to use short tech IDs
+    # Update offer_technology_ids in nodes_index to use short tech IDs
     for node in nodes_index:
-        node['technologies'] = [tech_id_mapping.get(tech_id, tech_id) for tech_id in node['technologies'] if tech_id in tech_id_mapping]
+        node['offer_technology_ids'] = [tech_id_mapping.get(tech_id, tech_id) for tech_id in node['offer_technology_ids'] if tech_id in tech_id_mapping]
     
     # Create combined index
     print("🔄 Creating combined index...")
@@ -884,14 +884,14 @@ async def main():
     
     # Print some statistics
     print(f"\n📈 Technology statistics:")
-    print(f"  🔗 Technologies with available nodes: {sum(1 for t in tech_index if t['available_in'])}")
+    print(f"  🔗 Technologies with provider nodes: {sum(1 for t in tech_index if t['provider_node_ids'])}")
     if tech_index:
-        print(f"  📊 Average nodes per technology: {sum(len(t['available_in']) for t in tech_index) / len(tech_index):.1f}")
+        print(f"  📊 Average nodes per technology: {sum(len(t['provider_node_ids']) for t in tech_index) / len(tech_index):.1f}")
     
     print(f"\n🏢 Node statistics:")
-    print(f"  🔧 Nodes with technologies: {sum(1 for n in nodes_index if n['technologies'])}")
+    print(f"  🔧 Nodes with technologies: {sum(1 for n in nodes_index if n['offer_technology_ids'])}")
     if nodes_index:
-        print(f"  📊 Average technologies per node: {sum(len(n['technologies']) for n in nodes_index) / len(nodes_index):.1f}")
+        print(f"  📊 Average technologies per node: {sum(len(n['offer_technology_ids']) for n in nodes_index) / len(nodes_index):.1f}")
     
     # Show sample entries
     print(f"\n📝 Sample technology entry:")
@@ -901,7 +901,7 @@ async def main():
         print(f"  📛 Name: {sample_tech['name']}")
         print(f"  📄 Description: {sample_tech['description']}")
         print(f"  🏷️  Keywords: {sample_tech['keywords']}")
-        print(f"  🏢 Available in {len(sample_tech['available_in'])} nodes: {sample_tech['available_in']}")
+        print(f"  🏢 Available in {len(sample_tech['provider_node_ids'])} nodes: {sample_tech['provider_node_ids']}")
         print(f"  📂 Category: {sample_tech['category'].get('name', 'N/A')}")
     
     print(f"\n🏢 Sample node entry:")
@@ -912,7 +912,7 @@ async def main():
         print(f"  📄 Description: {sample_node['description']}")
         print(f"  🏷️  Keywords: {sample_node['keywords']}")
         print(f"  🌍 Country: {sample_node['country'].get('name', 'N/A')}")
-        print(f"  🔧 Technologies: {len(sample_node['technologies'])} - {sample_node['technologies'][:5]}{'...' if len(sample_node['technologies']) > 5 else ''}")
+        print(f"  🔧 Technologies: {len(sample_node['offer_technology_ids'])} - {sample_node['offer_technology_ids'][:5]}{'...' if len(sample_node['offer_technology_ids']) > 5 else ''}")
     
     if not args.skip_website and website_index:
         print(f"\n🌐 Sample website page:")
