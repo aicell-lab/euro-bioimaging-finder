@@ -5,7 +5,6 @@ import argparse
 from pathlib import Path
 from typing import Dict, List, Optional, Any, AsyncGenerator
 import os
-import sys
 from dotenv import load_dotenv
 from openai import AsyncOpenAI
 from pydantic import BaseModel, Field
@@ -348,7 +347,10 @@ def create_search_prompt(query: str) -> str:
 - get_website_pages: Get website page details for general information
 
 
-## User Query: {query}
+## User Query:
+```
+{query}
+```
 
 **IMPORTANT INSTRUCTIONS:**
 1. For GEOGRAPHIC queries (asking about specific countries/regions): 
@@ -797,47 +799,46 @@ QUERY ANALYSIS:
                 detailed_info.append(f"Country Summary for {country_code.upper()}: No nodes found")
         
         # Generate final response
-        final_prompt = f"""
-        Based on the user query: "{query}"
-        
-        Query Analysis:
-        - Query Type: {tool_request.query_type}
-        - Coverage Strategy: {tool_request.coverage_strategy}
-        - Selection Reasoning: {tool_request.reasoning}
-        
-        Coverage Summary:
-        - Technologies selected: {len(tool_request.tech_ids)}
-        - Nodes selected: {len(tool_request.node_ids)}
-        - Countries selected: {len(tool_request.country_codes)}
-        
-        Detailed information:
-        {chr(10).join(detailed_info)}
-        
-        **RESPONSE REQUIREMENTS:**
-        1. Provide a comprehensive answer addressing the user's specific question
-        2. Include ACTIONABLE next steps with specific guidance:
-           - How to contact relevant nodes (mention Euro-BioImaging website)
-           - How to apply for access to services
-           - What information to prepare before contacting nodes
-        3. For geographic queries: Ensure ALL relevant nodes in the region are mentioned
-        4. For technique queries: Map specific techniques to ALL available nodes offering them
-        5. Include practical guidance for researchers with specific next steps
-        6. Reference Euro-BioImaging infrastructure explicitly
-        7. Provide contact pathways and access procedures
-        8. If listing nodes, organize by country/region for clarity
-        9. Include brief specialty descriptions for each node when relevant
-        10. Validate comprehensive coverage based on the query type
-        11. If coverage is comprehensive, mention this explicitly
-        12. For geographic queries, state "All [country] nodes are included" when applicable
-        13. SPECIAL HANDLING for specific query types:
-            - Pol II pausing: Mention both imaging AND genomics approaches (ChIP-seq, PRO-seq, etc.)
-            - PCR molecular imaging: Clarify the relationship between PCR and imaging, include FISH and spatial techniques
-            - Expansion microscopy: List ALL nodes offering ExM with countries
-            - CLEM plant applications: Specify plant-compatible protocols and sample prep
-        14. Always include specific node names and countries, not just generic statements
-        
-        Format your response to be maximally helpful, specific, and actionable for researchers seeking to use Euro-BioImaging resources.
-        """
+        final_prompt = f"""Based on the user query:
+```
+{query}
+```
+
+Query Analysis:
+- Query Type: {tool_request.query_type}
+- Coverage Strategy: {tool_request.coverage_strategy}
+- Selection Reasoning: {tool_request.reasoning}
+
+Coverage Summary:
+- Technologies selected: {len(tool_request.tech_ids)}
+- Nodes selected: {len(tool_request.node_ids)}
+- Countries selected: {len(tool_request.country_codes)}
+
+Detailed information:
+```
+{chr(10).join(detailed_info)}
+```
+
+**RESPONSE REQUIREMENTS:**
+1. Provide a comprehensive answer addressing the user's specific question
+2. Include ACTIONABLE next steps with specific guidance:
+    - How to contact relevant nodes (mention Euro-BioImaging website)
+    - How to apply for access to services
+    - What information to prepare before contacting nodes
+3. For geographic queries: Ensure ALL relevant nodes in the region are mentioned
+4. For technique queries: Map specific techniques to ALL available nodes offering them
+5. Include practical guidance for researchers with specific next steps
+6. Reference Euro-BioImaging infrastructure explicitly
+7. Provide contact pathways and access procedures
+8. If listing nodes, organize by country/region for clarity
+9. Include brief specialty descriptions for each node when relevant
+10. Validate comprehensive coverage based on the query type
+11. If coverage is comprehensive, mention this explicitly
+12. For geographic queries, state "All [country] nodes are included" when applicable
+13. Always include specific node names and countries, not just generic statements
+
+Format your response to be maximally helpful, specific, and actionable for researchers seeking to use Euro-BioImaging resources.
+"""
         
         final_response = await client.beta.chat.completions.parse(
             model="gpt-4.1",
