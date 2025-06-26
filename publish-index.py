@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Publish Euro-BioImaging Index to GitHub Pages
+Publish Euro-BioImaging index to GitHub Pages
 
-This script publishes the generated combined index to the gh-pages branch
-for public access and distribution.
+This script publishes the generated index to the gh-pages branch for GitHub Pages hosting.
+It creates a static website with the index data and API endpoints.
 """
 
 import json
@@ -16,44 +16,65 @@ import tempfile
 import os
 
 def run_command(cmd, cwd=None, check=True):
-    """Run a shell command and return the result"""
+    """Run a command and return the result"""
     print(f"Running: {' '.join(cmd)}")
     result = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, check=check)
     if result.stdout:
-        print(result.stdout)
-    if result.stderr:
-        print(result.stderr)
+        print(result.stdout.strip())
+    if result.stderr and check:
+        print(f"Error: {result.stderr.strip()}")
     return result
 
 def check_git_status():
-    """Check if git repository is clean"""
-    result = run_command(['git', 'status', '--porcelain'], check=False)
-    if result.stdout.strip():
-        print("⚠️  Warning: Working directory has uncommitted changes:")
-        print(result.stdout)
+    """Check if git working directory is clean"""
+    try:
+        result = run_command(['git', 'status', '--porcelain'], check=False)
+        return len(result.stdout.strip()) == 0
+    except subprocess.CalledProcessError:
         return False
-    return True
 
 def get_current_branch():
     """Get the current git branch"""
     result = run_command(['git', 'branch', '--show-current'])
     return result.stdout.strip()
 
+def get_stable_timestamp(index_file):
+    """Get a stable timestamp based on the index file modification time to avoid conflicts"""
+    if index_file.exists():
+        # Use the index file's modification time for stable timestamps
+        mtime = index_file.stat().st_mtime
+        return datetime.fromtimestamp(mtime)
+    else:
+        # Fallback to current time, but only use date (not time) to reduce conflicts
+        return datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+
 def create_index_html(index_file, output_dir):
-    """Create a simple HTML page to serve the index"""
+    """Create index.html for GitHub Pages"""
     
-    # Load index metadata
+    # Get stable timestamp
+    timestamp = get_stable_timestamp(index_file)
+    
+    # Load index data for stats
     try:
         with open(index_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
+        
+        stats = {
+            'technologies': len(data.get('technologies', [])),
+            'nodes': len(data.get('nodes', [])),
+            'website_pages': len(data.get('website_pages', [])),
+            'total_entries': len(data.get('technologies', [])) + len(data.get('nodes', [])) + len(data.get('website_pages', []))
+        }
+        
         metadata = data.get('metadata', {})
+        dataset_type = metadata.get('dataset_type', 'unknown')
+        created_at = timestamp.strftime('%Y-%m-%d')  # Only date, not time
+        
     except Exception as e:
-        print(f"Warning: Could not load index metadata: {e}")
-        metadata = {}
-    
-    created_at = metadata.get('created_at', 'Unknown')
-    dataset_type = metadata.get('dataset_type', 'Unknown')
-    stats = metadata.get('statistics', {})
+        print(f"Warning: Could not load index data for stats: {e}")
+        stats = {'technologies': 'N/A', 'nodes': 'N/A', 'website_pages': 'N/A', 'total_entries': 'N/A'}
+        dataset_type = 'unknown'
+        created_at = timestamp.strftime('%Y-%m-%d')
     
     html_content = f"""<!DOCTYPE html>
 <html lang="en">
@@ -64,17 +85,24 @@ def create_index_html(index_file, output_dir):
     <style>
         body {{
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
             line-height: 1.6;
             color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f8f9fa;
         }}
         .header {{
             text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }}
+        .header h1 {{
+            color: #007bff;
+            margin-bottom: 0.5rem;
         }}
         .stats {{
             display: grid;
@@ -83,50 +111,43 @@ def create_index_html(index_file, output_dir):
             margin: 2rem 0;
         }}
         .stat-card {{
-            background: #f8f9fa;
-            padding: 1rem;
+            background: white;
+            padding: 1.5rem;
             border-radius: 8px;
             text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }}
         .stat-number {{
             font-size: 2rem;
             font-weight: bold;
             color: #007bff;
         }}
-        .download-section {{
-            background: #e8f4fd;
-            padding: 1.5rem;
-            border-radius: 8px;
+        .download-section, .api-section {{
+            background: white;
+            padding: 2rem;
             margin: 2rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }}
         .download-link {{
             display: inline-block;
             background: #007bff;
             color: white;
-            padding: 0.75rem 1.5rem;
+            padding: 1rem 2rem;
             text-decoration: none;
-            border-radius: 4px;
-            margin: 0.5rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            font-weight: bold;
         }}
         .download-link:hover {{
             background: #0056b3;
         }}
-        .api-section {{
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 2rem 0;
-        }}
-        code {{
-            background: #e9ecef;
-            padding: 0.2rem 0.4rem;
-            border-radius: 3px;
-            font-family: 'Monaco', 'Consolas', monospace;
-        }}
         .code-block {{
-            background: #f8f9fa;
+            background: #f1f3f4;
             padding: 1rem;
             border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
             border-left: 4px solid #007bff;
             margin: 1rem 0;
             overflow-x: auto;
@@ -214,7 +235,7 @@ data = response.json()
     </div>
     
     <footer style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e0e0e0; color: #666;">
-        <p>🔬 Euro-BioImaging Search Index | Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
+        <p>🔬 Euro-BioImaging Search Index | Updated on {created_at}</p>
         <p><a href="https://www.eurobioimaging.eu/">Visit Euro-BioImaging</a></p>
     </footer>
 </body>
@@ -266,6 +287,9 @@ def publish_to_gh_pages(data_dir, index_filename, force=False, message=None):
     current_branch = get_current_branch()
     print(f"📍 Current branch: {current_branch}")
     
+    # Get stable timestamp based on index file
+    stable_timestamp = get_stable_timestamp(index_file)
+    
     # Create temporary directory for gh-pages content
     with tempfile.TemporaryDirectory() as temp_dir:
         temp_path = Path(temp_dir)
@@ -290,6 +314,12 @@ def publish_to_gh_pages(data_dir, index_filename, force=False, message=None):
             # Remove all files from the orphan branch
             run_command(['git', 'rm', '-rf', '.'], cwd=gh_pages_dir, check=False)
         
+        # Before making changes, pull latest to avoid conflicts
+        try:
+            run_command(['git', 'pull', 'origin', 'gh-pages'], cwd=gh_pages_dir, check=False)
+        except subprocess.CalledProcessError:
+            print("📝 No existing gh-pages to pull from")
+        
         # Copy index file to gh-pages directory
         target_index = gh_pages_dir / 'eurobioimaging_index.json'
         shutil.copy2(index_file, target_index)
@@ -305,7 +335,7 @@ def publish_to_gh_pages(data_dir, index_filename, force=False, message=None):
         # Create index.html
         create_index_html(index_file, gh_pages_dir)
         
-        # Create README.md for gh-pages
+        # Create README.md for gh-pages with stable timestamp
         readme_content = f"""# Euro-BioImaging Search Index
 
 This repository hosts the Euro-BioImaging search index for public access.
@@ -322,7 +352,7 @@ This repository hosts the Euro-BioImaging search index for public access.
 
 ## 📊 Current Statistics
 
-Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+Last updated: {stable_timestamp.strftime('%Y-%m-%d')}
 
 ## 🔬 About Euro-BioImaging
 
@@ -344,8 +374,12 @@ Visit: [https://www.eurobioimaging.eu/](https://www.eurobioimaging.eu/)
             print("✅ No changes to publish")
             return True
         
-        # Commit changes
-        commit_message = message or f"Update Euro-BioImaging index - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        # Commit changes with stable timestamp in message
+        if message:
+            commit_message = message
+        else:
+            commit_message = f"Update Euro-BioImaging index - {stable_timestamp.strftime('%Y-%m-%d')}"
+        
         run_command(['git', 'commit', '-m', commit_message], cwd=gh_pages_dir)
         
         # Push to remote origin
