@@ -278,15 +278,15 @@ def create_search_prompt():
             return line
         return line[:max_length-3] + "..."
     
-    # Create technology index with id:name-description format
+    # Create technology index with "- id: name / description" format
     tech_index = []
     for tech in tech_data:
         name = tech.get('name', '')
         description = tech.get('description', '').replace('\n', ' ').strip()
-        line = f"{tech['id']}:{description}"
+        line = f"- {tech['id']}:{name}/{description}"
         tech_index.append(truncate_line(line))
     
-    # Create nodes index with id:name-description format, grouped by country
+    # Create nodes index with "- id:name/description" format, grouped by country
     nodes_by_country = {}
     country_codes_info = {}
     for node in nodes_data:
@@ -298,7 +298,7 @@ def create_search_prompt():
         
         name = node.get('name', '')
         description = node.get('description', '').replace('\n', ' ').strip()
-        line = f"{node['id']}:{description}"
+        line = f"- {node['id']}:{name}/{description}"
         nodes_by_country[country].append(truncate_line(line))
     
     nodes_index = []
@@ -307,11 +307,12 @@ def create_search_prompt():
         nodes_index.append(f"\n**{country} ({country_code}):**")
         nodes_index.extend([f"  {node}" for node in country_nodes])
     
-    # Create website pages index with id:name-description format
+    # Create website pages index with "- id: title / description" format
     website_index = []
     for page in website_data:
+        title = page.get('title', '')
         description = page.get('description', '').replace('\n', ' ').strip()
-        line = f"{page['id']}:{description}"
+        line = f"- {page['id']}:{title}/{description}"
         website_index.append(truncate_line(line))
     
     prompt = f"""
@@ -326,15 +327,15 @@ Here is a list of all the available resources associated with their IDs.
 ## Available Nodes by Country (with ISO codes):
 {chr(10).join(nodes_index)}
 
-**IMPORTANT**: Each entry in the indexes above follows the format `ID:Name-Description`
+**IMPORTANT**: Each entry in the indexes above follows the format `- ID: Name / Description`
 
-- For **Technologies**: `tech_id:Technology Name-Brief description`
-- For **Nodes**: `node_id:Node Name-Brief description` 
-- For **Website Pages**: `page_id:Page Title-Brief description`
+- For **Technologies**: `- tech_id: Technology Name/Brief description`
+- For **Nodes**: `- node_id: Node Name/Brief description` 
+- For **Website Pages**: `- page_id: Page Title/Brief description`
 
 For any matched topics, you can call the utility functions to get more details by the ID.
 
-**To use the utility functions**: Extract the ID (the part before the colon) and pass it to the appropriate function:
+**To use the utility functions**: Extract the ID (the part after the dash and before the colon) and pass it to the appropriate function:
 - Use `tech_id` with `read_tech_details(tech_id)`
 - Use `node_id` with `read_node_details(node_id)` 
 - Use `page_id` with `read_website_page_details(page_id)`
