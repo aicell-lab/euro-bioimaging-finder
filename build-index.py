@@ -28,7 +28,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 class SummaryAndKeywords(BaseModel):
-    """Structured response for summary and keywords generation"""
+    """Structured response for description and keywords generation"""
     summary: str
     keywords: List[str]
 
@@ -327,42 +327,34 @@ class EuroBioImagingWebscraper:
                 return {"keep_page": False, "reason": "No meaningful content", "summary": "", "keywords": []}
             
             prompt = f"""
-            Evaluate this Euro-BioImaging webpage and provide:
-            1. keep_page: true if the page should be kept, false if it should be discarded
-            2. reason: Brief explanation for the decision (one sentence)
-            3. summary: If keeping the page, provide a 2-3 sentence summary of key information
-            4. keywords: If keeping the page, provide 8-12 comprehensive keywords including:
-               - Specific imaging techniques and methodologies
-               - Scientific domains and application areas
-               - Service types and access procedures
-               - Technical terms and related concepts
-               - Synonyms and alternative names for techniques
+            Evaluate webpage for LLM search index table of contents. Pack maximum critical info to differentiate content.
+            
+            Rules:
+            - Skip obvious words (page, website, Euro-BioImaging) unless differentiating  
+            - Include specific services, procedures, contact info, unique offerings
+            - Focus on actionable content and distinct value
+            - Maximum accuracy in minimal space
+            
+            Provide:
+            1. keep_page: true/false
+            2. reason: Brief explanation (one sentence)
+            3. summary: If keeping, concise description (max 100 chars, title excluded, pack critical info)
+            4. keywords: If keeping, 8-12 search keywords
             
             Title: {page_data.get('title', 'N/A')}
-            URL: {page_data.get('url', 'N/A')}
             Content: {content_to_evaluate}
             
-            KEEP the page if it contains useful information such as:
-            - Euro-BioImaging services, facilities, or access procedures
-            - Technical details about imaging technologies
-            - Training, courses, or educational content
-            - Research news, events, or announcements
-            - Contact information or application procedures
-            - Data management or analysis tools information
+            KEEP if contains: services, facilities, access procedures, technologies, training, news, contact info, tools
+            DISCARD if contains: navigation menus, errors, boilerplate, minimal content
             
-            DISCARD the page if it only contains:
-            - Navigation menus, headers, footers with minimal content
-            - Error messages or empty placeholder content
-            - Pure boilerplate text without specific information
-            - Only social media links or basic forms
+            Good examples:
+            "Application forms, funding requirements, eligibility criteria"
+            "Workshop schedules: STED, STORM, sample prep, Sept 2024"
+            "Node contacts: Prague, Brno facilities, email, phone numbers"
+            "Grant deadlines, submission process, evaluation criteria"
             
-            For keywords, include comprehensive terms covering:
-            - Imaging techniques: microscopy, fluorescence, electron, confocal, super-resolution, etc.
-            - Methods: FRET, FRAP, FCS, FLIM, STED, SIM, STORM, PALM, etc.
-            - Research areas: cell biology, molecular biology, neuroscience, genomics, proteomics, etc.
-            - Services: training, access, analysis, data management, consultation, etc.
-            - Infrastructure: nodes, facilities, technologies, equipment, platforms, etc.
-            - Applications: live imaging, fixed samples, tissue, organism, etc.
+            Bad examples (too generic):
+            "Information about services" "Training opportunities" "Contact details"
             """
             
             response = await client.beta.chat.completions.parse(
@@ -528,29 +520,36 @@ async def generate_summary_and_keywords(name: str, description: str) -> tuple:
     """Generate AI summary and keywords for an entry using structured output"""
     try:
         prompt = f"""
-        For the following biomedical imaging technology or facility, provide:
-        1. A concise one-sentence summary (max 150 characters)
-        2. 8-12 relevant keywords including:
-           - Primary technique/technology name and abbreviations
-           - Related techniques and synonyms
-           - Application areas (molecular, cellular, tissue, organism)
-           - Scientific domains (genomics, proteomics, cell biology, neuroscience, etc.)
-           - Technical terms and methodological keywords
-
-        Name: {name}
-        Description: 
-        ```
-        {description[:1000]}...
-        ```
+        Create an index entry for LLM search table of contents. Pack maximum critical info to differentiate from other entries.
         
-        Focus on comprehensive keyword coverage to enable discovery through various search terms.
+        Rules:
+        - Skip obvious words (technique, imaging, microscopy) unless differentiating
+        - Include specific capabilities, resolution, applications, unique features
+        - Focus on what makes this item distinct and useful
+        - Maximum accuracy in minimal space
+        
+        Provide:
+        1. Concise description (max 80 chars, name excluded, pack critical differentiating info)
+        2. 8-12 keywords for comprehensive search coverage
+        
+        Name: {name}
+        Full description: {description[:800]}
+        
+        Good examples:
+        "Sub-100nm resolution, live cells, photobleaching recovery analysis"
+        "German multi-modal: STED, STORM, cryo-EM, training programs" 
+        "Open-source platform: algorithm challenges, cloud computing, leaderboards"
+        "Austria 8-site: microCT, microPET, correlative workflows, cyclotron"
+        
+        Bad examples (too generic):
+        "Advanced imaging technique" "Microscopy facility" "Training courses"
         """
         
         response = await client.beta.chat.completions.parse(
-            model="gpt-4.1",
+            model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
             response_format=SummaryAndKeywords,
-            max_tokens=32768,
+            max_tokens=200,
             temperature=0.3
         )
         

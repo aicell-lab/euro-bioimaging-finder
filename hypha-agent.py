@@ -271,13 +271,22 @@ def find_website_pages_by_keywords(keywords: List[str]):
 
 def create_search_prompt():
     """Create the search prompt with all available data indexes"""
-    # Create technology index with more details
+    
+    def truncate_line(line: str, max_length: int = 256) -> str:
+        """Truncate line to max_length, preserving the format"""
+        if len(line) <= max_length:
+            return line
+        return line[:max_length-3] + "..."
+    
+    # Create technology index with id:name-description format
     tech_index = []
     for tech in tech_data:
-        available_count = len(tech.get('provider_node_ids', []))
-        tech_index.append(f"{tech['id']}: {tech['name']} (available at {available_count} nodes)")
+        name = tech.get('name', '')
+        description = tech.get('description', '').replace('\n', ' ').strip()
+        line = f"{tech['id']}:{description}"
+        tech_index.append(truncate_line(line))
     
-    # Create nodes index with geographic grouping and country codes
+    # Create nodes index with id:name-description format, grouped by country
     nodes_by_country = {}
     country_codes_info = {}
     for node in nodes_data:
@@ -286,18 +295,24 @@ def create_search_prompt():
         if country not in nodes_by_country:
             nodes_by_country[country] = []
             country_codes_info[country] = country_code
-        nodes_by_country[country].append(f"{node['id']}: {node['name']}")
+        
+        name = node.get('name', '')
+        description = node.get('description', '').replace('\n', ' ').strip()
+        line = f"{node['id']}:{description}"
+        nodes_by_country[country].append(truncate_line(line))
     
     nodes_index = []
     for country, country_nodes in sorted(nodes_by_country.items()):
         country_code = country_codes_info[country]
         nodes_index.append(f"\n**{country} ({country_code}):**")
-        nodes_index.extend([f"  - {node}" for node in country_nodes])
+        nodes_index.extend([f"  {node}" for node in country_nodes])
     
-    # Create website pages index
+    # Create website pages index with id:name-description format
     website_index = []
     for page in website_data:
-        website_index.append(f"{page['id']}: {page['title']} - {page['page_type']}")
+        description = page.get('description', '').replace('\n', ' ').strip()
+        line = f"{page['id']}:{description}"
+        website_index.append(truncate_line(line))
     
     prompt = f"""
 Here is a list of all the available resources associated with their IDs.
@@ -311,11 +326,11 @@ Here is a list of all the available resources associated with their IDs.
 ## Available Nodes by Country (with ISO codes):
 {chr(10).join(nodes_index)}
 
-**IMPORTANT**: Each entry in the indexes above follows the format `ID: Summary/Description`
+**IMPORTANT**: Each entry in the indexes above follows the format `ID:Name-Description`
 
-- For **Technologies**: `tech_id: Technology Name (available at X nodes)`
-- For **Nodes**: `node_id: Node Name` 
-- For **Website Pages**: `page_id: Page Title - page_type`
+- For **Technologies**: `tech_id:Technology Name-Brief description`
+- For **Nodes**: `node_id:Node Name-Brief description` 
+- For **Website Pages**: `page_id:Page Title-Brief description`
 
 For any matched topics, you can call the utility functions to get more details by the ID.
 
