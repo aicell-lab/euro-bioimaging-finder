@@ -24,7 +24,7 @@ class TechDetail(BaseModel):
     keywords: List[str]
     documentation: str
     category: Dict[str, Any]
-    available_in: List[str]
+    provider_node_ids: List[str]
     # Include essential original fields
     abbr: str
 
@@ -37,7 +37,7 @@ class NodeDetail(BaseModel):
     keywords: List[str]
     documentation: str
     country: Dict[str, Any]
-    technologies: List[str]
+    offer_technology_ids: List[str]
 
 class WebsitePageDetail(BaseModel):
     """Details of a Euro-BioImaging website page"""
@@ -267,7 +267,7 @@ def find_nodes_by_technique(technique_keywords: List[str]) -> List[str]:
         # Include technology if it has meaningful matches
         if match_score >= 2 or matched_keywords >= 2:
             # Add all nodes that offer this technology
-            matching_node_ids.update(tech.get('available_in', []))
+            matching_node_ids.update(tech.get('provider_node_ids', []))
     
     return list(matching_node_ids)
 
@@ -304,7 +304,7 @@ def create_search_prompt(query: str) -> str:
     # Create technology index with more details
     tech_index = []
     for tech in tech_data:
-        available_count = len(tech.get('available_in', []))
+        available_count = len(tech.get('provider_node_ids', []))
         tech_index.append(f"{tech['id']}: {tech['name']} (available at {available_count} nodes)")
     
     # Create nodes index with geographic grouping and country codes
@@ -501,7 +501,7 @@ QUERY ANALYSIS:
             if tech_detail:
                 # Get names of nodes where this tech is available
                 node_names = []
-                for node_id in tech_detail.available_in:
+                for node_id in tech_detail.provider_node_ids:
                     node_detail = read_node_details(node_id)
                     if node_detail:
                         node_names.append(f"{node_detail.name} ({node_detail.country.get('name', 'N/A')})")
@@ -520,7 +520,7 @@ QUERY ANALYSIS:
             if node_detail:
                 # Get names of technologies available at this node
                 tech_names = []
-                for tech_id in node_detail.technologies:
+                for tech_id in node_detail.offer_technology_ids:
                     tech_detail = read_tech_details(tech_id)
                     if tech_detail:
                         tech_names.append(f"{tech_detail.name} ({tech_detail.category.get('name', 'N/A')})")
@@ -539,7 +539,7 @@ QUERY ANALYSIS:
             for node_detail in country_nodes:
                 # Get names of technologies available at this node
                 tech_names = []
-                for tech_id in node_detail.technologies:
+                for tech_id in node_detail.offer_technology_ids:
                     tech_detail = read_tech_details(tech_id)
                     if tech_detail:
                         tech_names.append(f"{tech_detail.name} ({tech_detail.category.get('name', 'N/A')})")
@@ -750,7 +750,7 @@ QUERY ANALYSIS:
             tech_detail = read_tech_details(tech_id)
             if tech_detail:
                 node_names = []
-                for node_id in tech_detail.available_in:
+                for node_id in tech_detail.provider_node_ids:
                     node_detail = read_node_details(node_id)
                     if node_detail:
                         node_names.append(f"{node_detail.name} ({node_detail.country.get('name', 'N/A')})")
@@ -766,7 +766,7 @@ QUERY ANALYSIS:
             node_detail = read_node_details(node_id)
             if node_detail:
                 tech_names = []
-                for tech_id in node_detail.technologies:
+                for tech_id in node_detail.offer_technology_ids:
                     tech_detail = read_tech_details(tech_id)
                     if tech_detail:
                         tech_names.append(f"{tech_detail.name} ({tech_detail.category.get('name', 'N/A')})")
@@ -782,7 +782,7 @@ QUERY ANALYSIS:
             country_nodes = read_nodes_by_country(country_code)
             for node_detail in country_nodes:
                 tech_names = []
-                for tech_id in node_detail.technologies:
+                for tech_id in node_detail.offer_technology_ids:
                     tech_detail = read_tech_details(tech_id)
                     if tech_detail:
                         tech_names.append(f"{tech_detail.name} ({tech_detail.category.get('name', 'N/A')})")

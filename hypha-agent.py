@@ -14,7 +14,7 @@ class TechDetail(BaseModel):
     keywords: List[str]
     documentation: str
     category: Dict[str, Any]
-    available_in: List[str]
+    provider_node_ids: List[str]
     abbr: str
 
 class NodeDetail(BaseModel):
@@ -26,7 +26,7 @@ class NodeDetail(BaseModel):
     keywords: List[str]
     documentation: str
     country: Dict[str, Any]
-    technologies: List[str]
+    offer_technology_ids: List[str]
 
 class WebsitePageDetail(BaseModel):
     """Details of a Euro-BioImaging website page"""
@@ -219,7 +219,7 @@ def find_nodes_by_technique(technique_keywords: List[str]):
                 matched_keywords += 1
         
         if match_score >= 2 or matched_keywords >= 2:
-            matching_node_ids.update(tech.get('available_in', []))
+            matching_node_ids.update(tech.get('provider_node_ids', []))
     
     return list(matching_node_ids)
 
@@ -274,7 +274,7 @@ def create_search_prompt():
     # Create technology index with more details
     tech_index = []
     for tech in tech_data:
-        available_count = len(tech.get('available_in', []))
+        available_count = len(tech.get('provider_node_ids', []))
         tech_index.append(f"{tech['id']}: {tech['name']} (available at {available_count} nodes)")
     
     # Create nodes index with geographic grouping and country codes
@@ -360,9 +360,9 @@ print("""## 🛠️ Available Utility Functions
 **IMPORTANT**: Call these functions directly - NO `await`, NO `api.` prefix, NO keyword arguments!
 
 ### Detail Retrieval Functions
-- `read_tech_details(tech_id)` → `TechDetail(id, name, original_id, description, keywords, documentation, category, available_in, abbr)` or `None`
-- `read_node_details(node_id)` → `NodeDetail(id, name, original_id, description, keywords, documentation, country, technologies)` or `None`  
-- `read_nodes_by_country(country_code)` → `List[NodeDetail(id, name, original_id, description, keywords, documentation, country, technologies)]`
+- `read_tech_details(tech_id)` → `TechDetail(id, name, original_id, description, keywords, documentation, category, provider_node_ids, abbr)` or `None`
+- `read_node_details(node_id)` → `NodeDetail(id, name, original_id, description, keywords, documentation, country, offer_technology_ids)` or `None`  
+- `read_nodes_by_country(country_code)` → `List[NodeDetail(id, name, original_id, description, keywords, documentation, country, offer_technology_ids)]`
 - `read_website_page_details(page_id)` → `WebsitePageDetail(id, url, title, description, keywords, content_preview, headings, page_type)` or `None`
 The returned objects are pydantic models, so you can access the attributes directly. For example: tech_details.name, node_details.country['name'], etc.
 
@@ -385,13 +385,13 @@ print(f"Description: {node_details.description}")
 tech_details = read_tech_details("02e4459a")
 print(f"Technology: {tech_details.name}")
 print(f"Category: {tech_details.category['name']}")
-print(f"Available at {len(tech_details.available_in)} nodes")
+print(f"Available at {len(tech_details.provider_node_ids)} nodes")
 
 # CORRECT: Get all nodes in Germany
 german_nodes = read_nodes_by_country("DE")
 for node in german_nodes:
     print(f"Node: {node.name}")
-    print(f"Technologies: {len(node.technologies)} available")
+    print(f"Technologies: {len(node.offer_technology_ids)} available")
 
 # CORRECT: Find nodes by technique
 node_ids = find_nodes_by_technique(["microscopy", "imaging"])
@@ -446,7 +446,7 @@ minflux_details = read_tech_details("4bf1cfdd")  # Extract ID from index
 print(f"Technology: {minflux_details.name}")
 
 # Step 2: Get nodes where it's available (don't list all their technologies)
-for node_id in minflux_details.available_in:
+for node_id in minflux_details.provider_node_ids:
     node_details = read_node_details(node_id)
     print(f"Available at: {node_details.name} in {node_details.country['name']}")
 ```
@@ -458,7 +458,7 @@ country_nodes = read_nodes_by_country("DE")  # Germany
 for node in country_nodes:
     print(f"Node: {node.name}")
     print(f"Description: {node.description}")
-    print(f"Technologies available: {len(node.technologies)} total")
+    print(f"Technologies available: {len(node.offer_technology_ids)} total")
     # Only list technologies if specifically asked, don't retrieve all details
 ```
 
