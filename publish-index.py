@@ -273,8 +273,13 @@ def publish_to_gh_pages(data_dir, index_filename, force=False, message=None):
         
         print("🔄 Setting up gh-pages branch...")
         
-        # Clone current repo to temp directory
-        run_command(['git', 'clone', '.', str(gh_pages_dir)])
+        # Get the remote origin URL first
+        result = run_command(['git', 'remote', 'get-url', 'origin'])
+        remote_url = result.stdout.strip()
+        print(f"🌐 Using remote URL: {remote_url}")
+        
+        # Clone from the actual remote, not local directory
+        run_command(['git', 'clone', remote_url, str(gh_pages_dir)])
         
         # Switch to gh-pages branch (create if doesn't exist)
         try:
