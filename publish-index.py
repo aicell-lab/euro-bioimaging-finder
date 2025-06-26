@@ -170,14 +170,14 @@ def create_index_html(index_file, output_dir):
         <h2>🔗 API Access</h2>
         <p>Access the index programmatically via HTTPS:</p>
         <div class="code-block">
-            <code>https://oeway.github.io/euro-bioimaging/eurobioimaging_index.json</code>
+            <code>https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json</code>
         </div>
         
         <h3>Example Usage</h3>
         <p>JavaScript:</p>
         <div class="code-block">
             <code>
-fetch('https://oeway.github.io/euro-bioimaging/eurobioimaging_index.json')<br>
+fetch('https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json')<br>
 &nbsp;&nbsp;.then(response => response.json())<br>
 &nbsp;&nbsp;.then(data => console.log(data));
             </code>
@@ -187,14 +187,14 @@ fetch('https://oeway.github.io/euro-bioimaging/eurobioimaging_index.json')<br>
         <div class="code-block">
             <code>
 import requests<br>
-response = requests.get('https://oeway.github.io/euro-bioimaging/eurobioimaging_index.json')<br>
+response = requests.get('https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json')<br>
 data = response.json()
             </code>
         </div>
         
         <p>curl:</p>
         <div class="code-block">
-            <code>curl -s https://oeway.github.io/euro-bioimaging/eurobioimaging_index.json</code>
+            <code>curl -s https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json</code>
         </div>
     </div>
     
@@ -312,7 +312,7 @@ This repository hosts the Euro-BioImaging search index for public access.
 
 ## 🔗 Direct Links
 
-- JSON API: `https://oeway.github.io/euro-bioimaging/eurobioimaging_index.json`
+- JSON API: `https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json`
 - Web Interface: `https://oeway.github.io/euro-bioimaging/`
 
 ## 📊 Current Statistics
@@ -363,7 +363,7 @@ Visit: [https://www.eurobioimaging.eu/](https://www.eurobioimaging.eu/)
         print("✅ Successfully published to remote gh-pages!")
         print("🌐 Your index will be available at:")
         print("   https://oeway.github.io/euro-bioimaging/")
-        print("   https://oeway.github.io/euro-bioimaging/eurobioimaging_index.json")
+        print("   https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json")
         print("📋 Note: It may take a few minutes for GitHub Pages to update")
         
         return True

@@ -62,7 +62,7 @@ async def load_eurobioimaging_data():
     """
     global tech_data, nodes_data, website_data
     
-    url = "https://oeway.github.io/euro-bioimaging/eurobioimaging_index.json"
+    url = "https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json"
     
     try:
         async with httpx.AsyncClient(timeout=30.0) as client:
