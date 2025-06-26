@@ -290,6 +290,13 @@ def publish_to_gh_pages(data_dir, index_filename, force=False, message=None):
         shutil.copy2(index_file, target_index)
         print(f"📄 Copied {index_file} to {target_index}")
         
+        # Copy .nojekyll file if it exists
+        nojekyll_file = Path('.nojekyll')
+        if nojekyll_file.exists():
+            target_nojekyll = gh_pages_dir / '.nojekyll'
+            shutil.copy2(nojekyll_file, target_nojekyll)
+            print(f"📄 Copied .nojekyll to disable Jekyll processing")
+        
         # Create index.html
         create_index_html(index_file, gh_pages_dir)
         
