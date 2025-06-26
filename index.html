@@ -7,17 +7,24 @@
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
             line-height: 1.6;
             color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f8f9fa;
         }
         .header {
             text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            color: #007bff;
+            margin-bottom: 0.5rem;
         }
         .stats {
             display: grid;
@@ -26,50 +33,43 @@
             margin: 2rem 0;
         }
         .stat-card {
-            background: #f8f9fa;
-            padding: 1rem;
+            background: white;
+            padding: 1.5rem;
             border-radius: 8px;
             text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .stat-number {
             font-size: 2rem;
             font-weight: bold;
             color: #007bff;
         }
-        .download-section {
-            background: #e8f4fd;
-            padding: 1.5rem;
-            border-radius: 8px;
+        .download-section, .api-section {
+            background: white;
+            padding: 2rem;
             margin: 2rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .download-link {
             display: inline-block;
             background: #007bff;
             color: white;
-            padding: 0.75rem 1.5rem;
+            padding: 1rem 2rem;
             text-decoration: none;
-            border-radius: 4px;
-            margin: 0.5rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            font-weight: bold;
         }
         .download-link:hover {
             background: #0056b3;
         }
-        .api-section {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 2rem 0;
-        }
-        code {
-            background: #e9ecef;
-            padding: 0.2rem 0.4rem;
-            border-radius: 3px;
-            font-family: 'Monaco', 'Consolas', monospace;
-        }
         .code-block {
-            background: #f8f9fa;
+            background: #f1f3f4;
             padding: 1rem;
             border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
             border-left: 4px solid #007bff;
             margin: 1rem 0;
             overflow-x: auto;
@@ -106,21 +106,21 @@
         <p>Download the complete Euro-BioImaging search index in JSON format:</p>
         <a href="eurobioimaging_index.json" class="download-link">📄 Download JSON Index</a>
         <p><strong>Dataset:</strong> Full<br>
-        <strong>Last Updated:</strong> 2025-06-26T04:52:08.531098</p>
+        <strong>Last Updated:</strong> 2025-06-26</p>
     </div>
     
     <div class="api-section">
         <h2>🔗 API Access</h2>
         <p>Access the index programmatically via HTTPS:</p>
         <div class="code-block">
-            <code>https://oeway.github.io/euro-bioimaging/eurobioimaging_index.json</code>
+            <code>https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json</code>
         </div>
         
         <h3>Example Usage</h3>
         <p>JavaScript:</p>
         <div class="code-block">
             <code>
-fetch('https://oeway.github.io/euro-bioimaging/eurobioimaging_index.json')<br>
+fetch('https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json')<br>
 &nbsp;&nbsp;.then(response => response.json())<br>
 &nbsp;&nbsp;.then(data => console.log(data));
             </code>
@@ -130,14 +130,14 @@ fetch('https://oeway.github.io/euro-bioimaging/eurobioimaging_index.json')<br>
         <div class="code-block">
             <code>
 import requests<br>
-response = requests.get('https://oeway.github.io/euro-bioimaging/eurobioimaging_index.json')<br>
+response = requests.get('https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json')<br>
 data = response.json()
             </code>
         </div>
         
         <p>curl:</p>
         <div class="code-block">
-            <code>curl -s https://oeway.github.io/euro-bioimaging/eurobioimaging_index.json</code>
+            <code>curl -s https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json</code>
         </div>
     </div>
     
@@ -157,7 +157,7 @@ data = response.json()
     </div>
     
     <footer style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e0e0e0; color: #666;">
-        <p>🔬 Euro-BioImaging Search Index | Generated on 2025-06-26 07:07:58</p>
+        <p>🔬 Euro-BioImaging Search Index | Updated on 2025-06-26</p>
         <p><a href="https://www.eurobioimaging.eu/">Visit Euro-BioImaging</a></p>
     </footer>
 </body>

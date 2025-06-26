@@ -9,12 +9,12 @@ This repository hosts the Euro-BioImaging search index for public access.
 
 ## 🔗 Direct Links
 
-- JSON API: `https://oeway.github.io/euro-bioimaging/eurobioimaging_index.json`
-- Web Interface: `https://oeway.github.io/euro-bioimaging/`
+- JSON API: `https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json`
+- Web Interface: `https://oeway.github.io/euro-bioimaging-finder/`
 
 ## 📊 Current Statistics
 
-Last updated: 2025-06-26 07:07:58
+Last updated: 2025-06-26
 
 ## 🔬 About Euro-BioImaging
 
