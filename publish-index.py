@@ -227,6 +227,21 @@ data = response.json()
     
     print(f"Created index.html at {html_file}")
 
+def check_remote_origin():
+    """Check if remote origin is configured"""
+    try:
+        result = run_command(['git', 'remote', 'get-url', 'origin'], check=False)
+        if result.returncode == 0:
+            remote_url = result.stdout.strip()
+            print(f"🌐 Remote origin: {remote_url}")
+            return True
+        else:
+            print("❌ No remote origin configured")
+            return False
+    except Exception:
+        print("❌ Error checking remote origin")
+        return False
+
 def publish_to_gh_pages(data_dir, index_filename, force=False, message=None):
     """Publish the index to gh-pages branch"""
     
@@ -235,6 +250,11 @@ def publish_to_gh_pages(data_dir, index_filename, force=False, message=None):
     
     if not index_file.exists():
         print(f"❌ Index file not found: {index_file}")
+        return False
+    
+    # Check if we have a remote origin
+    if not check_remote_origin():
+        print("❌ No remote repository configured. Cannot publish to GitHub Pages.")
         return False
     
     # Check git status
@@ -316,14 +336,28 @@ Visit: [https://www.eurobioimaging.eu/](https://www.eurobioimaging.eu/)
         commit_message = message or f"Update Euro-BioImaging index - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
         run_command(['git', 'commit', '-m', commit_message], cwd=gh_pages_dir)
         
-        # Push to origin
-        print("🚀 Publishing to gh-pages...")
-        run_command(['git', 'push', 'origin', 'gh-pages'], cwd=gh_pages_dir)
+        # Push to remote origin
+        print("🚀 Publishing to remote gh-pages...")
+        try:
+            # First try to push to remote
+            run_command(['git', 'push', 'origin', 'gh-pages'], cwd=gh_pages_dir)
+            print("✅ Successfully pushed to remote gh-pages branch")
+        except subprocess.CalledProcessError as e:
+            # If it fails, try to set upstream and push
+            print("🔄 Branch doesn't exist on remote, setting upstream and pushing...")
+            try:
+                run_command(['git', 'push', '--set-upstream', 'origin', 'gh-pages'], cwd=gh_pages_dir)
+                print("✅ Successfully created and pushed gh-pages branch to remote")
+            except subprocess.CalledProcessError as e2:
+                print(f"❌ Failed to push to remote: {e2}")
+                print("💡 You may need to check your GitHub repository permissions")
+                return False
         
-        print("✅ Successfully published to gh-pages!")
+        print("✅ Successfully published to remote gh-pages!")
         print("🌐 Your index will be available at:")
         print("   https://oeway.github.io/euro-bioimaging/")
         print("   https://oeway.github.io/euro-bioimaging/eurobioimaging_index.json")
+        print("📋 Note: It may take a few minutes for GitHub Pages to update")
         
         return True
 
