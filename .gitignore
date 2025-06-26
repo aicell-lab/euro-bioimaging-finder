@@ -1,0 +1,58 @@
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environment files
+.env
+.venv
+env/
+venv/
+
+# Euro-BioImaging generated data directory
+euro-bioimaging-index/
+
+# Generated index files (legacy - now stored in data-dir)
+*_index.json
+test_*.json
+nodes_index.json
+tech_index.json
+
+# Generated website data (legacy - now stored in data-dir)
+eubio_website/
+
+# Test and evaluation files
+test_*.py
+*_test.py
+evaluation*.py
+evaluation*.json
+evaluation*.md
+performance_report.md
+
+# Documentation and notes
+*.md
+!README.md
+
+# Temporary and utility scripts (keep publish-index.py)
+dump_eubio_website.py
+convert-to-md.py
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log 
