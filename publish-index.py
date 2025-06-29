@@ -472,7 +472,7 @@ def fulltext_search(query, k=5):
 # Example search
 results = fulltext_search("super resolution microscopy", k=5)
 for hit in results:
-    print(f"Score: {hit['score']:.2f} - Type: {hit['type']} - ID: {hit['id']}")
+    print(f"Score: {{hit['score']:.2f}} - Type: {{hit['type']}} - ID: {{hit['id']}}")
 ```
 
 ## 📊 Current Statistics
