@@ -40,7 +40,7 @@ class WebsitePageDetail(BaseModel):
     title: str
     description: str
     keywords: List[str]
-    content_preview: str
+    documentation: str
     headings: List[str]
     page_type: str
 
@@ -263,7 +263,7 @@ def find_website_pages_by_keywords(keywords: List[str]):
         page_title = page.get('title', '').lower()
         page_description = page.get('description', '').lower()
         page_keywords = [kw.lower() for kw in page.get('keywords', [])]
-        page_content = page.get('content_preview', '').lower()
+        page_content = page.get('documentation', '').lower()
         page_type = page.get('page_type', '').lower()
         
         score = 0
@@ -447,7 +447,7 @@ def fulltext_search(query: str, k: int = 5) -> List[Dict[str, Any]]:
                     'description': details.description,
                     'score': float(score),
                     'url': details.url,
-                    'content_preview': details.content_preview,
+                    'documentation': details.documentation,
                     'headings': details.headings,
                     'page_type': details.page_type,
                 })
@@ -479,7 +479,7 @@ print("""## 🛠️ Available Utility Functions
 - `read_tech_details(tech_id)` → `TechDetail(id, name, original_id, description, keywords, documentation, category, provider_node_ids, abbr)` or `None`
 - `read_node_details(node_id)` → `NodeDetail(id, name, original_id, description, keywords, documentation, country, offer_technology_ids)` or `None`  
 - `read_nodes_by_country(country_code)` → `List[NodeDetail(id, name, original_id, description, keywords, documentation, country, offer_technology_ids)]`
-- `read_website_page_details(page_id)` → `WebsitePageDetail(id, url, title, description, keywords, content_preview, headings, page_type)` or `None`
+- `read_website_page_details(page_id)` → `WebsitePageDetail(id, url, title, description, keywords, documentation, headings, page_type)` or `None`
 The returned objects are pydantic models, so you can access the attributes directly. For example: tech_details.name, node_details.country['name'], etc.
 
 ### Search Functions

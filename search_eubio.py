@@ -46,7 +46,7 @@ class WebsitePageDetail(BaseModel):
     title: str
     description: str
     keywords: List[str]
-    content_preview: str
+    documentation: str
     headings: List[str]
     page_type: str
 
@@ -177,7 +177,7 @@ def find_website_pages_by_keywords(keywords: List[str]) -> List[str]:
         page_title = page.get('title', '').lower()
         page_description = page.get('description', '').lower()
         page_keywords = [kw.lower() for kw in page.get('keywords', [])]
-        page_content = page.get('content_preview', '').lower()
+        page_content = page.get('documentation', '').lower()
         page_type = page.get('page_type', '').lower()
         
         score = 0
@@ -567,7 +567,7 @@ QUERY ANALYSIS:
                                    f"Page Type: {page_detail.page_type}\n"
                                    f"Description: {page_detail.description}\n"
                                    f"Keywords: {', '.join(page_detail.keywords)}\n"
-                                   f"Content Preview: {page_detail.content_preview[:300]}...")
+                                   f"Content: {page_detail.documentation")
         
         if total_items > 3:
             await stream_print("")  # Clear the progress line

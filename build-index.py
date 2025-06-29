@@ -694,7 +694,7 @@ async def process_website_data(max_pages: int = 50, delay: float = 1.0, output_d
             'title': page['title'],
             'description': page.get('ai_summary', page.get('meta_description', '')),
             'keywords': page.get('ai_keywords', []),
-            'content_preview': page['main_content'][:500] if page['main_content'] else '',
+            'documentation': page['main_content'] if page['main_content'] else '',
             'headings': [h['text'] for h in page.get('headings', [])],
             'page_type': scraper.classify_page_type(page)
         }
@@ -763,7 +763,7 @@ def build_bm25_index(tech_data: List[Dict], nodes_data: List[Dict], website_data
     
     # Add website pages
     for page in website_data:
-        doc = f"{page.get('title', '')} {page.get('description', '')} {page.get('content_preview', '')} {' '.join(page.get('keywords', []))} {' '.join(page.get('headings', []))}"
+        doc = f"{page.get('title', '')} {page.get('description', '')} {page.get('documentation', '')} {' '.join(page.get('keywords', []))} {' '.join(page.get('headings', []))}"
         corpus.append(doc)
         metadata.append({
             'type': 'page',

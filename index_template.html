@@ -176,7 +176,7 @@ https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_bm25_index.pkl
             "title": "Page Title",
             "description": "Description",
             "keywords": ["keyword1", "keyword2"],
-            "content_preview": "Content preview text",
+            "documentation": "Full website page text",
             "headings": ["heading1", "heading2"],
             "page_type": "about|services|nodes|etc"
         }
@@ -347,11 +347,7 @@ website_pages = data['website_pages']
 
             // Add documentation/content preview
             if (item.documentation) {
-                const truncatedDoc = item.documentation.length > 300 ? 
-                    item.documentation.substring(0, 300) + '...' : item.documentation;
-                contentHtml += `<div><strong>Documentation:</strong><br><div class="text-xs text-gray-600 mt-1">${truncatedDoc}</div></div>`;
-            } else if (item.content_preview) {
-                contentHtml += `<div><strong>Content Preview:</strong><br><div class="text-xs text-gray-600 mt-1">${item.content_preview}</div></div>`;
+                contentHtml += `<div><strong>Documentation:</strong><br><div class="text-xs text-gray-600 mt-1">${item.documentation}</div></div>`;
             }
 
             previewContent.innerHTML = contentHtml;
