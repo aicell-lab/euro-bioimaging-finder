@@ -304,7 +304,7 @@ def fulltext_search(query, k=5):
 # Example search
 results = fulltext_search("super resolution microscopy", k=5)
 for hit in results:
-    print(f"Score: {hit['score']:.2f} - Type: {hit['type']} - ID: {hit['id']}")</div>
+    print(f"Score: {{hit['score']:.2f}} - Type: {{hit['type']}} - ID: {{hit['id']}}")</div>
     </div>
     
     <footer style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e0e0e0; color: #666;">
