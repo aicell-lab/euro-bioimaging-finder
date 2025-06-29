@@ -33,19 +33,19 @@
     <div class="max-w-6xl mx-auto px-4 py-6">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <div class="bg-white rounded-lg shadow-sm p-6 text-center">
-                <div class="text-3xl font-bold text-ebi-blue" id="tech-count">122</div>
+                <div class="text-3xl font-bold text-ebi-blue" id="tech-count">Loading...</div>
                 <div class="text-gray-600">Technologies</div>
             </div>
             <div class="bg-white rounded-lg shadow-sm p-6 text-center">
-                <div class="text-3xl font-bold text-ebi-blue" id="nodes-count">41</div>
+                <div class="text-3xl font-bold text-ebi-blue" id="nodes-count">Loading...</div>
                 <div class="text-gray-600">Nodes</div>
             </div>
             <div class="bg-white rounded-lg shadow-sm p-6 text-center">
-                <div class="text-3xl font-bold text-ebi-blue" id="pages-count">50</div>
+                <div class="text-3xl font-bold text-ebi-blue" id="pages-count">Loading...</div>
                 <div class="text-gray-600">Website Pages</div>
             </div>
             <div class="bg-white rounded-lg shadow-sm p-6 text-center">
-                <div class="text-3xl font-bold text-ebi-blue" id="total-count">213</div>
+                <div class="text-3xl font-bold text-ebi-blue" id="total-count">Loading...</div>
                 <div class="text-gray-600">Total Entries</div>
             </div>
         </div>
@@ -76,7 +76,7 @@
             <div class="flex gap-6">
                 <!-- Items List -->
                 <div class="flex-1">
-                    <div id="items-list" class="space-y-2">
+                    <div id="items-list" class="space-y-2 max-h-96 overflow-y-auto border border-gray-200 rounded-lg p-4">
                         <div class="text-gray-500 text-center py-8">
                             Select a data type to view items
                         </div>
@@ -84,8 +84,8 @@
                 </div>
 
                 <!-- Side Preview Panel -->
-                <div id="preview-panel" class="w-96 bg-gray-50 rounded-lg p-6 hidden">
-                    <div class="flex justify-between items-start mb-4">
+                <div id="preview-panel" class="w-96 bg-gray-50 rounded-lg p-6 hidden max-h-96 overflow-y-auto">
+                    <div class="flex justify-between items-start mb-4 sticky top-0 bg-gray-50">
                         <h3 id="preview-title" class="text-lg font-semibold text-gray-800"></h3>
                         <button id="close-preview" class="text-gray-400 hover:text-gray-600" aria-label="Close preview panel">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -111,9 +111,9 @@
                     🔍 Download BM25 Index
                 </a>
             </div>
-            <p class="text-sm text-gray-600">
-                <strong>Dataset:</strong> Full<br>
-                <strong>Last Updated:</strong> 2025-06-29
+            <p class="text-sm text-gray-600" id="dataset-info">
+                <strong>Dataset:</strong> <span id="dataset-type">Loading...</span><br>
+                <strong>Last Updated:</strong> <span id="last-updated">Loading...</span>
             </p>
         </div>
 
@@ -121,7 +121,7 @@
         <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
             <h2 class="text-2xl font-bold text-gray-800 mb-4">🔗 API Access</h2>
             <p class="text-gray-600 mb-4">Access the index programmatically via HTTPS:</p>
-            <div class="bg-gray-100 p-4 rounded-lg border-l-4 border-ebi-blue font-mono text-sm overflow-x-auto">
+            <div class="bg-gray-100 p-4 rounded-lg border-l-4 border-ebi-blue font-mono text-sm overflow-x-auto whitespace-pre-wrap">
 # Main index with all data
 https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json
 
@@ -138,7 +138,7 @@ https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_bm25_index.pkl
             <div class="space-y-6">
                 <div class="bg-gray-50 p-4 rounded-lg">
                     <h3 class="text-lg font-semibold text-gray-800 mb-2">Combined Index (eurobioimaging_index.json)</h3>
-                    <div class="bg-gray-100 p-4 rounded border-l-4 border-ebi-blue font-mono text-sm overflow-x-auto">
+                    <div class="bg-gray-100 p-4 rounded border-l-4 border-ebi-blue font-mono text-sm overflow-x-auto whitespace-pre-wrap">
 {
     "metadata": {
         "created_at": "ISO timestamp",
@@ -187,7 +187,7 @@ https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_bm25_index.pkl
 
                 <div class="bg-gray-50 p-4 rounded-lg">
                     <h3 class="text-lg font-semibold text-gray-800 mb-2">Example Usage</h3>
-                    <div class="bg-gray-100 p-4 rounded border-l-4 border-ebi-blue font-mono text-sm overflow-x-auto">
+                    <div class="bg-gray-100 p-4 rounded border-l-4 border-ebi-blue font-mono text-sm overflow-x-auto whitespace-pre-wrap">
 import json
 import requests
 
@@ -208,7 +208,7 @@ website_pages = data['website_pages']
     <!-- Footer -->
     <footer class="bg-white mt-12 border-t">
         <div class="max-w-6xl mx-auto px-4 py-6 text-center text-gray-600">
-            <p class="mb-2">🔬 Euro-BioImaging Search Index | Updated on 2025-06-29</p>
+            <p class="mb-2">🔬 Euro-BioImaging Search Index | Updated on <span id="footer-date">Loading...</span></p>
             <p><a href="https://www.eurobioimaging.eu/" class="text-ebi-blue hover:text-ebi-blue-dark">Visit Euro-BioImaging</a></p>
         </div>
     </footer>
@@ -219,22 +219,57 @@ website_pages = data['website_pages']
         let currentItems = [];
         let filteredItems = [];
 
-        // Load the JSON data
+                 // Load the JSON data
         async function loadIndexData() {
             try {
                 const response = await fetch('eurobioimaging_index.json');
                 indexData = await response.json();
                 
-                // Update stats from loaded data
-                if (indexData.metadata && indexData.metadata.statistics) {
-                    const stats = indexData.metadata.statistics;
-                    document.getElementById('tech-count').textContent = stats.technologies_count || 0;
-                    document.getElementById('nodes-count').textContent = stats.nodes_count || 0;
-                    document.getElementById('pages-count').textContent = stats.website_pages_count || 0;
-                    document.getElementById('total-count').textContent = stats.total_entries || 0;
+                // Update stats from loaded data, but only if we have valid data
+                if (indexData) {
+                    let techCount = 0, nodesCount = 0, pagesCount = 0, totalCount = 0;
+                    
+                    // Try to get from metadata first
+                    if (indexData.metadata && indexData.metadata.statistics) {
+                        const stats = indexData.metadata.statistics;
+                        techCount = stats.technologies_count || 0;
+                        nodesCount = stats.nodes_count || 0;
+                        pagesCount = stats.website_pages_count || 0;
+                        totalCount = stats.total_entries || 0;
+                    } else {
+                        // Fallback: count from actual data
+                        techCount = indexData.technologies ? indexData.technologies.length : 0;
+                        nodesCount = indexData.nodes ? indexData.nodes.length : 0;
+                        pagesCount = indexData.website_pages ? indexData.website_pages.length : 0;
+                        totalCount = techCount + nodesCount + pagesCount;
+                    }
+                    
+                    // Update stats
+                    document.getElementById('tech-count').textContent = techCount;
+                    document.getElementById('nodes-count').textContent = nodesCount;
+                    document.getElementById('pages-count').textContent = pagesCount;
+                    document.getElementById('total-count').textContent = totalCount;
+                    
+                    // Update dataset info
+                    const metadata = indexData.metadata || {};
+                    const datasetType = metadata.dataset_type || 'Unknown';
+                    const createdAt = metadata.created_at ? new Date(metadata.created_at).toLocaleDateString() : 'Unknown';
+                    
+                    document.getElementById('dataset-type').textContent = datasetType.charAt(0).toUpperCase() + datasetType.slice(1);
+                    document.getElementById('last-updated').textContent = createdAt;
+                    document.getElementById('footer-date').textContent = createdAt;
                 }
             } catch (error) {
                 console.error('Error loading index data:', error);
+                // Set error states
+                document.getElementById('tech-count').textContent = 'Error';
+                document.getElementById('nodes-count').textContent = 'Error';
+                document.getElementById('pages-count').textContent = 'Error';
+                document.getElementById('total-count').textContent = 'Error';
+                document.getElementById('dataset-type').textContent = 'Error';
+                document.getElementById('last-updated').textContent = 'Error';
+                document.getElementById('footer-date').textContent = 'Error';
+                
                 document.getElementById('items-list').innerHTML = 
                     '<div class="text-red-500 text-center py-8">Error loading data. Please check if eurobioimaging_index.json is available.</div>';
             }
@@ -272,7 +307,7 @@ website_pages = data['website_pages']
                     description.substring(0, 100) + '...' : description;
 
                 return `
-                    <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer transition-colors"
+                    <div class="border border-gray-200 rounded-lg p-3 hover:bg-gray-50 cursor-pointer transition-colors"
                          onclick="showPreview(${index})">
                         <h3 class="font-semibold text-gray-800 mb-2">${title}</h3>
                         ${truncatedDescription ? `<p class="text-gray-600 text-sm">${truncatedDescription}</p>` : ''}
@@ -347,7 +382,7 @@ website_pages = data['website_pages']
 
             // Add documentation/content preview
             if (item.documentation) {
-                contentHtml += `<div><strong>Documentation:</strong><br><div class="text-xs text-gray-600 mt-1">${item.documentation}</div></div>`;
+                contentHtml += `<div><strong>Documentation:</strong><br><div class="text-sm text-gray-600 mt-1 whitespace-pre-wrap">${item.documentation}</div></div>`;
             }
 
             previewContent.innerHTML = contentHtml;
