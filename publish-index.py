@@ -76,243 +76,32 @@ def create_index_html(index_file, output_dir):
         dataset_type = 'unknown'
         created_at = timestamp.strftime('%Y-%m-%d')
     
-    html_content = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Euro-BioImaging Search Index</title>
-    <style>
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem;
-            background: #f8f9fa;
-        }}
-        .header {{
-            text-align: center;
-            margin-bottom: 3rem;
-            padding: 2rem;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }}
-        .header h1 {{
-            color: #007bff;
-            margin-bottom: 0.5rem;
-        }}
-        .stats {{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
-        }}
-        .stat-card {{
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }}
-        .stat-number {{
-            font-size: 2rem;
-            font-weight: bold;
-            color: #007bff;
-        }}
-        .download-section, .api-section {{
-            background: white;
-            padding: 2rem;
-            margin: 2rem 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }}
-        .download-link {{
-            display: inline-block;
-            background: #007bff;
-            color: white;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 1rem 0;
-            font-weight: bold;
-        }}
-        .download-link:hover {{
-            background: #0056b3;
-        }}
-        .code-block {{
-            background: #f1f3f4;
-            padding: 1rem;
-            border-radius: 4px;
-            font-family: 'Monaco', 'Menlo', monospace;
-            font-size: 0.9rem;
-            border-left: 4px solid #007bff;
-            margin: 1rem 0;
-            overflow-x: auto;
-            white-space: pre;
-        }}
+    # Load HTML template
+    template_file = Path('index_template.html')
+    if not template_file.exists():
+        print(f"Warning: Template file {template_file} not found, creating basic template")
+        html_content = f"""<!DOCTYPE html>
+<html><head><title>Euro-BioImaging Search Index</title></head>
+<body><h1>Euro-BioImaging Search Index</h1>
+<p>Technologies: {stats['technologies']}</p>
+<p>Nodes: {stats['nodes']}</p>
+<p>Website Pages: {stats['website_pages']}</p>
+<p>Dataset: {dataset_type.title()}</p>
+<p>Last Updated: {created_at}</p>
+</body></html>"""
+    else:
+        # Read template and format with data
+        with open(template_file, 'r', encoding='utf-8') as f:
+            template_content = f.read()
         
-        .data-structure {{
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }}
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>🔬 Euro-BioImaging Search Index</h1>
-        <p>Comprehensive search index for Euro-BioImaging technologies, nodes, and resources</p>
-    </div>
-    
-    <div class="stats">
-        <div class="stat-card">
-            <div class="stat-number">{stats.get('technologies', 'N/A')}</div>
-            <div>Technologies</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">{stats.get('nodes', 'N/A')}</div>
-            <div>Nodes</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">{stats.get('website_pages', 'N/A')}</div>
-            <div>Website Pages</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">{stats.get('total_entries', 'N/A')}</div>
-            <div>Total Entries</div>
-        </div>
-    </div>
-    
-    <div class="download-section">
-        <h2>📥 Download Index</h2>
-        <p>Download the complete Euro-BioImaging search index in JSON format:</p>
-        <a href="eurobioimaging_index.json" class="download-link">📄 Download JSON Index</a>
-        <p><strong>Dataset:</strong> {dataset_type.title()}<br>
-        <strong>Last Updated:</strong> {created_at}</p>
-    </div>
-    
-    <div class="api-section">
-        <h2>🔗 API Access</h2>
-        <p>Access the index programmatically via HTTPS:</p>
-        <div class="code-block">
-# Main index with all data
-https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json
-
-# BM25 index file (required for full-text search)
-https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_bm25_index.pkl</div>
-    </div>
-    
-    <div class="api-section">
-        <h2>📋 Data Structure</h2>
-        <p>The JSON index contains the following structure:</p>
-        <div class="data-structure">
-            <h3>Combined Index (eurobioimaging_index.json)</h3>
-            <div class="code-block">
-{{
-    "metadata": {{
-        "created_at": "ISO timestamp",
-        "version": "1.0",
-        "description": "Euro-BioImaging combined search index",
-        "dataset_type": "full|test",
-        "statistics": {{ ... }}
-    }},
-    "technologies": [
-        {{
-            "id": "unique_id",
-            "name": "Technology Name",
-            "description": "Description",
-            "keywords": ["keyword1", "keyword2"],
-            "documentation": "Full documentation text",
-            "category": {{ "name": "Category Name", ... }},
-            "provider_node_ids": ["node_id1", "node_id2"]
-        }}
-    ],
-    "nodes": [
-        {{
-            "id": "unique_id",
-            "name": "Node Name",
-            "description": "Description",
-            "keywords": ["keyword1", "keyword2"],
-            "documentation": "Full documentation text",
-            "country": {{ "name": "Country Name", "iso_a2": "ISO Code" }},
-            "offer_technology_ids": ["tech_id1", "tech_id2"]
-        }}
-    ],
-    "website_pages": [
-        {{
-            "id": "unique_id",
-            "url": "Page URL",
-            "title": "Page Title",
-            "description": "Description",
-            "keywords": ["keyword1", "keyword2"],
-            "content_preview": "Content preview text",
-            "headings": ["heading1", "heading2"],
-            "page_type": "about|services|nodes|etc"
-        }}
-    ]
-}}</div>
-        </div>
-        
-        <div class="data-structure">
-            <h3>BM25 Full-Text Search</h3>
-            <p>The BM25 index is stored in a pickle file that contains:</p>
-            <ul>
-                <li><strong>retriever</strong>: The BM25 retriever object for performing searches</li>
-            </ul>
-            <p>The document metadata for mapping search results is stored in the main JSON index under <code>bm25_metadata</code>.</p>
-        </div>
-        
-        <h3>Example Usage</h3>
-        <p>Python with bm25s package:</p>
-        <div class="code-block">
-import pickle
-import bm25s
-import httpx
-import json
-
-# Download and load main index with metadata
-response = httpx.get('https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json')
-combined_data = response.json()
-bm25_metadata = combined_data.get('bm25_metadata', [])
-
-# Download and load BM25 retriever
-response = httpx.get('https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_bm25_index.pkl')
-with open('eurobioimaging_bm25_index.pkl', 'wb') as f:
-    f.write(response.content)
-
-with open('eurobioimaging_bm25_index.pkl', 'rb') as f:
-    retriever = pickle.load(f)
-
-def fulltext_search(query, k=5):
-    query_tokens = bm25s.tokenize(query)
-    results, scores = retriever.retrieve(query_tokens, k=k)
-    hits = []
-    for i in range(results.shape[1]):
-        doc_idx = results[0, i]
-        score = scores[0, i]
-        metadata = bm25_metadata[doc_idx]
-        hit = metadata.copy()
-        hit["score"] = float(score)
-        hits.append(hit)
-    return hits
-
-# Example search
-results = fulltext_search("super resolution microscopy", k=5)
-for hit in results:
-    print(f"Score: {{hit['score']:.2f}} - Type: {{hit['type']}} - ID: {{hit['id']}}")</div>
-    </div>
-    
-    <footer style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e0e0e0; color: #666;">
-        <p>🔬 Euro-BioImaging Search Index | Updated on {created_at}</p>
-        <p><a href="https://www.eurobioimaging.eu/">Visit Euro-BioImaging</a></p>
-    </footer>
-</body>
-</html>"""
+        html_content = template_content % {
+            'technologies_count': stats['technologies'],
+            'nodes_count': stats['nodes'],
+            'website_pages_count': stats['website_pages'],
+            'total_entries': stats['total_entries'],
+            'dataset_type': dataset_type.title(),
+            'created_at': created_at
+        }
     
     # Save HTML file
     html_file = output_dir / 'index.html'
@@ -420,69 +209,11 @@ def publish_to_gh_pages(data_dir, index_filename, force=False, message=None):
         
         # Create README.md for gh-pages with stable timestamp
         readme_content = f"""# Euro-BioImaging Search Index
-
 This repository hosts the Euro-BioImaging search index for public access.
-
-## 📥 Access the Index
-
-- **JSON Index**: [eurobioimaging_index.json](eurobioimaging_index.json)
-- **BM25 Index**: [eurobioimaging_bm25_index.pkl](eurobioimaging_bm25_index.pkl)
-- **Web Interface**: [index.html](index.html)
-
-## 🔗 Direct Links
-
-- JSON API: `https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json`
-- BM25 Index: `https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_bm25_index.pkl`
-- Web Interface: `https://oeway.github.io/euro-bioimaging-finder/`
-
-## 📊 Example Usage
-
-```python
-import pickle
-import bm25s
-import httpx
-import json
-
-# Download and load main index with metadata
-response = httpx.get('https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json')
-combined_data = response.json()
-bm25_metadata = combined_data.get('bm25_metadata', [])
-
-# Download and load BM25 retriever
-response = httpx.get('https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_bm25_index.pkl')
-with open('eurobioimaging_bm25_index.pkl', 'wb') as f:
-    f.write(response.content)
-
-with open('eurobioimaging_bm25_index.pkl', 'rb') as f:
-    retriever = pickle.load(f)
-
-def fulltext_search(query, k=5):
-    query_tokens = bm25s.tokenize(query)
-    results, scores = retriever.retrieve(query_tokens, k=k)
-    hits = []
-    for i in range(results.shape[1]):
-        doc_idx = results[0, i]
-        score = scores[0, i]
-        metadata = bm25_metadata[doc_idx]
-        hit = metadata.copy()
-        hit["score"] = float(score)
-        hits.append(hit)
-    return hits
-
-# Example search
-results = fulltext_search("super resolution microscopy", k=5)
-for hit in results:
-    print(f"Score: {{hit['score']:.2f}} - Type: {{hit['type']}} - ID: {{hit['id']}}")
-```
-
-## 📊 Current Statistics
-
-Last updated: {stable_timestamp.strftime('%Y-%m-%d')}
 
 ## 🔬 About Euro-BioImaging
 
 Euro-BioImaging is the European research infrastructure for biological and biomedical imaging.
-
 Visit: [https://www.eurobioimaging.eu/](https://www.eurobioimaging.eu/)
 """
         

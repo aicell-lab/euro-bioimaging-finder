@@ -420,7 +420,9 @@ def fulltext_search(query: str, k: int = 5) -> List[Dict[str, Any]]:
                     'name': details.name,
                     'description': details.description,
                     'score': float(score),
-                    'details': details
+                    'documentation': details.documentation,
+                    'category': details.category,
+                    'provider_node_ids': details.provider_node_ids,
                 })
         elif doc_type == 'node':
             details = read_node_details(doc_id)
@@ -431,7 +433,9 @@ def fulltext_search(query: str, k: int = 5) -> List[Dict[str, Any]]:
                     'name': details.name,
                     'description': details.description,
                     'score': float(score),
-                    'details': details
+                    'documentation': details.documentation,
+                    'country': details.country,
+                    'offer_technology_ids': details.offer_technology_ids,
                 })
         elif doc_type == 'page':
             details = read_website_page_details(doc_id)
@@ -442,7 +446,10 @@ def fulltext_search(query: str, k: int = 5) -> List[Dict[str, Any]]:
                     'name': details.title,
                     'description': details.description,
                     'score': float(score),
-                    'details': details
+                    'url': details.url,
+                    'content_preview': details.content_preview,
+                    'headings': details.headings,
+                    'page_type': details.page_type,
                 })
     
     return search_results
@@ -570,7 +577,7 @@ for node in country_nodes:
     # Only list technologies if specifically asked, don't retrieve all details
 ```
 
-**For General Information:**
+**For General Full-text Search:**
 ```python
 # Use full-text search to find relevant content
 results = fulltext_search("access services application", k=5)
@@ -582,7 +589,6 @@ for result in results:
         print(f"Description: {page_details.description}")
 ```
 
-**For Technology Search:**
 ```python
 # Example: "Find super-resolution microscopy techniques"
 results = fulltext_search("super resolution microscopy", k=3)
