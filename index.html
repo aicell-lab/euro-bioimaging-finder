@@ -54,29 +54,31 @@
         <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
             <h2 class="text-2xl font-bold text-gray-800 mb-4">🔍 Data Explorer</h2>
             
-            <!-- Type Selector -->
+            <!-- Type Selector and Search in Same Row -->
             <div class="mb-6">
-                <label for="type-selector" class="block text-sm font-medium text-gray-700 mb-2">Select Data Type:</label>
-                <select id="type-selector" class="block w-full max-w-xs px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ebi-blue focus:border-ebi-blue">
-                    <option value="">Choose a type...</option>
-                    <option value="technologies">Technologies</option>
-                    <option value="nodes">Nodes</option>
-                    <option value="website_pages">Website Pages</option>
-                </select>
-            </div>
-
-            <!-- Search Box -->
-            <div class="mb-6" id="search-container" style="display: none;">
-                <label for="search-input" class="block text-sm font-medium text-gray-700 mb-2">Search:</label>
-                <input type="text" id="search-input" placeholder="Type to search..." 
-                       class="block w-full max-w-md px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ebi-blue focus:border-ebi-blue">
+                <div class="flex flex-col sm:flex-row gap-4 items-end">
+                    <div class="flex-shrink-0">
+                        <label for="type-selector" class="block text-sm font-medium text-gray-700 mb-2">Select Data Type:</label>
+                        <select id="type-selector" class="block w-full sm:w-64 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ebi-blue focus:border-ebi-blue">
+                            <option value="">Choose a type...</option>
+                            <option value="technologies">Technologies</option>
+                            <option value="nodes">Nodes</option>
+                            <option value="website_pages">Website Pages</option>
+                        </select>
+                    </div>
+                    <div class="flex-1" id="search-container" style="display: none;">
+                        <label for="search-input" class="block text-sm font-medium text-gray-700 mb-2">Search:</label>
+                        <input type="text" id="search-input" placeholder="Type to search..." 
+                               class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ebi-blue focus:border-ebi-blue">
+                    </div>
+                </div>
             </div>
 
             <!-- Content Area -->
             <div class="flex gap-6">
                 <!-- Items List -->
                 <div class="flex-1">
-                    <div id="items-list" class="space-y-2 max-h-96 overflow-y-auto border border-gray-200 rounded-lg p-4">
+                    <div id="items-list" class="space-y-2 max-h-[40rem] overflow-y-auto border border-gray-200 rounded-lg p-4">
                         <div class="text-gray-500 text-center py-8">
                             Select a data type to view items
                         </div>
@@ -84,8 +86,8 @@
                 </div>
 
                 <!-- Side Preview Panel -->
-                <div id="preview-panel" class="w-96 bg-gray-50 rounded-lg p-6 hidden max-h-96 overflow-y-auto">
-                    <div class="flex justify-between items-start mb-4 sticky top-0 bg-gray-50">
+                <div id="preview-panel" class="w-96 bg-gray-50 rounded-lg p-6 hidden max-h-[40rem] overflow-y-auto">
+                    <div class="flex justify-between items-start mb-4 top-0 bg-gray-50">
                         <h3 id="preview-title" class="text-lg font-semibold text-gray-800"></h3>
                         <button id="close-preview" class="text-gray-400 hover:text-gray-600" aria-label="Close preview panel">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -229,19 +231,19 @@ website_pages = data['website_pages']
                 if (indexData) {
                     let techCount = 0, nodesCount = 0, pagesCount = 0, totalCount = 0;
                     
-                    // Try to get from metadata first
-                    if (indexData.metadata && indexData.metadata.statistics) {
+                    // Always count from actual data first for accuracy
+                    techCount = indexData.technologies ? indexData.technologies.length : 0;
+                    nodesCount = indexData.nodes ? indexData.nodes.length : 0;
+                    pagesCount = indexData.website_pages ? indexData.website_pages.length : 0;
+                    totalCount = techCount + nodesCount + pagesCount;
+                    
+                    // If we have metadata statistics, use them as fallback if main data is empty
+                    if (totalCount === 0 && indexData.metadata && indexData.metadata.statistics) {
                         const stats = indexData.metadata.statistics;
-                        techCount = stats.technologies_count || 0;
-                        nodesCount = stats.nodes_count || 0;
-                        pagesCount = stats.website_pages_count || 0;
-                        totalCount = stats.total_entries || 0;
-                    } else {
-                        // Fallback: count from actual data
-                        techCount = indexData.technologies ? indexData.technologies.length : 0;
-                        nodesCount = indexData.nodes ? indexData.nodes.length : 0;
-                        pagesCount = indexData.website_pages ? indexData.website_pages.length : 0;
-                        totalCount = techCount + nodesCount + pagesCount;
+                        techCount = stats.technologies_count || stats.technologies || 0;
+                        nodesCount = stats.nodes_count || stats.nodes || 0;
+                        pagesCount = stats.website_pages_count || stats.website_pages || 0;
+                        totalCount = stats.total_entries || stats.total || (techCount + nodesCount + pagesCount);
                     }
                     
                     // Update stats
