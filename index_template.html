@@ -61,6 +61,7 @@
                         <label for="type-selector" class="block text-sm font-medium text-gray-700 mb-2">Select Data Type:</label>
                         <select id="type-selector" class="block w-full sm:w-64 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ebi-blue focus:border-ebi-blue">
                             <option value="">Choose a type...</option>
+                            <option value="all">All Types</option>
                             <option value="technologies">Technologies</option>
                             <option value="nodes">Nodes</option>
                             <option value="website_pages">Website Pages</option>
@@ -279,16 +280,45 @@ website_pages = data['website_pages']
 
         // Display items for selected type
         function displayItems(type) {
-            if (!indexData || !indexData[type]) {
+            currentType = type;
+            currentItems = [];
+
+            if (type === 'all') {
+                // Combine all items from all types
+                if (indexData) {
+                    if (indexData.technologies) {
+                        currentItems = currentItems.concat(
+                            indexData.technologies.map(item => ({...item, _itemType: 'technology'}))
+                        );
+                    }
+                    if (indexData.nodes) {
+                        currentItems = currentItems.concat(
+                            indexData.nodes.map(item => ({...item, _itemType: 'node'}))
+                        );
+                    }
+                    if (indexData.website_pages) {
+                        currentItems = currentItems.concat(
+                            indexData.website_pages.map(item => ({...item, _itemType: 'website_page'}))
+                        );
+                    }
+                }
+            } else {
+                // Single type
+                if (!indexData || !indexData[type]) {
+                    document.getElementById('items-list').innerHTML = 
+                        '<div class="text-gray-500 text-center py-8">No data available for this type</div>';
+                    return;
+                }
+                currentItems = indexData[type].map(item => ({...item, _itemType: type.slice(0, -1) || type}));
+            }
+
+            if (currentItems.length === 0) {
                 document.getElementById('items-list').innerHTML = 
-                    '<div class="text-gray-500 text-center py-8">No data available for this type</div>';
+                    '<div class="text-gray-500 text-center py-8">No data available</div>';
                 return;
             }
 
-            currentType = type;
-            currentItems = indexData[type];
             filteredItems = [...currentItems];
-            
             renderItemsList();
             document.getElementById('search-container').style.display = 'block';
         }
@@ -308,10 +338,25 @@ website_pages = data['website_pages']
                 const truncatedDescription = description.length > 100 ? 
                     description.substring(0, 100) + '...' : description;
 
+                // Get type badge info
+                const getTypeBadge = (itemType) => {
+                    switch(itemType) {
+                        case 'technology': return { color: 'bg-blue-100 text-blue-800', text: 'Technology' };
+                        case 'node': return { color: 'bg-green-100 text-green-800', text: 'Node' };
+                        case 'website_page': return { color: 'bg-purple-100 text-purple-800', text: 'Page' };
+                        default: return { color: 'bg-gray-100 text-gray-800', text: 'Unknown' };
+                    }
+                };
+
+                const typeBadge = currentType === 'all' ? getTypeBadge(item._itemType) : null;
+
                 return `
                     <div class="border border-gray-200 rounded-lg p-3 hover:bg-gray-50 cursor-pointer transition-colors"
                          onclick="showPreview(${index})">
-                        <h3 class="font-semibold text-gray-800 mb-2">${title}</h3>
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold text-gray-800">${title}</h3>
+                            ${typeBadge ? `<span class="inline-block ${typeBadge.color} text-xs px-2 py-1 rounded-full font-medium">${typeBadge.text}</span>` : ''}
+                        </div>
                         ${truncatedDescription ? `<p class="text-gray-600 text-sm">${truncatedDescription}</p>` : ''}
                         ${item.keywords && item.keywords.length > 0 ? 
                             `<div class="mt-2">
@@ -344,22 +389,34 @@ website_pages = data['website_pages']
                 contentHtml += `<div><strong>Description:</strong><br>${item.description}</div>`;
             }
 
-            // Add type-specific content
-            if (currentType === 'technologies') {
+            // Add item type badge if showing all types
+            if (currentType === 'all' && item._itemType) {
+                const typeBadgeMap = {
+                    'technology': { color: 'bg-blue-100 text-blue-800', text: 'Technology' },
+                    'node': { color: 'bg-green-100 text-green-800', text: 'Node' },
+                    'website_page': { color: 'bg-purple-100 text-purple-800', text: 'Website Page' }
+                };
+                const badge = typeBadgeMap[item._itemType] || { color: 'bg-gray-100 text-gray-800', text: 'Unknown' };
+                contentHtml += `<div><strong>Type:</strong><br><span class="inline-block ${badge.color} text-xs px-2 py-1 rounded-full font-medium">${badge.text}</span></div>`;
+            }
+
+            // Add type-specific content based on item type
+            const itemType = item._itemType || currentType;
+            if (itemType === 'technology' || itemType === 'technologies') {
                 if (item.category) {
                     contentHtml += `<div><strong>Category:</strong><br>${item.category.name || item.category}</div>`;
                 }
                 if (item.provider_node_ids && item.provider_node_ids.length > 0) {
                     contentHtml += `<div><strong>Provider Nodes:</strong><br>${item.provider_node_ids.join(', ')}</div>`;
                 }
-            } else if (currentType === 'nodes') {
+            } else if (itemType === 'node' || itemType === 'nodes') {
                 if (item.country) {
                     contentHtml += `<div><strong>Country:</strong><br>${item.country.name || item.country}</div>`;
                 }
                 if (item.offer_technology_ids && item.offer_technology_ids.length > 0) {
                     contentHtml += `<div><strong>Technologies Offered:</strong><br>${item.offer_technology_ids.slice(0, 5).join(', ')}${item.offer_technology_ids.length > 5 ? '...' : ''}</div>`;
                 }
-            } else if (currentType === 'website_pages') {
+            } else if (itemType === 'website_page' || itemType === 'website_pages') {
                 if (item.url) {
                     contentHtml += `<div><strong>URL:</strong><br><a href="${item.url}" target="_blank" class="text-ebi-blue hover:underline">${item.url}</a></div>`;
                 }
@@ -398,11 +455,12 @@ website_pages = data['website_pages']
             } else {
                 const term = searchTerm.toLowerCase();
                 filteredItems = currentItems.filter(item => {
+                    const id = (item.id || '').toLowerCase();
                     const title = (item.name || item.title || '').toLowerCase();
                     const description = (item.description || '').toLowerCase();
                     const keywords = (item.keywords || []).join(' ').toLowerCase();
                     
-                    return title.includes(term) || description.includes(term) || keywords.includes(term);
+                    return id.includes(term) || title.includes(term) || description.includes(term) || keywords.includes(term);
                 });
             }
             renderItemsList();
