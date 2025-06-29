@@ -4,138 +4,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Euro-BioImaging Search Index</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem;
-            background: #f8f9fa;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ebi-blue': '#007bff',
+                        'ebi-blue-dark': '#0056b3'
+                    }
+                }
+            }
         }
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding: 2rem;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .header h1 {
-            color: #007bff;
-            margin-bottom: 0.5rem;
-        }
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-        .stat-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #007bff;
-        }
-        .download-section, .api-section {
-            background: white;
-            padding: 2rem;
-            margin: 2rem 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .download-link {
-            display: inline-block;
-            background: #007bff;
-            color: white;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 1rem 0;
-            font-weight: bold;
-        }
-        .download-link:hover {
-            background: #0056b3;
-        }
-        .code-block {
-            background: #f1f3f4;
-            padding: 1rem;
-            border-radius: 4px;
-            font-family: 'Monaco', 'Menlo', monospace;
-            font-size: 0.9rem;
-            border-left: 4px solid #007bff;
-            margin: 1rem 0;
-            overflow-x: auto;
-            white-space: pre;
-        }
-        
-        .data-structure {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-    </style>
+    </script>
 </head>
-<body>
-    <div class="header">
-        <h1>🔬 Euro-BioImaging Search Index</h1>
-        <p>Comprehensive search index for Euro-BioImaging technologies, nodes, and resources</p>
-    </div>
-    
-    <div class="stats">
-        <div class="stat-card">
-            <div class="stat-number">%(technologies_count)s</div>
-            <div>Technologies</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">%(nodes_count)s</div>
-            <div>Nodes</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">%(website_pages_count)s</div>
-            <div>Website Pages</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">%(total_entries)s</div>
-            <div>Total Entries</div>
+<body class="bg-gray-50 font-sans">
+    <!-- Header -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="max-w-6xl mx-auto px-4 py-6">
+            <div class="text-center">
+                <h1 class="text-4xl font-bold text-ebi-blue mb-2">🔬 Euro-BioImaging Search Index</h1>
+                <p class="text-gray-600 text-lg">Comprehensive search index for Euro-BioImaging technologies, nodes, and resources</p>
+            </div>
         </div>
     </div>
-    
-    <div class="download-section">
-        <h2>📥 Download Index</h2>
-        <p>Download the complete Euro-BioImaging search index:</p>
-        <a href="eurobioimaging_index.json" class="download-link">📄 Download JSON Index</a>
-        <a href="eurobioimaging_bm25_index.pkl" class="download-link">🔍 Download BM25 Index</a>
-        <p><strong>Dataset:</strong> %(dataset_type)s<br>
-        <strong>Last Updated:</strong> %(created_at)s</p>
-    </div>
-    
-    <div class="api-section">
-        <h2>🔗 API Access</h2>
-        <p>Access the index programmatically via HTTPS:</p>
-        <div class="code-block">
+
+    <!-- Stats Section -->
+    <div class="max-w-6xl mx-auto px-4 py-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white rounded-lg shadow-sm p-6 text-center">
+                <div class="text-3xl font-bold text-ebi-blue" id="tech-count">%(technologies_count)s</div>
+                <div class="text-gray-600">Technologies</div>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm p-6 text-center">
+                <div class="text-3xl font-bold text-ebi-blue" id="nodes-count">%(nodes_count)s</div>
+                <div class="text-gray-600">Nodes</div>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm p-6 text-center">
+                <div class="text-3xl font-bold text-ebi-blue" id="pages-count">%(website_pages_count)s</div>
+                <div class="text-gray-600">Website Pages</div>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm p-6 text-center">
+                <div class="text-3xl font-bold text-ebi-blue" id="total-count">%(total_entries)s</div>
+                <div class="text-gray-600">Total Entries</div>
+            </div>
+        </div>
+
+        <!-- Explorer Section -->
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">🔍 Data Explorer</h2>
+            
+            <!-- Type Selector -->
+            <div class="mb-6">
+                <label for="type-selector" class="block text-sm font-medium text-gray-700 mb-2">Select Data Type:</label>
+                <select id="type-selector" class="block w-full max-w-xs px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ebi-blue focus:border-ebi-blue">
+                    <option value="">Choose a type...</option>
+                    <option value="technologies">Technologies</option>
+                    <option value="nodes">Nodes</option>
+                    <option value="website_pages">Website Pages</option>
+                </select>
+            </div>
+
+            <!-- Search Box -->
+            <div class="mb-6" id="search-container" style="display: none;">
+                <label for="search-input" class="block text-sm font-medium text-gray-700 mb-2">Search:</label>
+                <input type="text" id="search-input" placeholder="Type to search..." 
+                       class="block w-full max-w-md px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ebi-blue focus:border-ebi-blue">
+            </div>
+
+            <!-- Content Area -->
+            <div class="flex gap-6">
+                <!-- Items List -->
+                <div class="flex-1">
+                    <div id="items-list" class="space-y-2">
+                        <div class="text-gray-500 text-center py-8">
+                            Select a data type to view items
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Side Preview Panel -->
+                <div id="preview-panel" class="w-96 bg-gray-50 rounded-lg p-6 hidden">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 id="preview-title" class="text-lg font-semibold text-gray-800"></h3>
+                        <button id="close-preview" class="text-gray-400 hover:text-gray-600" aria-label="Close preview panel">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="preview-content" class="text-sm text-gray-600 space-y-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Section -->
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">📥 Download Index</h2>
+            <p class="text-gray-600 mb-4">Download the complete Euro-BioImaging search index:</p>
+            <div class="flex flex-wrap gap-4 mb-4">
+                <a href="eurobioimaging_index.json" class="inline-block bg-ebi-blue text-white px-6 py-3 rounded-lg font-semibold hover:bg-ebi-blue-dark transition-colors">
+                    📄 Download JSON Index
+                </a>
+                <a href="eurobioimaging_bm25_index.pkl" class="inline-block bg-ebi-blue text-white px-6 py-3 rounded-lg font-semibold hover:bg-ebi-blue-dark transition-colors">
+                    🔍 Download BM25 Index
+                </a>
+            </div>
+            <p class="text-sm text-gray-600">
+                <strong>Dataset:</strong> %(dataset_type)s<br>
+                <strong>Last Updated:</strong> %(created_at)s
+            </p>
+        </div>
+
+        <!-- API Section -->
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">🔗 API Access</h2>
+            <p class="text-gray-600 mb-4">Access the index programmatically via HTTPS:</p>
+            <div class="bg-gray-100 p-4 rounded-lg border-l-4 border-ebi-blue font-mono text-sm overflow-x-auto">
 # Main index with all data
 https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json
 
 # BM25 index file (required for full-text search)
-https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_bm25_index.pkl</div>
-    </div>
-    
-    <div class="api-section">
-        <h2>📋 Data Structure</h2>
-        <p>The JSON index contains the following structure:</p>
-        <div class="data-structure">
-            <h3>Combined Index (eurobioimaging_index.json)</h3>
-            <div class="code-block">
+https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_bm25_index.pkl
+            </div>
+        </div>
+
+        <!-- Data Structure Section -->
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">📋 Data Structure</h2>
+            <p class="text-gray-600 mb-4">The JSON index contains the following structure:</p>
+            
+            <div class="space-y-6">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Combined Index (eurobioimaging_index.json)</h3>
+                    <div class="bg-gray-100 p-4 rounded border-l-4 border-ebi-blue font-mono text-sm overflow-x-auto">
 {
     "metadata": {
         "created_at": "ISO timestamp",
@@ -178,61 +181,223 @@ https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_bm25_index.pkl</di
             "page_type": "about|services|nodes|etc"
         }
     ]
-}</div>
-        </div>
-        
-        <div class="data-structure">
-            <h3>BM25 Full-Text Search</h3>
-            <p>The BM25 index is stored in a pickle file that contains:</p>
-            <ul>
-                <li><strong>retriever</strong>: The BM25 retriever object for performing searches</li>
-            </ul>
-            <p>The document metadata for mapping search results is stored in the main JSON index under <code>bm25_metadata</code>.</p>
-        </div>
-        
-        <h3>Example Usage</h3>
-        <p>Python with bm25s package:</p>
-        <div class="code-block">
-import pickle
-import bm25s
-import httpx
+}
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Example Usage</h3>
+                    <div class="bg-gray-100 p-4 rounded border-l-4 border-ebi-blue font-mono text-sm overflow-x-auto">
 import json
+import requests
 
-# Download and load main index with metadata
-response = httpx.get('https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json')
-combined_data = response.json()
-bm25_metadata = combined_data.get('bm25_metadata', [])
+# Load the index
+response = requests.get('https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json')
+data = response.json()
 
-# Download and load BM25 retriever
-response = httpx.get('https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_bm25_index.pkl')
-with open('eurobioimaging_bm25_index.pkl', 'wb') as f:
-    f.write(response.content)
-
-with open('eurobioimaging_bm25_index.pkl', 'rb') as f:
-    retriever = pickle.load(f)
-
-def fulltext_search(query, k=5):
-    query_tokens = bm25s.tokenize(query)
-    results, scores = retriever.retrieve(query_tokens, k=k)
-    hits = []
-    for i in range(results.shape[1]):
-        doc_idx = results[0, i]
-        score = scores[0, i]
-        metadata = bm25_metadata[doc_idx]
-        hit = metadata.copy()
-        hit["score"] = float(score)
-        hits.append(hit)
-    return hits
-
-# Example search
-results = fulltext_search("super resolution microscopy", k=5)
-for hit in results:
-    print(f"Score: {hit['score']:.2f} - Type: {hit['type']} - ID: {hit['id']}")</div>
+# Access technologies, nodes, or website pages
+technologies = data['technologies']
+nodes = data['nodes']
+website_pages = data['website_pages']
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    
-    <footer style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e0e0e0; color: #666;">
-        <p>🔬 Euro-BioImaging Search Index | Updated on %(created_at)s</p>
-        <p><a href="https://www.eurobioimaging.eu/">Visit Euro-BioImaging</a></p>
+
+    <!-- Footer -->
+    <footer class="bg-white mt-12 border-t">
+        <div class="max-w-6xl mx-auto px-4 py-6 text-center text-gray-600">
+            <p class="mb-2">🔬 Euro-BioImaging Search Index | Updated on %(created_at)s</p>
+            <p><a href="https://www.eurobioimaging.eu/" class="text-ebi-blue hover:text-ebi-blue-dark">Visit Euro-BioImaging</a></p>
+        </div>
     </footer>
+
+    <script>
+        let indexData = null;
+        let currentType = '';
+        let currentItems = [];
+        let filteredItems = [];
+
+        // Load the JSON data
+        async function loadIndexData() {
+            try {
+                const response = await fetch('eurobioimaging_index.json');
+                indexData = await response.json();
+                
+                // Update stats from loaded data
+                if (indexData.metadata && indexData.metadata.statistics) {
+                    const stats = indexData.metadata.statistics;
+                    document.getElementById('tech-count').textContent = stats.technologies_count || 0;
+                    document.getElementById('nodes-count').textContent = stats.nodes_count || 0;
+                    document.getElementById('pages-count').textContent = stats.website_pages_count || 0;
+                    document.getElementById('total-count').textContent = stats.total_entries || 0;
+                }
+            } catch (error) {
+                console.error('Error loading index data:', error);
+                document.getElementById('items-list').innerHTML = 
+                    '<div class="text-red-500 text-center py-8">Error loading data. Please check if eurobioimaging_index.json is available.</div>';
+            }
+        }
+
+        // Display items for selected type
+        function displayItems(type) {
+            if (!indexData || !indexData[type]) {
+                document.getElementById('items-list').innerHTML = 
+                    '<div class="text-gray-500 text-center py-8">No data available for this type</div>';
+                return;
+            }
+
+            currentType = type;
+            currentItems = indexData[type];
+            filteredItems = [...currentItems];
+            
+            renderItemsList();
+            document.getElementById('search-container').style.display = 'block';
+        }
+
+        // Render the items list
+        function renderItemsList() {
+            const itemsList = document.getElementById('items-list');
+            
+            if (filteredItems.length === 0) {
+                itemsList.innerHTML = '<div class="text-gray-500 text-center py-8">No items found</div>';
+                return;
+            }
+
+            const itemsHtml = filteredItems.map((item, index) => {
+                const title = item.name || item.title || item.id;
+                const description = item.description || '';
+                const truncatedDescription = description.length > 100 ? 
+                    description.substring(0, 100) + '...' : description;
+
+                return `
+                    <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer transition-colors"
+                         onclick="showPreview(${index})">
+                        <h3 class="font-semibold text-gray-800 mb-2">${title}</h3>
+                        ${truncatedDescription ? `<p class="text-gray-600 text-sm">${truncatedDescription}</p>` : ''}
+                        ${item.keywords && item.keywords.length > 0 ? 
+                            `<div class="mt-2">
+                                ${item.keywords.slice(0, 3).map(keyword => 
+                                    `<span class="inline-block bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded mr-1">${keyword}</span>`
+                                ).join('')}
+                            </div>` : ''
+                        }
+                    </div>
+                `;
+            }).join('');
+
+            itemsList.innerHTML = itemsHtml;
+        }
+
+        // Show item preview
+        function showPreview(index) {
+            const item = filteredItems[index];
+            const previewPanel = document.getElementById('preview-panel');
+            const previewTitle = document.getElementById('preview-title');
+            const previewContent = document.getElementById('preview-content');
+
+            const title = item.name || item.title || item.id;
+            previewTitle.textContent = title;
+
+            let contentHtml = '';
+
+            // Add description
+            if (item.description) {
+                contentHtml += `<div><strong>Description:</strong><br>${item.description}</div>`;
+            }
+
+            // Add type-specific content
+            if (currentType === 'technologies') {
+                if (item.category) {
+                    contentHtml += `<div><strong>Category:</strong><br>${item.category.name || item.category}</div>`;
+                }
+                if (item.provider_node_ids && item.provider_node_ids.length > 0) {
+                    contentHtml += `<div><strong>Provider Nodes:</strong><br>${item.provider_node_ids.join(', ')}</div>`;
+                }
+            } else if (currentType === 'nodes') {
+                if (item.country) {
+                    contentHtml += `<div><strong>Country:</strong><br>${item.country.name || item.country}</div>`;
+                }
+                if (item.offer_technology_ids && item.offer_technology_ids.length > 0) {
+                    contentHtml += `<div><strong>Technologies Offered:</strong><br>${item.offer_technology_ids.slice(0, 5).join(', ')}${item.offer_technology_ids.length > 5 ? '...' : ''}</div>`;
+                }
+            } else if (currentType === 'website_pages') {
+                if (item.url) {
+                    contentHtml += `<div><strong>URL:</strong><br><a href="${item.url}" target="_blank" class="text-ebi-blue hover:underline">${item.url}</a></div>`;
+                }
+                if (item.page_type) {
+                    contentHtml += `<div><strong>Page Type:</strong><br>${item.page_type}</div>`;
+                }
+                if (item.headings && item.headings.length > 0) {
+                    contentHtml += `<div><strong>Headings:</strong><br>${item.headings.slice(0, 3).join(', ')}${item.headings.length > 3 ? '...' : ''}</div>`;
+                }
+            }
+
+            // Add keywords
+            if (item.keywords && item.keywords.length > 0) {
+                contentHtml += `<div><strong>Keywords:</strong><br>
+                    <div class="flex flex-wrap gap-1 mt-1">
+                        ${item.keywords.map(keyword => 
+                            `<span class="bg-ebi-blue text-white text-xs px-2 py-1 rounded">${keyword}</span>`
+                        ).join('')}
+                    </div>
+                </div>`;
+            }
+
+            // Add documentation/content preview
+            if (item.documentation) {
+                const truncatedDoc = item.documentation.length > 300 ? 
+                    item.documentation.substring(0, 300) + '...' : item.documentation;
+                contentHtml += `<div><strong>Documentation:</strong><br><div class="text-xs text-gray-600 mt-1">${truncatedDoc}</div></div>`;
+            } else if (item.content_preview) {
+                contentHtml += `<div><strong>Content Preview:</strong><br><div class="text-xs text-gray-600 mt-1">${item.content_preview}</div></div>`;
+            }
+
+            previewContent.innerHTML = contentHtml;
+            previewPanel.classList.remove('hidden');
+        }
+
+        // Search functionality
+        function filterItems(searchTerm) {
+            if (!searchTerm.trim()) {
+                filteredItems = [...currentItems];
+            } else {
+                const term = searchTerm.toLowerCase();
+                filteredItems = currentItems.filter(item => {
+                    const title = (item.name || item.title || '').toLowerCase();
+                    const description = (item.description || '').toLowerCase();
+                    const keywords = (item.keywords || []).join(' ').toLowerCase();
+                    
+                    return title.includes(term) || description.includes(term) || keywords.includes(term);
+                });
+            }
+            renderItemsList();
+        }
+
+        // Event listeners
+        document.getElementById('type-selector').addEventListener('change', function(e) {
+            const selectedType = e.target.value;
+            if (selectedType) {
+                displayItems(selectedType);
+            } else {
+                document.getElementById('items-list').innerHTML = 
+                    '<div class="text-gray-500 text-center py-8">Select a data type to view items</div>';
+                document.getElementById('search-container').style.display = 'none';
+                document.getElementById('preview-panel').classList.add('hidden');
+            }
+        });
+
+        document.getElementById('search-input').addEventListener('input', function(e) {
+            filterItems(e.target.value);
+        });
+
+        document.getElementById('close-preview').addEventListener('click', function() {
+            document.getElementById('preview-panel').classList.add('hidden');
+        });
+
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', loadIndexData);
+    </script>
 </body>
 </html> 

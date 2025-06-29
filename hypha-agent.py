@@ -132,7 +132,7 @@ def read_tech_details(tech_id: str):
     for tech in tech_data:
         if tech['id'] == tech_id:
             return TechDetail(**tech)
-    return None
+    raise Exception(f"Technology with ID {tech_id} not found")
 
 def read_node_details(node_id: str):
     """
@@ -147,7 +147,7 @@ def read_node_details(node_id: str):
     for node in nodes_data:
         if node['id'] == node_id:
             return NodeDetail(**node)
-    return None
+    raise Exception(f"Node with ID {node_id} not found")
 
 def read_nodes_by_country(country_code: str):
     """
@@ -182,7 +182,7 @@ def read_website_page_details(page_id: str):
     for page in website_data:
         if page['id'] == page_id:
             return WebsitePageDetail(**page)
-    return None
+    raise Exception(f"Website page with ID {page_id} not found")
 
 def get_country_codes():
     """
