@@ -51,64 +51,18 @@ def get_stable_timestamp(index_file):
 def create_index_html(index_file, output_dir):
     """Create index.html for GitHub Pages"""
     
-    # Get stable timestamp
-    timestamp = get_stable_timestamp(index_file)
-    
-    # Load index data for stats
-    try:
-        with open(index_file, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        
-        stats = {
-            'technologies': len(data.get('technologies', [])),
-            'nodes': len(data.get('nodes', [])),
-            'website_pages': len(data.get('website_pages', [])),
-            'total_entries': len(data.get('technologies', [])) + len(data.get('nodes', [])) + len(data.get('website_pages', []))
-        }
-        
-        metadata = data.get('metadata', {})
-        dataset_type = metadata.get('dataset_type', 'unknown')
-        created_at = timestamp.strftime('%Y-%m-%d')  # Only date, not time
-        
-    except Exception as e:
-        print(f"Warning: Could not load index data for stats: {e}")
-        stats = {'technologies': 'N/A', 'nodes': 'N/A', 'website_pages': 'N/A', 'total_entries': 'N/A'}
-        dataset_type = 'unknown'
-        created_at = timestamp.strftime('%Y-%m-%d')
-    
-    # Load HTML template
+    # Load HTML template and copy as-is (no substitution needed since JS handles everything)
     template_file = Path('index_template.html')
     if not template_file.exists():
-        print(f"Warning: Template file {template_file} not found, creating basic template")
-        html_content = f"""<!DOCTYPE html>
-<html><head><title>Euro-BioImaging Search Index</title></head>
-<body><h1>Euro-BioImaging Search Index</h1>
-<p>Technologies: {stats['technologies']}</p>
-<p>Nodes: {stats['nodes']}</p>
-<p>Website Pages: {stats['website_pages']}</p>
-<p>Dataset: {dataset_type.title()}</p>
-<p>Last Updated: {created_at}</p>
-</body></html>"""
-    else:
-        # Read template and format with data
-        with open(template_file, 'r', encoding='utf-8') as f:
-            template_content = f.read()
-        
-        html_content = template_content % {
-            'technologies_count': stats['technologies'],
-            'nodes_count': stats['nodes'],
-            'website_pages_count': stats['website_pages'],
-            'total_entries': stats['total_entries'],
-            'dataset_type': dataset_type.title(),
-            'created_at': created_at
-        }
+        print(f"Error: Template file {template_file} not found!")
+        return False
     
-    # Save HTML file
+    # Simply copy the template as-is - JavaScript will handle loading data dynamically
     html_file = output_dir / 'index.html'
-    with open(html_file, 'w', encoding='utf-8') as f:
-        f.write(html_content)
+    shutil.copy2(template_file, html_file)
     
-    print(f"Created index.html at {html_file}")
+    print(f"Copied index template to {html_file}")
+    return True
 
 def check_remote_origin():
     """Check if remote origin is configured"""
