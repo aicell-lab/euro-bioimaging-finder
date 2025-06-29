@@ -16,6 +16,8 @@ import logging
 from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
 from datetime import datetime
+import bm25s
+import pickle
 
 # Load environment variables
 load_dotenv()
@@ -733,6 +735,60 @@ async def process_website_data(max_pages: int = 50, delay: float = 1.0, output_d
     
     return simplified_index
 
+def build_bm25_index(tech_data: List[Dict], nodes_data: List[Dict], website_data: List[Dict], output_dir: Path):
+    """Build BM25 index for full-text search"""
+    print("🔍 Building BM25 index...")
+    
+    # Prepare corpus and metadata
+    corpus = []
+    metadata = []
+    
+    # Add technologies
+    for tech in tech_data:
+        doc = f"{tech.get('name', '')} {tech.get('description', '')} {tech.get('documentation', '')} {' '.join(tech.get('keywords', []))}"
+        corpus.append(doc)
+        metadata.append({
+            'type': 'tech',
+            'id': tech['id']
+        })
+    
+    # Add nodes
+    for node in nodes_data:
+        doc = f"{node.get('name', '')} {node.get('description', '')} {node.get('documentation', '')} {' '.join(node.get('keywords', []))} {node.get('country', {}).get('name', '')}"
+        corpus.append(doc)
+        metadata.append({
+            'type': 'node',
+            'id': node['id']
+        })
+    
+    # Add website pages
+    for page in website_data:
+        doc = f"{page.get('title', '')} {page.get('description', '')} {page.get('content_preview', '')} {' '.join(page.get('keywords', []))} {' '.join(page.get('headings', []))}"
+        corpus.append(doc)
+        metadata.append({
+            'type': 'page',
+            'id': page['id']
+        })
+    
+    # Tokenize corpus
+    print("📝 Tokenizing corpus...")
+    corpus_tokens = bm25s.tokenize(corpus, stopwords="en")
+    
+    # Create and index BM25 model
+    print("📊 Creating BM25 index...")
+    retriever = bm25s.BM25()
+    retriever.index(corpus_tokens)
+    
+    bm25_filename = "eurobioimaging_bm25_index.pkl"
+    # Save BM25 index as pickle
+    bm25_file = output_dir / bm25_filename
+    print(f"💾 Saving BM25 index to {bm25_file}...")
+    with open(bm25_file, 'wb') as f:
+        pickle.dump(retriever, f)
+    
+    print(f"✅ BM25 index built successfully with {len(corpus)} documents")
+    return bm25_filename, metadata
+
 async def main():
     # Parse command line arguments
     parser = argparse.ArgumentParser(description='Build search indexes for Euro-BioImaging data')
@@ -746,6 +802,10 @@ async def main():
     # Create data directory
     data_dir = Path(args.data_dir)
     data_dir.mkdir(parents=True, exist_ok=True)
+    
+    if args.test:
+        args.max_pages = 10
+        args.crawl_delay = 0.5
     
     print("🚀 Starting parallel indexing of Euro-BioImaging data...")
     print(f"📁 Data directory: {data_dir}")
@@ -842,6 +902,15 @@ async def main():
     for node in nodes_index:
         node['offer_technology_ids'] = [tech_id_mapping.get(tech_id, tech_id) for tech_id in node['offer_technology_ids'] if tech_id in tech_id_mapping]
     
+    print("🔄 Building BM25 index...")
+    # Build BM25 index
+    bm25_file_name, bm25_metadata = build_bm25_index(
+        tech_index,
+        nodes_index,
+        website_index,
+        data_dir
+    )
+    
     # Create combined index
     print("🔄 Creating combined index...")
     combined_index = {
@@ -855,22 +924,24 @@ async def main():
                 "nodes": len(nodes_index),
                 "website_pages": len(website_index),
                 "total_entries": len(tech_index) + len(nodes_index) + len(website_index)
-            }
+            },
+            "bm25_file": bm25_file_name
         },
         "technologies": tech_index,
         "nodes": nodes_index,
-        "website_pages": website_index
+        "website_pages": website_index,
+        "bm25_metadata": bm25_metadata
     }
     
     # Save the combined index
     print("💾 Saving combined index...")
-    
     output_file = data_dir / output_filename
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(combined_index, f, indent=2, ensure_ascii=False)
     
     print(f"\n🎉 Indexing completed successfully!")
     print(f"📊 Combined index saved to: {output_file}")
+    print(f"🔍 BM25 index saved as: {bm25_file_name}")
     print(f"📈 Statistics:")
     print(f"  🔬 Technologies: {len(tech_index)} entries")
     print(f"  🏢 Nodes: {len(nodes_index)} entries")

@@ -1,9 +1,14 @@
 import micropip
-await micropip.install(["httpx", "pydantic"])
+await micropip.install(["httpx", "pydantic", "bm25s"])
 
 import httpx
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional, Tuple
 from pydantic import BaseModel
+import bm25s
+from pathlib import Path
+import tempfile
+import micropip
+import pickle
 
 class TechDetail(BaseModel):
     """Details of a specific technology"""
@@ -51,6 +56,8 @@ class SearchResponse(BaseModel):
 tech_data: List[Dict[str, Any]] = []
 nodes_data: List[Dict[str, Any]] = []
 website_data: List[Dict[str, Any]] = []
+bm25_retriever = None
+bm25_metadata = None
 
 async def load_eurobioimaging_data():
     """
@@ -60,40 +67,57 @@ async def load_eurobioimaging_data():
     Returns:
     - dict: Metadata about the loaded dataset including counts and creation info
     """
-    global tech_data, nodes_data, website_data
+    global tech_data, nodes_data, website_data, bm25_retriever, bm25_metadata
     
-    url = "https://oeway.github.io/euro-bioimaging-finder/eurobioimaging_index.json"
+    base_url = "https://oeway.github.io/euro-bioimaging-finder"
     
     try:
         async with httpx.AsyncClient(timeout=30.0) as client:
-            response = await client.get(url)
+            # Load main index
+            response = await client.get(f"{base_url}/eurobioimaging_index.json")
             response.raise_for_status()
             combined_data = response.json()
-        
-        # Extract data from combined index
-        tech_data = combined_data.get('technologies', [])
-        nodes_data = combined_data.get('nodes', [])
-        website_data = combined_data.get('website_pages', [])
-        
-        # Get metadata
-        metadata = combined_data.get('metadata', {})
-        dataset_info = {
-            'dataset_type': metadata.get('dataset_type', 'unknown'),
-            'created_at': metadata.get('created_at', 'unknown'),
-            'technologies_count': len(tech_data),
-            'nodes_count': len(nodes_data),
-            'website_pages_count': len(website_data),
-            'total_entries': len(tech_data) + len(nodes_data) + len(website_data)
-        }
-        
-        return dataset_info
-        
+            
+            # Extract data from combined index
+            tech_data = combined_data.get('technologies', [])
+            nodes_data = combined_data.get('nodes', [])
+            website_data = combined_data.get('website_pages', [])
+            bm25_metadata = combined_data.get('bm25_metadata', [])
+            
+            # Download and load BM25 pickle file
+            bm25_response = await client.get(f"{base_url}/eurobioimaging_bm25_index.pkl")
+            bm25_response.raise_for_status()
+            
+            # Save to temp file and load
+            with tempfile.NamedTemporaryFile(suffix='.pkl', delete=False) as temp_file:
+                temp_file.write(bm25_response.content)
+                temp_file.flush()
+                
+                with open(temp_file.name, 'rb') as f:
+                    bm25_retriever = pickle.load(f)
+            
+            # Get metadata
+            metadata = combined_data.get('metadata', {})
+            dataset_info = {
+                'dataset_type': metadata.get('dataset_type', 'unknown'),
+                'created_at': metadata.get('created_at', 'unknown'),
+                'technologies_count': len(tech_data),
+                'nodes_count': len(nodes_data),
+                'website_pages_count': len(website_data),
+                'total_entries': len(tech_data) + len(nodes_data) + len(website_data),
+                'bm25_documents': len(bm25_metadata) if bm25_metadata else 0
+            }
+            
+            return dataset_info
+            
     except Exception as e:
         print(f"Error loading data: {e}")
         tech_data = []
         nodes_data = []
         website_data = []
-        return {'error': str(e)}
+        bm25_retriever = None
+        bm25_metadata = None
+        raise e
 
 def read_tech_details(tech_id: str):
     """
@@ -355,6 +379,74 @@ Imprtantly, they are not under api.* namespace, so you can call them directly.
 
     return prompt
 
+def fulltext_search(query: str, k: int = 5) -> List[Dict[str, Any]]:
+    """
+    Perform full-text search using BM25 index
+    
+    Parameters:
+    - query (str): The search query
+    - k (int): Number of results to return (default: 5)
+    
+    Returns:
+    - List[Dict]: List of matching documents with metadata
+    """
+    if not bm25_retriever or not bm25_metadata:
+        raise Exception("Error: BM25 index not loaded")
+    
+    # Tokenize query
+    query_tokens = bm25s.tokenize(query)
+    
+    # Get results
+    results, scores = bm25_retriever.retrieve(query_tokens, k=k)
+    
+    # Format results
+    search_results = []
+    for i in range(results.shape[1]):
+        doc_idx = results[0, i]
+        score = scores[0, i]
+        
+        # Get metadata for the document
+        metadata = bm25_metadata[doc_idx]
+        doc_type = metadata['type']
+        doc_id = metadata['id']
+        
+        # Get full details based on type
+        if doc_type == 'tech':
+            details = read_tech_details(doc_id)
+            if details:
+                search_results.append({
+                    'type': doc_type,
+                    'id': doc_id,
+                    'name': details.name,
+                    'description': details.description,
+                    'score': float(score),
+                    'details': details
+                })
+        elif doc_type == 'node':
+            details = read_node_details(doc_id)
+            if details:
+                search_results.append({
+                    'type': doc_type,
+                    'id': doc_id,
+                    'name': details.name,
+                    'description': details.description,
+                    'score': float(score),
+                    'details': details
+                })
+        elif doc_type == 'page':
+            details = read_website_page_details(doc_id)
+            if details:
+                search_results.append({
+                    'type': doc_type,
+                    'id': doc_id,
+                    'name': details.title,
+                    'description': details.description,
+                    'score': float(score),
+                    'details': details
+                })
+    
+    return search_results
+
 # Initialize data and create the search prompt
 data_loaded = await load_eurobioimaging_data()
 
@@ -371,6 +463,7 @@ You have access to several utility functions for retrieving specific information
 search_context = create_search_prompt()
 print(search_context)
 
+# The printed text will be used for the LLM agent as prompt.
 print("""## 🛠️ Available Utility Functions
 
 **IMPORTANT**: Call these functions directly - NO `await`, NO `api.` prefix, NO keyword arguments!
@@ -382,9 +475,8 @@ print("""## 🛠️ Available Utility Functions
 - `read_website_page_details(page_id)` → `WebsitePageDetail(id, url, title, description, keywords, content_preview, headings, page_type)` or `None`
 The returned objects are pydantic models, so you can access the attributes directly. For example: tech_details.name, node_details.country['name'], etc.
 
-### Search Helper Functions
-- `find_nodes_by_technique(technique_keywords)` → `List[str]` (node IDs)
-- `find_website_pages_by_keywords(keywords)` → `List[str]` (page IDs)
+### Search Functions
+- `fulltext_search(query, k=5)` → `List[Dict]` (full-text search across all content types)
 - `get_country_codes()` → `Dict[str, str]` (country_name → ISO_code)
 
 
@@ -409,11 +501,11 @@ for node in german_nodes:
     print(f"Node: {node.name}")
     print(f"Technologies: {len(node.offer_technology_ids)} available")
 
-# CORRECT: Find nodes by technique
-node_ids = find_nodes_by_technique(["microscopy", "imaging"])
-for node_id in node_ids:
-    details = read_node_details(node_id)
-    print(f"Node: {details.name} in {details.country['name']}")
+# CORRECT: Full-text search across all content
+results = fulltext_search("super resolution microscopy", k=5)
+for result in results:
+    print(f"Score: {result['score']:.2f} - Type: {result['type']} - Name: {result['name']}")
+    print(f"Description: {result['description']}")
 ```
 
 ## ❌ WRONG Function Call Examples
@@ -480,13 +572,29 @@ for node in country_nodes:
 
 **For General Information:**
 ```python
-# Find relevant website pages
-page_ids = find_website_pages_by_keywords(["access", "services"])
-for page_id in page_ids:
-    page_details = read_website_page_details(page_id)
-    print(f"Page: {page_details.title}")
-    print(f"URL: {page_details.url}")
-    print(f"Description: {page_details.description}")
+# Use full-text search to find relevant content
+results = fulltext_search("access services application", k=5)
+for result in results:
+    if result['type'] == 'page':
+        page_details = read_website_page_details(result['id'])
+        print(f"Page: {page_details.title}")
+        print(f"URL: {page_details.url}")
+        print(f"Description: {page_details.description}")
+```
+
+**For Technology Search:**
+```python
+# Example: "Find super-resolution microscopy techniques"
+results = fulltext_search("super resolution microscopy", k=3)
+for result in results:
+    if result['type'] == 'tech':
+        print(f"Technology: {result['name']} (Score: {result['score']:.2f})")
+        print(f"Description: {result['description']}")
+        # Get provider nodes if needed
+        tech_details = read_tech_details(result['id'])
+        for node_id in tech_details.provider_node_ids:
+            node_details = read_node_details(node_id)
+            print(f"  Available at: {node_details.name} in {node_details.country['name']}")
 ```
 
 ### 4. **Be Focused and Efficient**
@@ -512,13 +620,14 @@ for page_id in page_ids:
 3. For each technology at the nodes, use `read_tech_details()` to understand capabilities
 
 **Technology Query**: "Where can I access super-resolution microscopy?"
-1. Use `find_nodes_by_technique(["super-resolution", "microscopy"])` to find relevant nodes
-2. Use `read_node_details()` for each node to get contact information
-3. Use `read_tech_details()` to understand specific capabilities
+1. Use `fulltext_search("super resolution microscopy", k=3)` to find relevant technologies and nodes
+2. Filter results by type to focus on technologies and nodes
+3. Use `read_tech_details()` and `read_node_details()` to get detailed information
 
 **General Information**: "How do I access Euro-BioImaging services?"
-1. Use `find_website_pages_by_keywords(["access", "services", "application"])` to find relevant pages
-2. Use `read_website_page_details()` for each page to get detailed information
+1. Use `fulltext_search("access services application procedures", k=3)` to find relevant content
+2. Filter results for website pages that contain access information
+3. Use `read_website_page_details()` for each relevant page to get detailed information
 
 ## 🎯 Response Quality Guidelines
 0. When generating the thoughts, limit each thought to 5 words maximum.
