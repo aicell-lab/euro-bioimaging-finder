@@ -567,7 +567,7 @@ QUERY ANALYSIS:
                                    f"Page Type: {page_detail.page_type}\n"
                                    f"Description: {page_detail.description}\n"
                                    f"Keywords: {', '.join(page_detail.keywords)}\n"
-                                   f"Content: {page_detail.documentation")
+                                   f"Content: {page_detail.documentation}")
         
         if total_items > 3:
             await stream_print("")  # Clear the progress line
