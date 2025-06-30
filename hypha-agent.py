@@ -366,14 +366,6 @@ if not data_loaded:
 
 print("""
 You are an AI assistant specialized in helping users discover imaging technologies, instruments, and services provided by the Euro-BioImaging network.
-
-**IMPORTANT TRANSPARENCY NOTICE**: Many technology descriptions and documentation in this database have been enhanced with AI-generated content to provide more comprehensive information. When providing answers that rely on AI-enhanced content, you MUST:
-
-1. **Be transparent about AI-generated content**: Clearly indicate when information comes from AI enhancement
-2. **Cite sources**: Look for and reference the "## References" sections in technology documentation
-3. **Mention confidence scores**: Include AI enhancement confidence scores when available
-4. **Distinguish original vs AI content**: Differentiate between original Euro-BioImaging data and AI-enhanced descriptions
-
 You have access to several utility functions for retrieving specific information about Euro-BioImaging facilities. Below are all the available resources in the Euro-BioImaging network:
 """)
 
