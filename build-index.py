@@ -18,6 +18,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import bm25s
 import pickle
+from research_agent import enrich_description
 
 # Load environment variables
 load_dotenv()
@@ -39,7 +40,6 @@ class PageEvaluation(BaseModel):
     keep_page: bool
     reason: str
     summary: str = ""
-    keywords: List[str] = []
 
 class EuroBioImagingWebscraper:
     def __init__(self, base_url: str = "https://www.eurobioimaging.eu", output_dir: str = "eubio_website"):
@@ -326,7 +326,7 @@ class EuroBioImagingWebscraper:
             content_to_evaluate = page_data.get('main_content', '')[:3000]  # Limit input length
             
             if not content_to_evaluate.strip():
-                return {"keep_page": False, "reason": "No meaningful content", "summary": "", "keywords": []}
+                return {"keep_page": False, "reason": "No meaningful content", "summary": ""}
             
             prompt = f"""
             Evaluate webpage for LLM search index table of contents. Pack maximum critical info to differentiate content.
@@ -341,7 +341,6 @@ class EuroBioImagingWebscraper:
             1. keep_page: true/false
             2. reason: Brief explanation (one sentence)
             3. summary: If keeping, concise description (max 100 chars, title excluded, pack critical info)
-            4. keywords: If keeping, 8-12 search keywords
             
             Title: {page_data.get('title', 'N/A')}
             Content: {content_to_evaluate}
@@ -372,8 +371,7 @@ class EuroBioImagingWebscraper:
             return {
                 "keep_page": result.keep_page,
                 "reason": result.reason,
-                "summary": result.summary if result.keep_page else "",
-                "keywords": result.keywords if result.keep_page else []
+                "summary": result.summary if result.keep_page else ""
             }
             
         except Exception as e:
@@ -382,8 +380,7 @@ class EuroBioImagingWebscraper:
             return {
                 "keep_page": True,
                 "reason": "Evaluation failed - keeping by default",
-                "summary": page_data.get('meta_description', 'No summary available'),
-                "keywords": []
+                "summary": page_data.get('meta_description', 'No summary available')
             }
 
     async def crawl_website(self, max_pages: int = 50, delay: float = 1.0):
@@ -429,7 +426,6 @@ class EuroBioImagingWebscraper:
                     
                     if evaluation["keep_page"]:
                         page_data['ai_summary'] = evaluation["summary"]
-                        page_data['ai_keywords'] = evaluation["keywords"]
                         page_data['evaluation_reason'] = evaluation["reason"]
                         self.pages_data.append(page_data)
                         self.pages_kept += 1
@@ -518,8 +514,12 @@ def convert_html_to_markdown(html_content: str) -> str:
     
     return '\n'.join(cleaned_lines)
 
-async def generate_summary_and_keywords(name: str, description: str) -> tuple:
-    """Generate AI summary and keywords for an entry using structured output"""
+class SummaryOnly(BaseModel):
+    """Structured response for summary generation only"""
+    summary: str
+
+async def generate_summary_only(name: str, description: str) -> str:
+    """Generate AI summary for nodes and website pages using structured output"""
     try:
         prompt = f"""
         Create an index entry for LLM search table of contents. Pack maximum critical info to differentiate from other entries.
@@ -532,7 +532,6 @@ async def generate_summary_and_keywords(name: str, description: str) -> tuple:
         
         Provide:
         1. Concise description (max 80 chars, name excluded, pack critical differentiating info)
-        2. 8-12 keywords for comprehensive search coverage
         
         Name: {name}
         Full description: {description[:800]}
@@ -550,20 +549,18 @@ async def generate_summary_and_keywords(name: str, description: str) -> tuple:
         response = await client.beta.chat.completions.parse(
             model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
-            response_format=SummaryAndKeywords,
+            response_format=SummaryOnly,
             max_tokens=200,
             temperature=0.3
         )
         
         result = response.choices[0].message.parsed
-        return result.summary, result.keywords
+        return result.summary
     
     except Exception as e:
         print(f"Error generating summary for {name}: {e}")
         # Fallback to simple extraction
-        simple_summary = description[:150] + "..." if len(description) > 150 else description
-        simple_keywords = [name.lower()]
-        return simple_summary, simple_keywords
+        return description[:150] + "..." if len(description) > 150 else description
 
 def build_tech_to_nodes_mapping(nodes_data: List[Dict]) -> Dict[str, List[str]]:
     """Build a mapping of technology IDs to node IDs that offer them"""
@@ -581,7 +578,7 @@ def build_tech_to_nodes_mapping(nodes_data: List[Dict]) -> Dict[str, List[str]]:
     return tech_to_nodes
 
 async def process_tech_data(tech_data: List[Dict], tech_to_nodes: Dict[str, List[str]]) -> tuple[List[Dict], Dict[str, str]]:
-    """Process technology data and generate indexed entries"""
+    """Process technology data and generate indexed entries using research agent"""
     indexed_tech = []
     
     # Create mapping from original_id to short_id for technologies
@@ -590,21 +587,92 @@ async def process_tech_data(tech_data: List[Dict], tech_to_nodes: Dict[str, List
         short_id = generate_short_uuid()
         tech_id_mapping[tech['id']] = short_id
     
-    print(f"Processing {len(tech_data)} technology entries...")
+    print(f"Processing {len(tech_data)} technology entries with research agent...")
     
     for i, tech in enumerate(tech_data, 1):
         print(f"Processing tech {i}/{len(tech_data)}: {tech.get('name', 'Unnamed')}")
         
-        # Generate AI summary and keywords
         name = tech.get('name', '')
-        description_text = get_description_text(tech)
+        original_description = tech.get('description', '')
+        original_long_description = tech.get('long_description', '')
+        
+        # Prepare tech for enrichment - force enrichment by making description short
+        tech_for_enrichment = {
+            'name': name,
+            'description': original_description,
+            'long_description': ''  # Force enrichment
+        }
         
         try:
-            summary, keywords = await generate_summary_and_keywords(name, description_text)
+            # Use research agent to enrich the technology
+            enriched_tech = await enrich_description(tech_for_enrichment, "technology")
+            
+            # Check enrichment status
+            enrichment_meta = enriched_tech.get('enrichment_metadata', {})
+            
+            if not enriched_tech:
+                # Enrichment failed completely
+                print(f"  ⚠️  Enrichment failed for {name}, using original content")
+                ai_description = original_description
+                ai_documentation = ''
+                enrichment_meta = {'enriched': False}
+            elif enrichment_meta.get('skipped_reason') == 'sufficient_description':
+                # Enrichment was skipped because description was already sufficient
+                print(f"  📝 Description sufficient for {name}, no enhancement needed")
+                ai_description = enriched_tech.get('description', original_description) or original_description
+                ai_documentation = ''
+            elif enrichment_meta.get('enriched', False):
+                # Enrichment was successful
+                ai_description = enriched_tech.get('description', original_description) or original_description
+                ai_documentation = enriched_tech.get('long_description', '') or ''
+            else:
+                # Enrichment failed or returned without proper metadata
+                print(f"  ⚠️  Enrichment failed for {name}, using original content")
+                ai_description = original_description
+                ai_documentation = ''
+                enrichment_meta = {'enriched': False}
+            
+            # Build the final documentation with proper structure
+            final_documentation = ""
+            
+            # Add original long description if it exists
+            if original_long_description and original_long_description.strip():
+                final_documentation += convert_html_to_markdown(original_long_description)
+                final_documentation += "\n\n"
+            
+            # Only add AI sections if enrichment was actually performed (not skipped)
+            if enrichment_meta.get('enriched', False):
+                # Add AI Generated Documentation section
+                if ai_documentation and ai_documentation.strip():
+                    final_documentation += "## AI Generated Documentation\n\n"
+                    final_documentation += ai_documentation
+                    final_documentation += "\n\n"
+                
+                # Add References section
+                sources = enrichment_meta.get('sources_used', [])
+                if sources:
+                    final_documentation += "## References\n\n"
+                    for i, source in enumerate(sources, 1):
+                        final_documentation += f"{i}. {source}\n"
+                    final_documentation += "\n"
+                
+                # Add confidence score
+                confidence = enrichment_meta.get('confidence_score', 0.0)
+                final_documentation += f"**AI Enhancement Confidence Score:** {confidence:.2f}\n"
+                
+                print(f"  ✅ Enhanced with confidence {confidence:.2f}, sources: {len(sources)}")
+            elif enrichment_meta.get('skipped_reason') == 'sufficient_description':
+                # Don't print anything here - already printed above
+                pass
+            else:
+                print(f"  📝 Using original content only")
+            
         except Exception as e:
-            print(f"Warning: Failed to generate AI content for {name}: {e}")
-            summary = description_text[:150] + "..." if len(description_text) > 150 else description_text
-            keywords = []
+            print(f"  ⚠️  Enhancement failed for {name}, using original content")
+            logger.warning(f"Enhancement failed for {name}: {e}")
+            # Fallback to original content with safe defaults
+            ai_description = original_description or ""
+            final_documentation = convert_html_to_markdown(get_description_text(tech)) or ""
         
         # Convert provider_node_ids to use short node IDs (we'll need to create a node mapping)
         provider_node_ids_original = tech_to_nodes.get(tech['id'], [])
@@ -615,9 +683,8 @@ async def process_tech_data(tech_data: List[Dict], tech_to_nodes: Dict[str, List
             'id': short_id,
             'name': name,
             'original_id': tech['id'],
-            'description': summary,
-            'keywords': keywords,
-            'documentation': convert_html_to_markdown(get_description_text(tech)),
+            'description': ai_description,  # Use AI-generated concise description
+            'documentation': final_documentation,  # Use enhanced documentation
             'provider_node_ids': provider_node_ids_original,  # Will be converted to short IDs later
             # Preserve essential original fields
             'abbr': tech.get('abbr', ''),
@@ -643,16 +710,15 @@ async def process_nodes_data(nodes_data: List[Dict]) -> tuple[List[Dict], Dict[s
     for i, node in enumerate(nodes_data, 1):
         print(f"Processing node {i}/{len(nodes_data)}: {node.get('name', 'Unnamed')}")
         
-        # Generate AI summary and keywords
+        # Generate AI summary only (no keywords for nodes)
         name = node.get('name', '')
         description_text = get_description_text(node)
         
         try:
-            summary, keywords = await generate_summary_and_keywords(name, description_text)
+            summary = await generate_summary_only(name, description_text)
         except Exception as e:
             print(f"Warning: Failed to generate AI content for {name}: {e}")
             summary = description_text[:150] + "..." if len(description_text) > 150 else description_text
-            keywords = []
         
         # Convert offer_technology_ids list to use short tech IDs (will be done later)
         offer_technology_ids_original = node.get('technologies', [])
@@ -664,7 +730,6 @@ async def process_nodes_data(nodes_data: List[Dict]) -> tuple[List[Dict], Dict[s
             'name': name,
             'original_id': node['id'],
             'description': summary,
-            'keywords': keywords,
             'documentation': convert_html_to_markdown(get_description_text(node)),
             'offer_technology_ids': offer_technology_ids_original,  # Will be converted to short IDs later
             # Preserve essential original fields
@@ -691,9 +756,8 @@ async def process_website_data(max_pages: int = 50, delay: float = 1.0, output_d
         simplified_page = {
             'id': page['id'],
             'url': page['url'],
-            'title': page['title'],
+                        'title': page['title'],
             'description': page.get('ai_summary', page.get('meta_description', '')),
-            'keywords': page.get('ai_keywords', []),
             'documentation': page['main_content'] if page['main_content'] else '',
             'headings': [h['text'] for h in page.get('headings', [])],
             'page_type': scraper.classify_page_type(page)
@@ -743,27 +807,27 @@ def build_bm25_index(tech_data: List[Dict], nodes_data: List[Dict], website_data
     corpus = []
     metadata = []
     
-    # Add technologies
+    # Add technologies (no keywords for technologies anymore)
     for tech in tech_data:
-        doc = f"{tech.get('name', '')} {tech.get('description', '')} {tech.get('documentation', '')} {' '.join(tech.get('keywords', []))}"
+        doc = f"{tech.get('name', '')} {tech.get('description', '')} {tech.get('documentation', '')}"
         corpus.append(doc)
         metadata.append({
             'type': 'tech',
             'id': tech['id']
         })
     
-    # Add nodes
+    # Add nodes (no keywords for nodes either)
     for node in nodes_data:
-        doc = f"{node.get('name', '')} {node.get('description', '')} {node.get('documentation', '')} {' '.join(node.get('keywords', []))} {node.get('country', {}).get('name', '')}"
+        doc = f"{node.get('name', '')} {node.get('description', '')} {node.get('documentation', '')} {node.get('country', {}).get('name', '')}"
         corpus.append(doc)
         metadata.append({
             'type': 'node',
             'id': node['id']
         })
     
-    # Add website pages
+    # Add website pages (no keywords - only title, description, documentation, and headings)
     for page in website_data:
-        doc = f"{page.get('title', '')} {page.get('description', '')} {page.get('documentation', '')} {' '.join(page.get('keywords', []))} {' '.join(page.get('headings', []))}"
+        doc = f"{page.get('title', '')} {page.get('description', '')} {page.get('documentation', '')} {' '.join(page.get('headings', []))}"
         corpus.append(doc)
         metadata.append({
             'type': 'page',
@@ -813,24 +877,37 @@ async def main():
     print(f"📊 Dataset: {'Test (10 items)' if args.test else 'Full dataset'}")
     print("="*60)
     
-    # Load the JSON data
-    print("📖 Loading JSON data...")
+    # Fetch the JSON data from APIs
+    print("📖 Fetching data from APIs...")
     
-    try:
-        with open('eubio-tech.json', 'r', encoding='utf-8') as f:
-            tech_data = json.load(f)
-        print(f"  ✅ Loaded {len(tech_data)} technologies")
-    except FileNotFoundError:
-        print("  ❌ eubio-tech.json not found")
-        tech_data = []
-    
-    try:
-        with open('eubio-nodes.json', 'r', encoding='utf-8') as f:
-            nodes_data = json.load(f)
-        print(f"  ✅ Loaded {len(nodes_data)} nodes")
-    except FileNotFoundError:
-        print("  ❌ eubio-nodes.json not found")
-        nodes_data = []
+    async with aiohttp.ClientSession() as session:
+        # Fetch technologies data
+        try:
+            print("  🔬 Fetching technologies from API...")
+            async with session.get('https://eb-api.aashvi.net/v1/technologies/?format=json') as response:
+                if response.status == 200:
+                    tech_data = await response.json()
+                    print(f"  ✅ Loaded {len(tech_data)} technologies from API")
+                else:
+                    print(f"  ❌ Failed to fetch technologies: HTTP {response.status}")
+                    tech_data = []
+        except Exception as e:
+            print(f"  ❌ Error fetching technologies: {e}")
+            tech_data = []
+        
+        # Fetch nodes data
+        try:
+            print("  🏢 Fetching nodes from API...")
+            async with session.get('https://eb-api.aashvi.net/v1/nodes/?format=json') as response:
+                if response.status == 200:
+                    nodes_data = await response.json()
+                    print(f"  ✅ Loaded {len(nodes_data)} nodes from API")
+                else:
+                    print(f"  ❌ Failed to fetch nodes: HTTP {response.status}")
+                    nodes_data = []
+        except Exception as e:
+            print(f"  ❌ Error fetching nodes: {e}")
+            nodes_data = []
     
     # Use test or production data based on argument
     if args.test:
@@ -970,9 +1047,9 @@ async def main():
         print(f"  🆔 ID: {sample_tech['id']} (was {sample_tech['original_id'][:8]}...)")
         print(f"  📛 Name: {sample_tech['name']}")
         print(f"  📄 Description: {sample_tech['description']}")
-        print(f"  🏷️  Keywords: {sample_tech['keywords']}")
         print(f"  🏢 Available in {len(sample_tech['provider_node_ids'])} nodes: {sample_tech['provider_node_ids']}")
         print(f"  📂 Category: {sample_tech['category'].get('name', 'N/A')}")
+        print(f"  🤖 AI-Enhanced: Yes")
     
     print(f"\n🏢 Sample node entry:")
     if nodes_index:
@@ -980,7 +1057,6 @@ async def main():
         print(f"  🆔 ID: {sample_node['id']} (was {sample_node['original_id'][:8]}...)")
         print(f"  📛 Name: {sample_node['name']}")
         print(f"  📄 Description: {sample_node['description']}")
-        print(f"  🏷️  Keywords: {sample_node['keywords']}")
         print(f"  🌍 Country: {sample_node['country'].get('name', 'N/A')}")
         print(f"  🔧 Technologies: {len(sample_node['offer_technology_ids'])} - {sample_node['offer_technology_ids'][:5]}{'...' if len(sample_node['offer_technology_ids']) > 5 else ''}")
     
@@ -990,7 +1066,7 @@ async def main():
         print(f"  🆔 ID: {sample_page['id']}")
         print(f"  📛 Title: {sample_page['title']}")
         print(f"  📄 Description: {sample_page['description']}")
-        print(f"  🏷️  Keywords: {sample_page['keywords']}")
+        print(f"  📑 Documentation length: {len(sample_page.get('documentation', ''))}")
         print(f"  🔗 URL: {sample_page['url']}")
         print(f"  📂 Page Type: {sample_page['page_type']}")
 

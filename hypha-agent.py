@@ -16,7 +16,6 @@ class TechDetail(BaseModel):
     name: str
     original_id: str
     description: str
-    keywords: List[str]
     documentation: str
     category: Dict[str, Any]
     provider_node_ids: List[str]
@@ -28,7 +27,6 @@ class NodeDetail(BaseModel):
     name: str
     original_id: str
     description: str
-    keywords: List[str]
     documentation: str
     country: Dict[str, Any]
     offer_technology_ids: List[str]
@@ -39,7 +37,6 @@ class WebsitePageDetail(BaseModel):
     url: str
     title: str
     description: str
-    keywords: List[str]
     documentation: str
     headings: List[str]
     page_type: str
@@ -215,7 +212,6 @@ def find_nodes_by_technique(technique_keywords: List[str]):
     # Search through all technologies to find matches
     for tech in tech_data:
         tech_name = tech.get('name', '').lower()
-        tech_keywords = [kw.lower() for kw in tech.get('keywords', [])]
         tech_category = tech.get('category', {}).get('name', '').lower()
         tech_abbr = tech.get('abbr', '').lower()
         tech_description = tech.get('documentation', '').lower()
@@ -235,9 +231,6 @@ def find_nodes_by_technique(technique_keywords: List[str]):
             elif keyword_lower in tech_category:
                 match_score += 3
                 matched_keywords += 1
-            elif any(keyword_lower in kw or kw in keyword_lower for kw in tech_keywords):
-                match_score += 2
-                matched_keywords += 1
             elif keyword_lower in tech_description:
                 match_score += 1
                 matched_keywords += 1
@@ -247,48 +240,48 @@ def find_nodes_by_technique(technique_keywords: List[str]):
     
     return list(matching_node_ids)
 
-def find_website_pages_by_keywords(keywords: List[str]):
+def find_website_pages_by_terms(search_terms: List[str]):
     """
-    Find website page IDs that match the given keywords with relevance scoring.
+    Find website page IDs that match the given search terms with relevance scoring.
     
     Parameters:
-    - keywords (List[str]): List of keywords to search for
+    - search_terms (List[str]): List of search terms to find in pages
     
     Returns:
-    - List[str]: List of website page IDs matching the keywords
+    - List[str]: List of website page IDs matching the search terms
     """
     page_scores = []
     
     for page in website_data:
         page_title = page.get('title', '').lower()
         page_description = page.get('description', '').lower()
-        page_keywords = [kw.lower() for kw in page.get('keywords', [])]
         page_content = page.get('documentation', '').lower()
         page_type = page.get('page_type', '').lower()
+        page_headings = ' '.join(page.get('headings', [])).lower()
         
         score = 0
-        matched_keywords = 0
+        matched_terms = 0
         
-        for keyword in keywords:
-            keyword_lower = keyword.lower()
-            if keyword_lower in page_title:
+        for term in search_terms:
+            term_lower = term.lower()
+            if term_lower in page_title:
                 score += 5
-                matched_keywords += 1
-            elif keyword_lower in page_description:
+                matched_terms += 1
+            elif term_lower in page_description:
                 score += 3
-                matched_keywords += 1
-            elif any(keyword_lower in kw for kw in page_keywords):
+                matched_terms += 1
+            elif term_lower in page_headings:
                 score += 2
-                matched_keywords += 1
-            elif keyword_lower in page_content:
+                matched_terms += 1
+            elif term_lower in page_content:
                 score += 1
-                matched_keywords += 1
+                matched_terms += 1
         
         if 'about' in page_type or 'service' in page_type or 'access' in page_type:
             score += 2
         
-        if matched_keywords > 0 and score >= 2:
-            page_scores.append((page['id'], score, matched_keywords))
+        if matched_terms > 0 and score >= 2:
+            page_scores.append((page['id'], score, matched_terms))
     
     page_scores.sort(key=lambda x: (x[1], x[2]), reverse=True)
     return [page_id for page_id, _, _ in page_scores[:10]]
@@ -476,10 +469,10 @@ print("""## 🛠️ Available Utility Functions
 **IMPORTANT**: Call these functions directly - NO `await`, NO `api.` prefix, NO keyword arguments!
 
 ### Detail Retrieval Functions
-- `read_tech_details(tech_id)` → `TechDetail(id, name, original_id, description, keywords, documentation, category, provider_node_ids, abbr)` or `None`
-- `read_node_details(node_id)` → `NodeDetail(id, name, original_id, description, keywords, documentation, country, offer_technology_ids)` or `None`  
-- `read_nodes_by_country(country_code)` → `List[NodeDetail(id, name, original_id, description, keywords, documentation, country, offer_technology_ids)]`
-- `read_website_page_details(page_id)` → `WebsitePageDetail(id, url, title, description, keywords, documentation, headings, page_type)` or `None`
+- `read_tech_details(tech_id)` → `TechDetail(id, name, original_id, description, documentation, category, provider_node_ids, abbr)` or `None`
+- `read_node_details(node_id)` → `NodeDetail(id, name, original_id, description, documentation, country, offer_technology_ids)` or `None`  
+- `read_nodes_by_country(country_code)` → `List[NodeDetail(id, name, original_id, description, documentation, country, offer_technology_ids)]`
+- `read_website_page_details(page_id)` → `WebsitePageDetail(id, url, title, description, documentation, headings, page_type)` or `None`
 The returned objects are pydantic models, so you can access the attributes directly. For example: tech_details.name, node_details.country['name'], etc.
 
 ### Search Functions
