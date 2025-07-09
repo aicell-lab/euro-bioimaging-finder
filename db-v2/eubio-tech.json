@@ -1,0 +1,2369 @@
+[
+  {
+    "id": "660fd1fc-a138-5740-b298-14b0c3b24fb9",
+    "name": "*in vivo* Optical Imaging",
+    "description": "Bioimaging technology: *in vivo* Optical Imaging",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "d793e58b-cbbb-547f-be43-d09ef0f7e6a0",
+    "name": "*in vivo* Optical Imaging (OI)",
+    "description": "Bioimaging technology: *in vivo* Optical Imaging (OI)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "c4513215-6e05-5572-b283-b3b84991a5e1",
+    "name": "3D Scanning Electron Microscopy (SEM) of plastic embedded samples",
+    "description": "Bioimaging technology: 3D Scanning Electron Microscopy (SEM) of plastic embedded samples",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "0c6d1598-fcbe-5acf-80b8-f043e7b8aa98",
+    "name": "3D-CLEM",
+    "description": "Bioimaging technology: 3D-CLEM",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "c96f5737-f9c9-5f82-a307-c0a4bf936ae6",
+    "name": "4PI",
+    "description": "Bioimaging technology: 4PI",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "6b9f7c91-c4b1-564e-9ed9-2866eb6d4585",
+    "name": "Anisotropy/Polarization Microscopy",
+    "description": "Bioimaging technology: Anisotropy/Polarization Microscopy",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "6ac76c58-11df-5f7f-a04f-637dd8095f22",
+    "name": "Anisotropy/Polarization Microscopy (PM)",
+    "description": "Bioimaging technology: Anisotropy/Polarization Microscopy (PM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "d8b0f66a-e079-5fe7-91f4-e4ab0fe69021",
+    "name": "Array Tomography",
+    "description": "Bioimaging technology: Array Tomography",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "9252738d-848d-5eb3-a621-34ac997b7577",
+    "name": "Atomic Force Microscopy (AFM)",
+    "description": "Bioimaging technology: Atomic Force Microscopy (AFM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "5e9c1e44-05a7-5e8e-9420-1ca9396e32e1",
+    "name": "Brillouin Scattering Microscopy (BSM)",
+    "description": "Bioimaging technology: Brillouin Scattering Microscopy (BSM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "9ddaa6d5-60cb-5868-a015-f48db18f52c9",
+    "name": "CLEM from live cells to plastic sections (\"live\" CLEM)",
+    "description": "Bioimaging technology: CLEM from live cells to plastic sections (\"live\" CLEM)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "e7a4a80e-3737-5527-8f6b-ca13e8cac1b3",
+    "name": "Coherent Anti-Stokes Raman Scattering Microscopy (CARS)",
+    "description": "Bioimaging technology: Coherent Anti-Stokes Raman Scattering Microscopy (CARS)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "2691bcfd-90a0-5e82-8c80-f49c84416f4e",
+    "name": "Coherent Anti-Stokes Raman Scattering microscopy* (CARS)",
+    "description": "Bioimaging technology: Coherent Anti-Stokes Raman Scattering microscopy* (CARS)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "4287fe8d-cd74-58e2-92d6-b50c8263d333",
+    "name": "Coherent Anti-stokes Raman Scattering (CARS)",
+    "description": "Bioimaging technology: Coherent Anti-stokes Raman Scattering (CARS)",
+    "category": {
+      "name": "Spectroscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "5d5b55fe-741d-55b6-8915-97756f4f8803",
+    "name": "Coherent Raman Anti-Stokes Scattering Microscopy (CARS)",
+    "description": "Bioimaging technology: Coherent Raman Anti-Stokes Scattering Microscopy (CARS)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "b7c3135f-96da-5bd9-8385-99a6f2493324",
+    "name": "Correlated Optical Coherence Tomography/Photoacoustic Tomography (OCT/PAT)",
+    "description": "Bioimaging technology: Correlated Optical Coherence Tomography/Photoacoustic Tomography (OCT/PAT)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "f78ebd7d-5c7b-5daf-b1cc-faa4a0c96d6c",
+    "name": "Cryo Electron Tomography (Cryo-ET)",
+    "description": "Bioimaging technology: Cryo Electron Tomography (Cryo-ET)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "dc1edbe3-8756-517f-9476-c3bedc8a0751",
+    "name": "Cryo Electron Tomography (CryoET)",
+    "description": "Bioimaging technology: Cryo Electron Tomography (CryoET)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "11f36913-1cc2-5ca3-97fb-39c797ab2c1e",
+    "name": "Cryo Focused Ion Beam (Cryo-FIB)",
+    "description": "Bioimaging technology: Cryo Focused Ion Beam (Cryo-FIB)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "41a61b89-8765-59ce-9890-e8a04f9c9600",
+    "name": "Cryo Scanning Electron Microscopy (Cryo-SEM)",
+    "description": "Bioimaging technology: Cryo Scanning Electron Microscopy (Cryo-SEM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "218c2af6-5294-5dc1-9b45-4e4153f373bb",
+    "name": "Cryo TEM",
+    "description": "Bioimaging technology: Cryo TEM",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "3914feff-9b67-5a32-8d38-3b057196a52f",
+    "name": "Cryo Transmission Electron Microscopy (Cryo-TEM)",
+    "description": "Bioimaging technology: Cryo Transmission Electron Microscopy (Cryo-TEM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "2d2e7d55-c1c7-55d8-8f95-09de3b219f20",
+    "name": "Cryo Transmission Electron Microscopy (Cryo-TEM)*",
+    "description": "Bioimaging technology: Cryo Transmission Electron Microscopy (Cryo-TEM)*",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "a82675cc-91c9-5330-be86-b651615bb398",
+    "name": "Cryo Transmission Electron Microscopy (Cryo‑TEM)",
+    "description": "Bioimaging technology: Cryo Transmission Electron Microscopy (Cryo‑TEM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "97c0f872-3502-558e-be41-706d83d46065",
+    "name": "Cryo-CLEM",
+    "description": "Bioimaging technology: Cryo-CLEM",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "f072b3f5-6533-5b40-ae74-5cd25965efb5",
+    "name": "Deconvolution Widefield Microscopy (DWM)",
+    "description": "Bioimaging technology: Deconvolution Widefield Microscopy (DWM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "7a2d8ff8-5a7d-5f4b-811e-a6bfc12a1ced",
+    "name": "Deconvolution widefield microscopy (DWM)",
+    "description": "Bioimaging technology: Deconvolution widefield microscopy (DWM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "e24952fa-6890-5839-883c-bf99230e9cf7",
+    "name": "EDX-CLEM (Correlative EDX and SEM)",
+    "description": "Bioimaging technology: EDX-CLEM (Correlative EDX and SEM)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "2c84ee1e-1842-5fbc-bfb8-170cebdbd0e2",
+    "name": "EM Tomography",
+    "description": "Bioimaging technology: EM Tomography",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "0b67f5c8-32d7-585c-a3d8-6d7157a79355",
+    "name": "EM Tomography (ET)",
+    "description": "Bioimaging technology: EM Tomography (ET)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "b998b5c8-b2e0-5bb2-8072-df2b33b7685d",
+    "name": "EM tomography (ET)",
+    "description": "Bioimaging technology: EM tomography (ET)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "eefd77e7-6689-563b-8297-8c1c8be248f6",
+    "name": "Electron Tomography (ET)",
+    "description": "Bioimaging technology: Electron Tomography (ET)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "76ad9212-fa2b-5484-8041-d1c2b33009b2",
+    "name": "Elemental Analysis",
+    "description": "Bioimaging technology: Elemental Analysis",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "bbecf36e-23de-5290-a000-9abf8a8916f8",
+    "name": "Elemental Analysis including EDS in TEM (STEM)",
+    "description": "Bioimaging technology: Elemental Analysis including EDS in TEM (STEM)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "1462b379-a2d3-5702-a57e-e26089427835",
+    "name": "Ex-vivo micro-CT",
+    "description": "Bioimaging technology: Ex-vivo micro-CT",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "b49f5a49-b2b3-5b88-a66a-77e9dd671213",
+    "name": "Expansion Microscopy",
+    "description": "Bioimaging technology: Expansion Microscopy",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "9ab161c5-7f93-5a0f-8299-ce406931eb89",
+    "name": "FIB-SEM",
+    "description": "Bioimaging technology: FIB-SEM",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "697537cd-82ef-5435-ae71-7e39a559362b",
+    "name": "FLIM",
+    "description": "Bioimaging technology: FLIM",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "7d817dc7-dc91-5d3c-a69b-b5fda3be1296",
+    "name": "FRAP",
+    "description": "Bioimaging technology: FRAP",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "015fbe73-9542-575a-a0b2-a3452c754122",
+    "name": "FRET",
+    "description": "Bioimaging technology: FRET",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "b6233e8f-4a4d-572c-85e7-cd30d6386b59",
+    "name": "Feedback Microscopy",
+    "description": "Bioimaging technology: Feedback Microscopy",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "73615953-758c-53ee-8cb8-ec6a26419f9e",
+    "name": "Fluorescence (Cross)-Correlation Spectroscopy (FCS/FCCS)",
+    "description": "Bioimaging technology: Fluorescence (Cross)-Correlation Spectroscopy (FCS/FCCS)",
+    "category": {
+      "name": "Spectroscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "ba0842c9-f3c0-5357-8a2b-85df6786726e",
+    "name": "Fluorescence (cross)-Correlation Spectroscopy (FCS/FCCS)",
+    "description": "Bioimaging technology: Fluorescence (cross)-Correlation Spectroscopy (FCS/FCCS)",
+    "category": {
+      "name": "Spectroscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "b42a9e84-719d-5aff-b22c-7f30cdeb3f7e",
+    "name": "Fluorescence (cross)-correlation spectroscopy (FCS/FCCS)",
+    "description": "Bioimaging technology: Fluorescence (cross)-correlation spectroscopy (FCS/FCCS)",
+    "category": {
+      "name": "Spectroscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "7693abd0-bfc8-5105-bdcc-4abc734a1083",
+    "name": "Fluorescence Lifetime Imaging (FLIM)",
+    "description": "Bioimaging technology: Fluorescence Lifetime Imaging (FLIM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "11bf7c96-5008-584e-8cf3-2fc1ede50336",
+    "name": "Fluorescence Lifetime Imaging Microscopy (FLIM)",
+    "description": "Bioimaging technology: Fluorescence Lifetime Imaging Microscopy (FLIM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "cb6f1ccc-5772-5a63-844d-b683ebd8882d",
+    "name": "Fluorescence Recovery After Photobleaching (FRAP)",
+    "description": "Bioimaging technology: Fluorescence Recovery After Photobleaching (FRAP)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "834ec3cc-2ecc-52dd-bf13-00fcf98b7a64",
+    "name": "Fluorescence Resonance Energy Transfer (FRET)",
+    "description": "Bioimaging technology: Fluorescence Resonance Energy Transfer (FRET)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "3b985cac-3b10-5dc5-b017-1c56255f8408",
+    "name": "Fluorescence correlation spectroscopy (FCS)",
+    "description": "Bioimaging technology: Fluorescence correlation spectroscopy (FCS)",
+    "category": {
+      "name": "Spectroscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "a1f0fada-594f-584a-86dd-b09cc6925e20",
+    "name": "Fluorescence cross-correlation spectroscopy (FCCS)",
+    "description": "Bioimaging technology: Fluorescence cross-correlation spectroscopy (FCCS)",
+    "category": {
+      "name": "Spectroscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "34c56303-a1b9-57bf-9cd0-7e9f80c96b2e",
+    "name": "Fluorescence recovery after photobleaching (FRAP)",
+    "description": "Bioimaging technology: Fluorescence recovery after photobleaching (FRAP)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "6b34f13f-4cc7-5c63-b6e5-e7d6d360f8fd",
+    "name": "Fluorescence resonance energy transfer (FRET)",
+    "description": "Bioimaging technology: Fluorescence resonance energy transfer (FRET)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "b4c2ee7a-828d-5ec3-a20c-6513683d6945",
+    "name": "Fluorescence-lifetime imaging microscopy (FLIM)",
+    "description": "Bioimaging technology: Fluorescence-lifetime imaging microscopy (FLIM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "d720f463-dcde-5fe6-910d-382227548d93",
+    "name": "Focused Ion Beam SEM (FIB-SEM)",
+    "description": "Bioimaging technology: Focused Ion Beam SEM (FIB-SEM)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "7b5da8cb-3b04-5366-908f-7cc798ca8fcf",
+    "name": "Focused Ion Beam Scanning Electron Microscopy (FIB-SEM)",
+    "description": "Bioimaging technology: Focused Ion Beam Scanning Electron Microscopy (FIB-SEM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "66d9bdc5-4e6f-5116-b266-84ed2ab95140",
+    "name": "Genetic Encoded EM Probes",
+    "description": "Bioimaging technology: Genetic Encoded EM Probes",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "0b31b673-077d-5267-80a4-429732550d96",
+    "name": "Genetic encoded EM probes",
+    "description": "Bioimaging technology: Genetic encoded EM probes",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "c15548bc-5ab8-5957-acbb-eb424a752b47",
+    "name": "Genetic encoded EM probes (GE probes)",
+    "description": "Bioimaging technology: Genetic encoded EM probes (GE probes)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "223834af-a6bd-5302-b149-ea3b8d420cf5",
+    "name": "Genetic encoded EM probes (e.g. APEX)",
+    "description": "Bioimaging technology: Genetic encoded EM probes (e.g. APEX)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "e5d879db-4d0d-56c5-9472-fbe6f22c968a",
+    "name": "High throughput microscopy/high content screening (HTM/HCS)",
+    "description": "Bioimaging technology: High throughput microscopy/high content screening (HTM/HCS)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "230eaa57-3e4a-538b-9cae-fb17252b6fd1",
+    "name": "High-Speed Imaging",
+    "description": "Bioimaging technology: High-Speed Imaging",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "6287d213-3c9d-5fcc-a017-c912ad66b91a",
+    "name": "High-Throughput Microscopy / High-Content Screening (HTM/HCS)",
+    "description": "Bioimaging technology: High-Throughput Microscopy / High-Content Screening (HTM/HCS)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "ee997f08-d2f0-536a-895b-107b1872c4f3",
+    "name": "High-speed Imaging",
+    "description": "Bioimaging technology: High-speed Imaging",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "19f9af85-e332-5f5b-b3d8-97b99742d3d1",
+    "name": "High-throughput Microscopy (HTM)",
+    "description": "Bioimaging technology: High-throughput Microscopy (HTM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "aef054e8-6c47-5f31-994b-fd3422471dbf",
+    "name": "High-throughput Microscopy / High-content Screening (HTM/HCS)",
+    "description": "Bioimaging technology: High-throughput Microscopy / High-content Screening (HTM/HCS)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "69c0977f-4ffe-548d-9047-25e54deb5888",
+    "name": "High-throughput Microscopy/High-content Screening (HTM/HCS)",
+    "description": "Bioimaging technology: High-throughput Microscopy/High-content Screening (HTM/HCS)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "cf7fea11-3617-5719-b7e8-fddc14083bdc",
+    "name": "High‑Throughput Microscopy / High‑Content Screening (HTM/HCS)",
+    "description": "Bioimaging technology: High‑Throughput Microscopy / High‑Content Screening (HTM/HCS)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "b29567d1-4793-5982-a3e8-8ec97f55f133",
+    "name": "Human MRI/MRS (< 7T)",
+    "description": "Bioimaging technology: Human MRI/MRS (< 7T)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "9814019e-f013-5cce-bad6-26d7768579ad",
+    "name": "Image Analysis - Bio",
+    "description": "Bioimaging technology: Image Analysis - Bio",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "790edc2e-2d12-5c74-8b4a-86fa2687ab4b",
+    "name": "Image Analysis - Med",
+    "description": "Bioimaging technology: Image Analysis - Med",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "7d8c69db-2103-5e14-b4b2-c63ae88e3d72",
+    "name": "Image Analysis - bio",
+    "description": "Bioimaging technology: Image Analysis - bio",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "588ecdd1-9e7f-591b-a880-645c5d75b0a4",
+    "name": "Image Analysis - med",
+    "description": "Bioimaging technology: Image Analysis - med",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "779b54f6-69e0-5a0b-a7ba-02fad8cf6fef",
+    "name": "Image Analysis Med",
+    "description": "Bioimaging technology: Image Analysis Med",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "6286a3ce-0723-515a-a8db-78daf3a68757",
+    "name": "Image Analysis ‑ Bio",
+    "description": "Bioimaging technology: Image Analysis ‑ Bio",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "6c023d98-fa26-56f8-8444-706bd3cae0e9",
+    "name": "Image Analysis – Bio",
+    "description": "Bioimaging technology: Image Analysis – Bio",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "2c678e3e-3f11-52b6-b796-2a9b888f33c9",
+    "name": "Image Analysis-bio (IA-bio)",
+    "description": "Bioimaging technology: Image Analysis-bio (IA-bio)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "c1171bcd-04a1-53b1-b00a-7ba522790188",
+    "name": "Image Analysis-bio *",
+    "description": "Bioimaging technology: Image Analysis-bio *",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "628ad38b-0f78-5310-9d8d-1d27244d596d",
+    "name": "Image Analysis-med *",
+    "description": "Bioimaging technology: Image Analysis-med *",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "6838ab14-7ae6-53e8-bd0d-b548561dc34f",
+    "name": "Image Scanning Microscopy (ISM)",
+    "description": "Bioimaging technology: Image Scanning Microscopy (ISM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "e3c784eb-6d2f-5883-90f0-138ec6bdcba9",
+    "name": "Image Scanning microscopy (ISM)",
+    "description": "Bioimaging technology: Image Scanning microscopy (ISM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "404c83b2-08e0-5678-9534-647666fb802f",
+    "name": "Imaging at Biosafety Level >1",
+    "description": "Bioimaging technology: Imaging at Biosafety Level >1",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "5891969d-15f5-5474-a67d-9600a06d2a32",
+    "name": "Immuno-Gold EM on Resin Sections (Resin-EM)",
+    "description": "Bioimaging technology: Immuno-Gold EM on Resin Sections (Resin-EM)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "6e0b537b-c620-54df-b417-1d6593a3a185",
+    "name": "Immuno-Gold EM on Thawed Cryo-Sections (Tokuyasu-EM)",
+    "description": "Bioimaging technology: Immuno-Gold EM on Thawed Cryo-Sections (Tokuyasu-EM)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "fbc7072f-c89c-5596-8b87-44f6e011a406",
+    "name": "Immuno-electron microscopy (immunogold labeling of Tokuyasu cryosections)",
+    "description": "Bioimaging technology: Immuno-electron microscopy (immunogold labeling of Tokuyasu cryosections)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "db8c566d-ab7d-5857-bdf2-093381a8f7e6",
+    "name": "Immuno-gold EM on resin sections",
+    "description": "Bioimaging technology: Immuno-gold EM on resin sections",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "7d62b3f0-b841-525f-bead-1f1fc81b720b",
+    "name": "Immuno-gold EM on resin sections (resin-EM)",
+    "description": "Bioimaging technology: Immuno-gold EM on resin sections (resin-EM)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "622c7cc3-ed07-583a-b796-eba9136ab844",
+    "name": "Immuno-gold EM on thawed cryo-sections (Tokuyasu Method)",
+    "description": "Bioimaging technology: Immuno-gold EM on thawed cryo-sections (Tokuyasu Method)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "3b0b91c8-5cd3-5952-8fba-d7f7e559c161",
+    "name": "Immuno-gold EM on thawed cryo-sections (Tokuyasu-EM)",
+    "description": "Bioimaging technology: Immuno-gold EM on thawed cryo-sections (Tokuyasu-EM)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "0d3eed59-bf31-5eb4-b4e6-a9ead203e980",
+    "name": "Immunolabeling on immobilized particles",
+    "description": "Bioimaging technology: Immunolabeling on immobilized particles",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "00225cd4-6d55-5f65-b877-3920b56ffb6b",
+    "name": "In Vivo Optical Imaging (OI)",
+    "description": "Bioimaging technology: In Vivo Optical Imaging (OI)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "7f276c30-982f-5869-8f43-f4d3c11327d9",
+    "name": "In vivo Optical Imaging",
+    "description": "Bioimaging technology: In vivo Optical Imaging",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "2145c0e4-8c38-5074-be9a-36a76aad9aed",
+    "name": "In vivo Optical Imaging (OI)",
+    "description": "Bioimaging technology: In vivo Optical Imaging (OI)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "a34c9989-00af-598e-ba85-d1acb423c8e3",
+    "name": "In-Vivo Micro-CT",
+    "description": "Bioimaging technology: In-Vivo Micro-CT",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "2c5bb671-dbea-5b44-86c9-b5fa86d4b1d6",
+    "name": "In-section CLEM",
+    "description": "Bioimaging technology: In-section CLEM",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "044e23fc-c2c9-5215-80c8-21c3ea4c8955",
+    "name": "Intravital Microscopy (IVM)",
+    "description": "Bioimaging technology: Intravital Microscopy (IVM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "2fdddc47-8375-5cdb-bc67-afe9eca1fa79",
+    "name": "Intravital Microscopy (IVM) - Med",
+    "description": "Bioimaging technology: Intravital Microscopy (IVM) - Med",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "57716f77-e675-5a5b-9424-081637d4f4d0",
+    "name": "Large scale EM",
+    "description": "Bioimaging technology: Large scale EM",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "ecf915c5-d186-51cd-a52c-c1e01d666b61",
+    "name": "Large scale EM/TEM (IsEM/lsTEM)",
+    "description": "Bioimaging technology: Large scale EM/TEM (IsEM/lsTEM)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "23da340a-bf3a-5656-8d35-ea96b3f2800c",
+    "name": "Large-scale EM",
+    "description": "Bioimaging technology: Large-scale EM",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "187c8138-814a-56f8-9004-f806ebf4d94a",
+    "name": "Large-scale Electron Microscopy (EM)",
+    "description": "Bioimaging technology: Large-scale Electron Microscopy (EM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "de7a5e8e-6269-50f0-a6ce-0e6b1acbd4cb",
+    "name": "Laser Scanning Confocal Microscopy (LSCM/CLSM)",
+    "description": "Bioimaging technology: Laser Scanning Confocal Microscopy (LSCM/CLSM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "5edf939a-b229-53b2-b286-8623463704be",
+    "name": "Laser scanning confocal microscopy (LSCM/CLSM)",
+    "description": "Bioimaging technology: Laser scanning confocal microscopy (LSCM/CLSM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "2e8e4fa2-557c-5a6c-a996-f3d567911540",
+    "name": "Lattice Lightsheet (LL)",
+    "description": "Bioimaging technology: Lattice Lightsheet (LL)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "2dc53350-711c-5cb9-8618-1e8463559f4e",
+    "name": "Light-Sheet Mesoscopic Imaging (SPIM or dSLSM)",
+    "description": "Bioimaging technology: Light-Sheet Mesoscopic Imaging (SPIM or dSLSM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "3eb088ad-9348-50d5-a6cf-22e1fd9f83ba",
+    "name": "Light-sheet mesoscopic imaging (SPIM or dSLSM)",
+    "description": "Bioimaging technology: Light-sheet mesoscopic imaging (SPIM or dSLSM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "2a592065-e020-5346-bafb-a9b262c048dc",
+    "name": "Lightsheet Mesoscopic Imaging (SPIM/sDSLM)",
+    "description": "Bioimaging technology: Lightsheet Mesoscopic Imaging (SPIM/sDSLM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "a9b1d394-4086-5f05-88fb-29a60ac111a2",
+    "name": "Light‑sheet mesoscopic imaging (SPIM or dSLSM)",
+    "description": "Bioimaging technology: Light‑sheet mesoscopic imaging (SPIM or dSLSM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "eed74da1-70cb-5532-8ed7-7d21d6fa677d",
+    "name": "Live-Cell CLEM",
+    "description": "Bioimaging technology: Live-Cell CLEM",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "70b7422a-2076-5973-bd90-04fa8ce1fe7a",
+    "name": "Live-cell CLEM",
+    "description": "Bioimaging technology: Live-cell CLEM",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "0ebe0ea0-ec94-5869-bf53-75d961cd17ee",
+    "name": "Long-term Vertical-Stage Confocal/Airyscan Microscopy",
+    "description": "Bioimaging technology: Long-term Vertical-Stage Confocal/Airyscan Microscopy",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "23333ae5-7543-5614-8080-ca461b90458e",
+    "name": "MEG",
+    "description": "Bioimaging technology: MEG",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "46c5654e-efb7-5267-8c62-684d47491eb1",
+    "name": "MRI MRS (< 7T)",
+    "description": "Bioimaging technology: MRI MRS (< 7T)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "5f856c7b-eb54-57a0-a624-fead0dbbbfdf",
+    "name": "MRI PET",
+    "description": "Bioimaging technology: MRI PET",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "fbb13188-e9f4-5b1b-a588-043a6d794646",
+    "name": "MRI-PET",
+    "description": "Bioimaging technology: MRI-PET",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "b3598650-8a81-5bfb-a8a3-4293e0e54c88",
+    "name": "MRI/MRS (< 7T)",
+    "description": "Bioimaging technology: MRI/MRS (< 7T)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "5824e174-15f4-5c28-92c2-c567e50e0352",
+    "name": "MRI/MRS (<7T)",
+    "description": "Bioimaging technology: MRI/MRS (<7T)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "9281d0ae-d62f-5686-9d22-7345344161f7",
+    "name": "MRI/MRS (≥ 7T)",
+    "description": "Bioimaging technology: MRI/MRS (≥ 7T)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "0c7f7a18-374a-51fb-97a6-6bc9e2074688",
+    "name": "Macro Serial Blockface Fluorescence Imaging",
+    "description": "Bioimaging technology: Macro Serial Blockface Fluorescence Imaging",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "02b60ea8-5de0-560a-8560-ee1c9a04af20",
+    "name": "Macro Serial Blockface Fluorescence Imaging (S-BFI)",
+    "description": "Bioimaging technology: Macro Serial Blockface Fluorescence Imaging (S-BFI)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "9180de9d-3ecb-56bf-a6fe-70023cf001de",
+    "name": "Mass Spectrometry-Based Imaging (MSI)",
+    "description": "Bioimaging technology: Mass Spectrometry-Based Imaging (MSI)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "dae842af-0dab-5259-9b40-3ed78352633e",
+    "name": "Mass Spectrometry-Based Imaging (MSI) - Med",
+    "description": "Bioimaging technology: Mass Spectrometry-Based Imaging (MSI) - Med",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "f54cc62f-bd07-5152-a295-65aa61cbdbec",
+    "name": "Mass Spectrometry-Based Imaging (MSI) – Med",
+    "description": "Bioimaging technology: Mass Spectrometry-Based Imaging (MSI) – Med",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "50188806-aa68-529a-b106-327d76d3ed18",
+    "name": "Mass Spectrometry-Based Imaging - Bio (MSI - Bio)",
+    "description": "Bioimaging technology: Mass Spectrometry-Based Imaging - Bio (MSI - Bio)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "69d8f18e-68b2-5787-a936-26c16e739ee9",
+    "name": "Mass Spectrometry-Based Imaging - Med (MSI - Med)",
+    "description": "Bioimaging technology: Mass Spectrometry-Based Imaging - Med (MSI - Med)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "6d568cf2-49b4-521a-b104-23cb5cb391df",
+    "name": "Mass Spectrometry-based Imaging (MSI)",
+    "description": "Bioimaging technology: Mass Spectrometry-based Imaging (MSI)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "beca5aa9-a5f1-5a45-8f6f-2250a22e664f",
+    "name": "Mass Spectrometry-based Imaging-bio (MSI-bio)",
+    "description": "Bioimaging technology: Mass Spectrometry-based Imaging-bio (MSI-bio)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "cfc7181e-649c-5acd-97e0-7fe650da4e7a",
+    "name": "Mass spectrometry-based imaging (MSI) - med*",
+    "description": "Bioimaging technology: Mass spectrometry-based imaging (MSI) - med*",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "c8455da0-0aa4-59d9-95ad-a830082f8936",
+    "name": "Micro X-Ray Fluorescence Spectrometry (XRF)",
+    "description": "Bioimaging technology: Micro X-Ray Fluorescence Spectrometry (XRF)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "2acabde0-d25c-529a-b2cf-0686808659eb",
+    "name": "Micro-CT - Ex-Vivo",
+    "description": "Bioimaging technology: Micro-CT - Ex-Vivo",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "5838fb1c-7d34-5435-a203-a4833d3e7522",
+    "name": "Micro-MRI (Field < 7T) (LF)",
+    "description": "Bioimaging technology: Micro-MRI (Field < 7T) (LF)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "c06f1d01-1e3a-5187-9964-7bd713e9bf9a",
+    "name": "Micro-MRI (Field ≥ 7T) (HF)",
+    "description": "Bioimaging technology: Micro-MRI (Field ≥ 7T) (HF)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "f9381947-bd0d-518e-a912-5c9c77f83666",
+    "name": "Micro-MRI/MRS (< 7T) - Ex-Vivo",
+    "description": "Bioimaging technology: Micro-MRI/MRS (< 7T) - Ex-Vivo",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "89d6923c-7a86-5cd5-ad30-9bf8f7eb1ad6",
+    "name": "Micro-MRI/MRS (Field < 7T)",
+    "description": "Bioimaging technology: Micro-MRI/MRS (Field < 7T)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "e8e19b96-56dd-562f-804f-16d5efc165a9",
+    "name": "Micro-MRI/MRS (Field ≥ 7T)",
+    "description": "Bioimaging technology: Micro-MRI/MRS (Field ≥ 7T)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "dac5827b-62a0-533c-9bba-c1487c022a30",
+    "name": "Micro-MRI/MRS (≥ 7T) - Ex-Vivo",
+    "description": "Bioimaging technology: Micro-MRI/MRS (≥ 7T) - Ex-Vivo",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "f1f57aaf-edb8-56fa-ab95-3577c0f9a584",
+    "name": "Micro-PET",
+    "description": "Bioimaging technology: Micro-PET",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "1b3e44ae-e90b-51e6-9192-aa142dfcb3aa",
+    "name": "Micro-PET/CT",
+    "description": "Bioimaging technology: Micro-PET/CT",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "92840789-91c7-523b-840e-e814834fc72b",
+    "name": "Micro-PET/MRI",
+    "description": "Bioimaging technology: Micro-PET/MRI",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "1ddab192-41e9-5084-9e3f-38b8cd5dd874",
+    "name": "Micro-SPECT",
+    "description": "Bioimaging technology: Micro-SPECT",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "87ccbad7-fe6b-523b-90f2-c22a96f403e5",
+    "name": "Micro-SPECT/CT",
+    "description": "Bioimaging technology: Micro-SPECT/CT",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "c506fc9e-4fec-57f5-8f2a-c38fcccd10a5",
+    "name": "Micro-US",
+    "description": "Bioimaging technology: Micro-US",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "ff78bebb-f746-5c43-bab0-fb76ed8af435",
+    "name": "Microdissection",
+    "description": "Bioimaging technology: Microdissection",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "523b4524-0164-54b5-ad98-2493406db24f",
+    "name": "Minimal Photon Fluxes Microscopy (MINFLUX)",
+    "description": "Bioimaging technology: Minimal Photon Fluxes Microscopy (MINFLUX)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "baf6aaaf-96fb-5381-836e-de0c6b05e61b",
+    "name": "Multiphoton microscopy systems",
+    "description": "Bioimaging technology: Multiphoton microscopy systems",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "bc532d2a-45a9-51ce-8cab-fbbba72c8daa",
+    "name": "Multiplexing Imaging (Codex, Opal, Celldive)",
+    "description": "Bioimaging technology: Multiplexing Imaging (Codex, Opal, Celldive)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "ca4cead0-47db-5445-8781-22e2cad5f43f",
+    "name": "Objective-Coupled Planar Illumination (OCPI)",
+    "description": "Bioimaging technology: Objective-Coupled Planar Illumination (OCPI)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "4a901a68-7431-585e-866d-239b02220d99",
+    "name": "On-section CLEM",
+    "description": "Bioimaging technology: On-section CLEM",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "84e23e09-598b-5d83-8bc9-5d6a6f5074b7",
+    "name": "Optical Projection Tomography (OPT)",
+    "description": "Bioimaging technology: Optical Projection Tomography (OPT)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "a92784d8-7fb2-5bdf-a0f5-23693ba78e7b",
+    "name": "Optical projection tomography (OPT)",
+    "description": "Bioimaging technology: Optical projection tomography (OPT)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "c2dc3d8b-99f0-5a7f-94d5-9ee92751d66f",
+    "name": "PET",
+    "description": "Bioimaging technology: PET",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "bbd0e2bc-fe32-5cfb-b2e3-61d8ebf86de6",
+    "name": "PET CT",
+    "description": "Bioimaging technology: PET CT",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "b7a888a3-9818-5a9c-8be4-7a15f35be186",
+    "name": "PET/CT",
+    "description": "Bioimaging technology: PET/CT",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "748fd7fd-b062-5d84-930b-b718c025b209",
+    "name": "Phase Contrast Imaging",
+    "description": "Bioimaging technology: Phase Contrast Imaging",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "d6741042-e0ce-52a9-84d2-ebbe150764e6",
+    "name": "Phosphorescence Lifetime Imaging (PLIM)",
+    "description": "Bioimaging technology: Phosphorescence Lifetime Imaging (PLIM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "a7052c18-21a8-5969-8f5a-33dd35a14cc7",
+    "name": "Photo activated localization microscopy (PALM)",
+    "description": "Bioimaging technology: Photo activated localization microscopy (PALM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "bfe2c33e-0968-5bf2-a1bf-de4943f047fd",
+    "name": "PhotoAcoustic Imaging (PAI) - Med",
+    "description": "Bioimaging technology: PhotoAcoustic Imaging (PAI) - Med",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "d772b933-f7f5-5512-a278-290fb09bec05",
+    "name": "PhotoAcoustic Imaging (PAI) - med",
+    "description": "Bioimaging technology: PhotoAcoustic Imaging (PAI) - med",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "d2ef29c1-71a5-5179-9026-0ec57f52a9b3",
+    "name": "Photoacoustic Imaging (PAI) - Bio",
+    "description": "Bioimaging technology: Photoacoustic Imaging (PAI) - Bio",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "325c077b-7f72-5505-89fc-1ad869c325e5",
+    "name": "Photoacoustic Imaging (PAI) - Med",
+    "description": "Bioimaging technology: Photoacoustic Imaging (PAI) - Med",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "bf118fda-c566-5c77-b492-d95919ad9ed5",
+    "name": "Photoacoustic Imaging (PAI) - med",
+    "description": "Bioimaging technology: Photoacoustic Imaging (PAI) - med",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "205f1c9b-8eec-5a2a-8f1c-aa461e10e58b",
+    "name": "Photoacoustic Imaging (PAI) Med",
+    "description": "Bioimaging technology: Photoacoustic Imaging (PAI) Med",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "2ca33e98-a57c-5d28-b3af-0027ecd3e1dd",
+    "name": "Photomanipulation",
+    "description": "Bioimaging technology: Photomanipulation",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "d7896c61-85fd-5371-be25-755d2cfe30d3",
+    "name": "Plant Phenotyping",
+    "description": "Bioimaging technology: Plant Phenotyping",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "4772bbce-a1b6-5109-9b9a-ea651a0394cb",
+    "name": "Polarization Microscopy (PM)",
+    "description": "Bioimaging technology: Polarization Microscopy (PM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "bdf0f55f-3e3e-566e-8233-582202561c1e",
+    "name": "Population Imaging (PI)",
+    "description": "Bioimaging technology: Population Imaging (PI)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "36cb4c97-387f-55a7-9a32-d15ac516e889",
+    "name": "Population Imaging (PI-Data)",
+    "description": "Bioimaging technology: Population Imaging (PI-Data)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "1a53ed50-fe5e-509f-a282-e79768ea7939",
+    "name": "Population Imaging (PI-Med)",
+    "description": "Bioimaging technology: Population Imaging (PI-Med)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "c594c66d-c9be-525d-a31e-016b2fffccfa",
+    "name": "Post-embed CLEM",
+    "description": "Bioimaging technology: Post-embed CLEM",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "1e3da8b4-3da5-56de-b7a8-55296f0e48c2",
+    "name": "Pre-Embed CLEM",
+    "description": "Bioimaging technology: Pre-Embed CLEM",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "9265dc8b-2d2d-5d33-be31-4e0197b82283",
+    "name": "Pre-Embedded CLEM",
+    "description": "Bioimaging technology: Pre-Embedded CLEM",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "d7e2f6d0-9a06-5117-a2a4-863ac63ec123",
+    "name": "Pre-Embedding Immunolabeling (Pre-Embed IL)",
+    "description": "Bioimaging technology: Pre-Embedding Immunolabeling (Pre-Embed IL)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "e9ae0c87-74ea-59f7-a1e5-536aa557d294",
+    "name": "Pre-embed CLEM",
+    "description": "Bioimaging technology: Pre-embed CLEM",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "69b8d284-c973-5309-88c7-44316d1ca98f",
+    "name": "Pre-embedded CLEM",
+    "description": "Bioimaging technology: Pre-embedded CLEM",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "12bbe539-38a6-5168-891c-15080735668a",
+    "name": "Pre-embedding Immunolabeling",
+    "description": "Bioimaging technology: Pre-embedding Immunolabeling",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "bcd59117-e868-5852-9aef-752c772dd48c",
+    "name": "Pre-embedding Immunolabeling (pre-embed IL)",
+    "description": "Bioimaging technology: Pre-embedding Immunolabeling (pre-embed IL)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "69da240d-0be7-5193-8694-720b205c56f7",
+    "name": "Pre‑embedding CLEM",
+    "description": "Bioimaging technology: Pre‑embedding CLEM",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "5abe9856-bd75-5a8f-8ea4-0efb158c38f2",
+    "name": "Quantitative Phase Imaging (QPI)",
+    "description": "Bioimaging technology: Quantitative Phase Imaging (QPI)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "ec7c875e-4323-5237-9d6a-07223279ee3a",
+    "name": "Raman Spectroscopy",
+    "description": "Bioimaging technology: Raman Spectroscopy",
+    "category": {
+      "name": "Spectroscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "9b4089a6-9afd-5c0d-843f-b85bd119543d",
+    "name": "Raman Spectroscopy (RS)",
+    "description": "Bioimaging technology: Raman Spectroscopy (RS)",
+    "category": {
+      "name": "Spectroscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "1d2b5d03-5df5-5f1b-855f-07df8d172f35",
+    "name": "Random Illumination Microscopy (RIM)",
+    "description": "Bioimaging technology: Random Illumination Microscopy (RIM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "f04d0550-3517-5e19-a6bf-f06c7b3abca7",
+    "name": "Reversible Optical Fluorescence Transitions (RESOLFT)",
+    "description": "Bioimaging technology: Reversible Optical Fluorescence Transitions (RESOLFT)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "111111e8-4ab8-5bb8-9f5b-b1e38b09027c",
+    "name": "Reversible Saturable Optical Fluorescence Transitions (RESOLFT)",
+    "description": "Bioimaging technology: Reversible Saturable Optical Fluorescence Transitions (RESOLFT)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "4e1a5c11-7af3-58aa-bbab-4531058d5057",
+    "name": "Reversible optical fluorescence transitions (RESOLFT)",
+    "description": "Bioimaging technology: Reversible optical fluorescence transitions (RESOLFT)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "87a2a256-01de-5f5a-a9bf-3bf7906b48ff",
+    "name": "SEM (Topography)",
+    "description": "Bioimaging technology: SEM (Topography)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "e1cfdfee-14b1-589b-a046-41a0df741a15",
+    "name": "STEM Tomography",
+    "description": "Bioimaging technology: STEM Tomography",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "15c3888e-2593-5d8e-bb4b-d4d52c04f61b",
+    "name": "Scanning Electron Microscopy (SEM)",
+    "description": "Bioimaging technology: Scanning Electron Microscopy (SEM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "ae47835c-c019-5323-b812-058f998764dd",
+    "name": "Second/Third Harmonic Generation (SHG/THG)",
+    "description": "Bioimaging technology: Second/Third Harmonic Generation (SHG/THG)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "73ff63d5-dba9-5002-8442-6ba4ee094cc5",
+    "name": "Second/Third Harmonics Generation (SHG/THG)",
+    "description": "Bioimaging technology: Second/Third Harmonics Generation (SHG/THG)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "6fbf6c9d-f9aa-59d8-8624-b51daf6fa0bb",
+    "name": "Selective plane illumination microscopy (SPIM)",
+    "description": "Bioimaging technology: Selective plane illumination microscopy (SPIM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "770d9985-610e-51d7-8089-4488a5a17037",
+    "name": "Serial Block Face Scanning EM (SBF-SEM or SBEM)",
+    "description": "Bioimaging technology: Serial Block Face Scanning EM (SBF-SEM or SBEM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "c68b03f6-8dab-50e1-b3b5-fa07ea723337",
+    "name": "Serial Blockface SEM",
+    "description": "Bioimaging technology: Serial Blockface SEM",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "9aec8069-6c7f-56fa-b253-9c11bdffa118",
+    "name": "Serial Blockface Scanning Electron Microscopy (SBF-SEM)",
+    "description": "Bioimaging technology: Serial Blockface Scanning Electron Microscopy (SBF-SEM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "b151fbce-4394-5d82-8f2d-07bca5a05549",
+    "name": "Serial Section TEM",
+    "description": "Bioimaging technology: Serial Section TEM",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "f50f31fe-2101-56bc-b151-a9a240841de6",
+    "name": "Serial section Transmission Electron Microscopy (ssTEM)",
+    "description": "Bioimaging technology: Serial section Transmission Electron Microscopy (ssTEM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "14be4621-2f13-51d3-bc7c-d92f71693792",
+    "name": "Single Molecule FRET (smFRET)",
+    "description": "Bioimaging technology: Single Molecule FRET (smFRET)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "ec6b886b-909b-5587-a698-c2c55186b43e",
+    "name": "Single Molecule Localization Microscopy (SMLM)",
+    "description": "Bioimaging technology: Single Molecule Localization Microscopy (SMLM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "8ba59692-99aa-508c-895f-8d5fab156edc",
+    "name": "Single Molecule localization microscopy (SMLM)",
+    "description": "Bioimaging technology: Single Molecule localization microscopy (SMLM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "266765ca-dedf-5e26-b439-eb6e9b28f28e",
+    "name": "Single Particle Tracking (SPT)",
+    "description": "Bioimaging technology: Single Particle Tracking (SPT)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "fe00f526-abd0-56ae-b230-7df77087257e",
+    "name": "Single molecule FRET",
+    "description": "Bioimaging technology: Single molecule FRET",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "526dbda7-020a-5440-aafc-0c11da1b23b1",
+    "name": "Spatial Transcriptomics (ST)",
+    "description": "Bioimaging technology: Spatial Transcriptomics (ST)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "9d98a41d-4da6-5730-887d-858ba57202d1",
+    "name": "Spinning Disk Confocal Microscopy (SDCM)",
+    "description": "Bioimaging technology: Spinning Disk Confocal Microscopy (SDCM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "d3e03d50-abb6-58ef-b6ab-1b4c68b4da92",
+    "name": "Spinning disc confocal microscopy (SDCM)",
+    "description": "Bioimaging technology: Spinning disc confocal microscopy (SDCM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "36cbed24-d129-5812-a7c8-fd6630b54e2a",
+    "name": "Spinning disk confocal microscopy (SDCM)",
+    "description": "Bioimaging technology: Spinning disk confocal microscopy (SDCM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "9b325af2-09ea-547b-99e4-9f6878f6e926",
+    "name": "Stimulated Emission Depletion Microscopy (STED)",
+    "description": "Bioimaging technology: Stimulated Emission Depletion Microscopy (STED)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "112cf3be-6fea-5a9c-b9f1-47c9c763192e",
+    "name": "Stimulated emission depletion microscopy (STED)",
+    "description": "Bioimaging technology: Stimulated emission depletion microscopy (STED)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "92eaf0c3-b1c8-502c-92be-5cbfedc661a3",
+    "name": "Stochastic optical reconstruction microscopy (STORM)",
+    "description": "Bioimaging technology: Stochastic optical reconstruction microscopy (STORM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "e56ec643-854f-5643-a0fa-d69f4f8306b1",
+    "name": "Structured Illumination Microscopy (SIM)",
+    "description": "Bioimaging technology: Structured Illumination Microscopy (SIM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "e9f762fc-bdde-5241-94f1-db6db26235cd",
+    "name": "Structured illumination microscopy (SIM)",
+    "description": "Bioimaging technology: Structured illumination microscopy (SIM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "f7b07a97-e2f0-50c0-99dd-521eee09e300",
+    "name": "Structured illumination microscopy (SIM)*",
+    "description": "Bioimaging technology: Structured illumination microscopy (SIM)*",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "b874554a-db5e-5b50-8b3c-c496da4a275c",
+    "name": "TEM Tomography",
+    "description": "Bioimaging technology: TEM Tomography",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "82b5a057-f689-5fdd-a93f-28a58ed0606c",
+    "name": "TEM of Chemically Fixed Samples",
+    "description": "Bioimaging technology: TEM of Chemically Fixed Samples",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "16d371de-c6bb-519e-817e-7a547c55c6d5",
+    "name": "TEM of Chemically Fixed Samples (TEM)",
+    "description": "Bioimaging technology: TEM of Chemically Fixed Samples (TEM)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "0ca1c96f-6636-567d-94a2-d42cae935e13",
+    "name": "TEM of Cryo-Immobilized Samples",
+    "description": "Bioimaging technology: TEM of Cryo-Immobilized Samples",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "2e8b2a89-186e-5ebe-be5d-634e6a57e0ea",
+    "name": "TEM of Cryo-Immobilized Samples (TEM Cryo)",
+    "description": "Bioimaging technology: TEM of Cryo-Immobilized Samples (TEM Cryo)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "6907ea6a-6e8d-52af-87df-2565f3e520aa",
+    "name": "TEM of chemical fixed samples (TEM)",
+    "description": "Bioimaging technology: TEM of chemical fixed samples (TEM)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "b22c766b-98c2-5881-b511-9fa5dd351b97",
+    "name": "TEM of chemically fixed samples",
+    "description": "Bioimaging technology: TEM of chemically fixed samples",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "d007ae31-a7cb-5788-9a79-f58568e0ffb1",
+    "name": "TEM of chemically fixed samples (TEM)",
+    "description": "Bioimaging technology: TEM of chemically fixed samples (TEM)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "834b6d4f-ddd4-5545-af86-40e3e063b5a8",
+    "name": "TEM of cryo-immobilized samples",
+    "description": "Bioimaging technology: TEM of cryo-immobilized samples",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "01238d85-e9a2-5902-ad73-38d659dc9c43",
+    "name": "TEM of cryo-immobilized samples (TEM cryo samples)",
+    "description": "Bioimaging technology: TEM of cryo-immobilized samples (TEM cryo samples)",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "5191e76b-0199-5cb9-98e7-1c0d2f94f202",
+    "name": "TEM of cryo-immobilized samples (TEM cryo samples)*",
+    "description": "Bioimaging technology: TEM of cryo-immobilized samples (TEM cryo samples)*",
+    "category": {
+      "name": "Electron Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "0839d371-1c19-559d-9f13-fbfcdb02db61",
+    "name": "Terahertz Plant Imaging (THzI)",
+    "description": "Bioimaging technology: Terahertz Plant Imaging (THzI)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "87fd5a08-af54-5e51-bfe5-bcdbb271bc27",
+    "name": "Tissue Clearing",
+    "description": "Bioimaging technology: Tissue Clearing",
+    "category": {
+      "name": "Sample Preparation"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "85998b19-4f4e-53df-9096-6f97de73a3e3",
+    "name": "Tissue Clearing (TC)",
+    "description": "Bioimaging technology: Tissue Clearing (TC)",
+    "category": {
+      "name": "Sample Preparation"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "9bbc0329-1bd9-54f3-8e0b-c78a447881f1",
+    "name": "Total Internal Reflection Fluorescence Microscopy (TIRF)",
+    "description": "Bioimaging technology: Total Internal Reflection Fluorescence Microscopy (TIRF)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "29e7ceb8-7a27-5a10-a136-ccc361eced56",
+    "name": "Total internal reflection fluorescence microscopy (TIRF)",
+    "description": "Bioimaging technology: Total internal reflection fluorescence microscopy (TIRF)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "782b430f-cd6d-5b25-ac49-af2b36b488dd",
+    "name": "Traction Force Microscopy (TFM)",
+    "description": "Bioimaging technology: Traction Force Microscopy (TFM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "b1395cb7-dc58-578b-a75e-c341c60b5260",
+    "name": "Transmission Electron Microscopy (TEM)",
+    "description": "Bioimaging technology: Transmission Electron Microscopy (TEM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "073580ef-156d-50e9-bc86-6ef9181c7c0c",
+    "name": "Two-Photon Microscopy (2P)",
+    "description": "Bioimaging technology: Two-Photon Microscopy (2P)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "c341c9d7-6f4c-5587-bcd4-58b0e76fa286",
+    "name": "Two-photon microscopy (2P)",
+    "description": "Bioimaging technology: Two-photon microscopy (2P)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "aeb980f9-149e-54bd-9ecb-148e07a07f54",
+    "name": "Two‑Photon Microscopy (2P)",
+    "description": "Bioimaging technology: Two‑Photon Microscopy (2P)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "6ca03ddc-f131-5582-8237-c115b1b13b9c",
+    "name": "Two‑photon microscopy (2P)",
+    "description": "Bioimaging technology: Two‑photon microscopy (2P)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "9ef4e0e6-8c4a-5702-9dd4-96eabd657527",
+    "name": "Voltage/pH/Ion Imaging",
+    "description": "Bioimaging technology: Voltage/pH/Ion Imaging",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "6f5cf61e-9188-510b-bcf0-dd000e317599",
+    "name": "cryoFM",
+    "description": "Bioimaging technology: cryoFM",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "c47c88d2-88e0-5dca-9a3d-2084a3b80555",
+    "name": "cryoFM *",
+    "description": "Bioimaging technology: cryoFM *",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "05073175-03ae-5839-b088-7acbd639b274",
+    "name": "micro CT",
+    "description": "Bioimaging technology: micro CT",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "b063b0dc-fe7a-5ac7-ac39-4a6156d9d22c",
+    "name": "micro CT ex vivo",
+    "description": "Bioimaging technology: micro CT ex vivo",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "3aec4b65-9f1a-5b29-b98c-750cd75ab034",
+    "name": "micro MRI MRS (< 7T)",
+    "description": "Bioimaging technology: micro MRI MRS (< 7T)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "276c4592-bbcb-5d8e-8a14-3c7b02007a82",
+    "name": "micro MRI MRS (< 7T) ex vivo",
+    "description": "Bioimaging technology: micro MRI MRS (< 7T) ex vivo",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "62d7d66f-bbfe-5bc3-8ef8-ff9190df3d90",
+    "name": "micro MRI MRS (≥ 7T)",
+    "description": "Bioimaging technology: micro MRI MRS (≥ 7T)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "a50f6b56-0c8c-5320-a328-790afa22df30",
+    "name": "micro MRI MRS (≥ 7T) ex vivo",
+    "description": "Bioimaging technology: micro MRI MRS (≥ 7T) ex vivo",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "462fe919-df71-5515-888e-c23426293aea",
+    "name": "micro PET",
+    "description": "Bioimaging technology: micro PET",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "948afd10-97ba-5be5-b61f-5dc0bad81689",
+    "name": "micro PET MRI",
+    "description": "Bioimaging technology: micro PET MRI",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "87538dcc-ade7-5604-990e-2101d6d0bc50",
+    "name": "micro SPECT CT",
+    "description": "Bioimaging technology: micro SPECT CT",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "81b3b584-9e6c-553a-866f-d411ea027c19",
+    "name": "micro US",
+    "description": "Bioimaging technology: micro US",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "c34d8bbe-a7f9-5d1c-85f2-410218ba69e4",
+    "name": "micro-CT",
+    "description": "Bioimaging technology: micro-CT",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "5c5f346e-22af-5807-8344-524a8c2fea2a",
+    "name": "micro-CT - ex-vivo",
+    "description": "Bioimaging technology: micro-CT - ex-vivo",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "29dd014a-8321-56e3-95c5-a7bab6d49ecb",
+    "name": "micro-CT – ex-vivo",
+    "description": "Bioimaging technology: micro-CT – ex-vivo",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "4bf75a1c-0583-5508-8039-cec9eb11a22e",
+    "name": "micro-MRI/MRS (< 7T)",
+    "description": "Bioimaging technology: micro-MRI/MRS (< 7T)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "f0798cdb-6489-5642-b504-ca27b63686b7",
+    "name": "micro-MRI/MRS (< 7T) - ex-vivo",
+    "description": "Bioimaging technology: micro-MRI/MRS (< 7T) - ex-vivo",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "6584a38a-8071-503d-a684-0d19b3c36532",
+    "name": "micro-MRI/MRS (< 7T) – ex-vivo",
+    "description": "Bioimaging technology: micro-MRI/MRS (< 7T) – ex-vivo",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "4ed88547-f4a6-5392-90f0-a4aae7b7edc0",
+    "name": "micro-MRI/MRS (Field ≥ 7 T) (HF)",
+    "description": "Bioimaging technology: micro-MRI/MRS (Field ≥ 7 T) (HF)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "f8fb4366-a394-5b60-a6d7-3b20019fd001",
+    "name": "micro-MRI/MRS (Field ≥ 7T) (HF)",
+    "description": "Bioimaging technology: micro-MRI/MRS (Field ≥ 7T) (HF)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "da4e9241-c3ed-5412-8677-077d5cf43c88",
+    "name": "micro-MRI/MRS (≥ 7T)",
+    "description": "Bioimaging technology: micro-MRI/MRS (≥ 7T)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "a01286ca-34f2-5b50-96e2-62212ad9fe04",
+    "name": "micro-MRI/MRS (≥ 7T) - ex-vivo",
+    "description": "Bioimaging technology: micro-MRI/MRS (≥ 7T) - ex-vivo",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "7f7d90e9-ee4d-50ef-8fd6-e5228d41ebe9",
+    "name": "micro-MRI/MRS (≥ 7T) – ex-vivo",
+    "description": "Bioimaging technology: micro-MRI/MRS (≥ 7T) – ex-vivo",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "a277dfcc-de6d-5dbc-931c-b595d61effe5",
+    "name": "micro-PET",
+    "description": "Bioimaging technology: micro-PET",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "1d7db7e3-408f-5d52-ad93-0632b92df911",
+    "name": "micro-PET/CT",
+    "description": "Bioimaging technology: micro-PET/CT",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "d25b151d-ad6e-5c9e-9bac-659d1a18509e",
+    "name": "micro-PET/MRI",
+    "description": "Bioimaging technology: micro-PET/MRI",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "a9178e93-d73b-5e6f-b4a7-0b2e572ef07c",
+    "name": "micro-SPECT",
+    "description": "Bioimaging technology: micro-SPECT",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "b4738f2a-d8a8-5244-a9df-5e7be7b35bb7",
+    "name": "micro-SPECT/CT",
+    "description": "Bioimaging technology: micro-SPECT/CT",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "6b66d1da-4e8a-5ca1-9490-2e9ab1cd0672",
+    "name": "micro-US",
+    "description": "Bioimaging technology: micro-US",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "e0de63e8-483e-5ba4-882f-c8d32a881d8d",
+    "name": "pre-embed Correlative Light and Electron Microscopy (pre-embed CLEM)",
+    "description": "Bioimaging technology: pre-embed Correlative Light and Electron Microscopy (pre-embed CLEM)",
+    "category": {
+      "name": "Microscopy"
+    },
+    "entity_type": "technology"
+  },
+  {
+    "id": "4bb5c50f-19a3-5e87-b090-c863c2e17924",
+    "name": "pre-embedding Immunolabelling (pre-embed IL)",
+    "description": "Bioimaging technology: pre-embedding Immunolabelling (pre-embed IL)",
+    "category": {
+      "name": "Unknown"
+    },
+    "entity_type": "technology"
+  }
+]

@@ -999,6 +999,11 @@ async def main():
         default="euro-bioimaging-index",
         help="Directory to store all generated files (default: euro-bioimaging-index)",
     )
+    parser.add_argument(
+        "--use-local-eb1",
+        action="store_true",
+        help="Use local EB-1-Nodes-Technologies submodule JSON files instead of fetching from API",
+    )
     args = parser.parse_args()
 
     # Create data directory
@@ -1017,41 +1022,160 @@ async def main():
     print(f"📊 Dataset: {'Test (10 items)' if args.test else 'Full dataset'}")
     print("=" * 60)
 
-    # Fetch the JSON data from APIs
-    print("📖 Fetching data from APIs...")
+    # Option to use local EB-1-Nodes-Technologies submodule text files
+    if args.use_local_eb1:
+        print("📖 Parsing data from EB-1-Nodes-Technologies submodule text files...")
+        import re, uuid
 
-    async with aiohttp.ClientSession() as session:
-        # Fetch technologies data
-        try:
-            print("  🔬 Fetching technologies from API...")
-            async with session.get(
-                "https://eb-api.aashvi.net/v1/technologies/?format=json"
-            ) as response:
-                if response.status == 200:
-                    tech_data = await response.json()
-                    print(f"  ✅ Loaded {len(tech_data)} technologies from API")
-                else:
-                    print(f"  ❌ Failed to fetch technologies: HTTP {response.status}")
-                    tech_data = []
-        except Exception as e:
-            print(f"  ❌ Error fetching technologies: {e}")
-            tech_data = []
+        eb1_dir = Path(__file__).parent / "EB-1-Nodes-Technologies"
+        node_files = list(eb1_dir.glob("RREXP *.txt"))
+        if not node_files:
+            print(f"  ❌ No RREXP *.txt files found in {eb1_dir}")
+            return
+        print(f"  📄 Found {len(node_files)} node files")
 
-        # Fetch nodes data
-        try:
-            print("  🏢 Fetching nodes from API...")
-            async with session.get(
-                "https://eb-api.aashvi.net/v1/nodes/?format=json"
-            ) as response:
-                if response.status == 200:
-                    nodes_data = await response.json()
-                    print(f"  ✅ Loaded {len(nodes_data)} nodes from API")
-                else:
-                    print(f"  ❌ Failed to fetch nodes: HTTP {response.status}")
-                    nodes_data = []
-        except Exception as e:
-            print(f"  ❌ Error fetching nodes: {e}")
-            nodes_data = []
+        def parse_node_file(file_path):
+            content = file_path.read_text(encoding="utf-8")
+            filename = file_path.name
+            country_match = re.search(r"RREXP\s+([A-Z\s]+?)\s+", filename)
+            country = country_match.group(1).strip() if country_match else "Unknown"
+            name_match = re.search(r"RREXP\s+[A-Z\s]+?\s+(.+?)\.txt$", filename)
+            name = (
+                name_match.group(1).strip()
+                if name_match
+                else filename.replace(".txt", "")
+            )
+            description_match = re.search(
+                r"# Description\s*\n\n(.*?)(?=\n##|\n#|\Z)", content, re.DOTALL
+            )
+            description = (
+                description_match.group(1).strip() if description_match else ""
+            )
+            description = re.sub(r"\n+", " ", description)
+            description = re.sub(r"\*\*(.*?)\*\*", r"\1", description)
+            description = re.sub(r"\s+", " ", description).strip()
+            technologies = []
+            tech_table_match = re.search(
+                r"\| Technologies \|.*?\n(.*?)(?=\n##|\n#|\Z)", content, re.DOTALL
+            )
+            if tech_table_match:
+                table_content = tech_table_match.group(1)
+                for line in table_content.split("\n"):
+                    if "|" in line and not line.strip().startswith("|---"):
+                        tech_match = re.search(r"\|\s*([^|]+?)\s*\|", line)
+                        if tech_match:
+                            tech_name = tech_match.group(1).strip()
+                            if tech_name and tech_name != "Technologies":
+                                technologies.append(tech_name)
+            node_id = str(
+                uuid.uuid5(uuid.NAMESPACE_DNS, f"eurobioimaging.node.{country}.{name}")
+            )
+            return {
+                "id": node_id,
+                "name": name,
+                "description": description,
+                "country": {"name": country},
+                "technologies": technologies,
+                "entity_type": "node",
+            }
+
+        def extract_technologies_from_files(file_paths):
+            all_technologies = set()
+            for file_path in file_paths:
+                content = file_path.read_text(encoding="utf-8")
+                tech_table_match = re.search(
+                    r"\| Technologies \|.*?\n(.*?)(?=\n##|\n#|\Z)", content, re.DOTALL
+                )
+                if tech_table_match:
+                    table_content = tech_table_match.group(1)
+                    for line in table_content.split("\n"):
+                        if "|" in line and not line.strip().startswith("|---"):
+                            tech_match = re.search(r"\|\s*([^|]+?)\s*\|", line)
+                            if tech_match:
+                                tech_name = tech_match.group(1).strip()
+                                if tech_name and tech_name != "Technologies":
+                                    all_technologies.add(tech_name)
+            technologies = []
+            for tech_name in sorted(all_technologies):
+                tech_id = str(
+                    uuid.uuid5(
+                        uuid.NAMESPACE_DNS, f"eurobioimaging.technology.{tech_name}"
+                    )
+                )
+                category = "Unknown"
+                if any(
+                    keyword in tech_name.lower()
+                    for keyword in ["microscopy", "imaging", "scan"]
+                ):
+                    category = "Microscopy"
+                elif any(
+                    keyword in tech_name.lower()
+                    for keyword in ["spectroscopy", "raman"]
+                ):
+                    category = "Spectroscopy"
+                elif any(
+                    keyword in tech_name.lower()
+                    for keyword in ["tomography", "tem", "sem"]
+                ):
+                    category = "Electron Microscopy"
+                elif any(
+                    keyword in tech_name.lower()
+                    for keyword in ["clearing", "expansion"]
+                ):
+                    category = "Sample Preparation"
+                technologies.append(
+                    {
+                        "id": tech_id,
+                        "name": tech_name,
+                        "description": f"Bioimaging technology: {tech_name}",
+                        "category": {"name": category},
+                        "entity_type": "technology",
+                    }
+                )
+            return technologies
+
+        nodes_data = [parse_node_file(f) for f in node_files]
+        tech_data = extract_technologies_from_files(node_files)
+        print(
+            f"  ✅ Parsed {len(nodes_data)} nodes and {len(tech_data)} unique technologies from submodule text files"
+        )
+    else:
+        # Fetch the JSON data from APIs
+        print("📖 Fetching data from APIs...")
+        async with aiohttp.ClientSession() as session:
+            # Fetch technologies data
+            try:
+                print("  🔬 Fetching technologies from API...")
+                async with session.get(
+                    "https://eb-api.aashvi.net/v1/technologies/?format=json"
+                ) as response:
+                    if response.status == 200:
+                        tech_data = await response.json()
+                        print(f"  ✅ Loaded {len(tech_data)} technologies from API")
+                    else:
+                        print(
+                            f"  ❌ Failed to fetch technologies: HTTP {response.status}"
+                        )
+                        tech_data = []
+            except Exception as e:
+                print(f"  ❌ Error fetching technologies: {e}")
+                tech_data = []
+
+            # Fetch nodes data
+            try:
+                print("  🏢 Fetching nodes from API...")
+                async with session.get(
+                    "https://eb-api.aashvi.net/v1/nodes/?format=json"
+                ) as response:
+                    if response.status == 200:
+                        nodes_data = await response.json()
+                        print(f"  ✅ Loaded {len(nodes_data)} nodes from API")
+                    else:
+                        print(f"  ❌ Failed to fetch nodes: HTTP {response.status}")
+                        nodes_data = []
+            except Exception as e:
+                print(f"  ❌ Error fetching nodes: {e}")
+                nodes_data = []
 
     # Use test or production data based on argument
     if args.test:
