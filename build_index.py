@@ -1000,7 +1000,7 @@ async def main():
         help="Directory to store all generated files (default: euro-bioimaging-index)",
     )
     parser.add_argument(
-        "--use-local-eb1",
+        "--new-db",
         action="store_true",
         help="Use local EB-1-Nodes-Technologies submodule JSON files instead of fetching from API",
     )
@@ -1022,67 +1022,55 @@ async def main():
     print(f"📊 Dataset: {'Test (10 items)' if args.test else 'Full dataset'}")
     print("=" * 60)
 
-    # Option to use local EB-1-Nodes-Technologies submodule text files
-    if args.use_local_eb1:
-        print("📖 Parsing data from EB-1-Nodes-Technologies submodule text files...")
-        import re, uuid
+    # Option to use EB-1-Nodes-Technologies from GitHub zip if --new-db is set
+    if args.new_db:
+        print(
+            "📖 Downloading and parsing data from EB-1-Nodes-Technologies GitHub zip..."
+        )
+        import re, uuid, tempfile, zipfile, requests, shutil
 
-        eb1_dir = Path(__file__).parent / "EB-1-Nodes-Technologies"
-        node_files = list(eb1_dir.glob("RREXP *.txt"))
-        if not node_files:
-            print(f"  ❌ No RREXP *.txt files found in {eb1_dir}")
-            return
-        print(f"  📄 Found {len(node_files)} node files")
+        # Download the zip
+        url = "https://github.com/Hylcke/EB-1-Nodes-Technologies/archive/refs/heads/main.zip"
+        with tempfile.TemporaryDirectory() as tmpdir:
+            zip_path = Path(tmpdir) / "eb1.zip"
+            print(f"  ⬇️  Downloading zip from {url}")
+            with requests.get(url, stream=True) as r:
+                r.raise_for_status()
+                with open(zip_path, "wb") as f:
+                    for chunk in r.iter_content(chunk_size=8192):
+                        f.write(chunk)
+            # Extract zip
+            with zipfile.ZipFile(zip_path, "r") as zip_ref:
+                zip_ref.extractall(tmpdir)
+            # Find the extracted folder
+            extracted = next(Path(tmpdir).glob("EB-1-Nodes-Technologies-*/"))
+            node_files = list(extracted.glob("RREXP *.txt"))
+            if not node_files:
+                print(f"  ❌ No RREXP *.txt files found in {extracted}")
+                return
+            print(f"  📄 Found {len(node_files)} node files")
 
-        def parse_node_file(file_path):
-            content = file_path.read_text(encoding="utf-8")
-            filename = file_path.name
-            country_match = re.search(r"RREXP\s+([A-Z\s]+?)\s+", filename)
-            country = country_match.group(1).strip() if country_match else "Unknown"
-            name_match = re.search(r"RREXP\s+[A-Z\s]+?\s+(.+?)\.txt$", filename)
-            name = (
-                name_match.group(1).strip()
-                if name_match
-                else filename.replace(".txt", "")
-            )
-            description_match = re.search(
-                r"# Description\s*\n\n(.*?)(?=\n##|\n#|\Z)", content, re.DOTALL
-            )
-            description = (
-                description_match.group(1).strip() if description_match else ""
-            )
-            description = re.sub(r"\n+", " ", description)
-            description = re.sub(r"\*\*(.*?)\*\*", r"\1", description)
-            description = re.sub(r"\s+", " ", description).strip()
-            technologies = []
-            tech_table_match = re.search(
-                r"\| Technologies \|.*?\n(.*?)(?=\n##|\n#|\Z)", content, re.DOTALL
-            )
-            if tech_table_match:
-                table_content = tech_table_match.group(1)
-                for line in table_content.split("\n"):
-                    if "|" in line and not line.strip().startswith("|---"):
-                        tech_match = re.search(r"\|\s*([^|]+?)\s*\|", line)
-                        if tech_match:
-                            tech_name = tech_match.group(1).strip()
-                            if tech_name and tech_name != "Technologies":
-                                technologies.append(tech_name)
-            node_id = str(
-                uuid.uuid5(uuid.NAMESPACE_DNS, f"eurobioimaging.node.{country}.{name}")
-            )
-            return {
-                "id": node_id,
-                "name": name,
-                "description": description,
-                "country": {"name": country},
-                "technologies": technologies,
-                "entity_type": "node",
-            }
-
-        def extract_technologies_from_files(file_paths):
-            all_technologies = set()
-            for file_path in file_paths:
+            def parse_node_file(file_path):
                 content = file_path.read_text(encoding="utf-8")
+                filename = file_path.name
+                country_match = re.search(r"RREXP\s+([A-Z\s]+?)\s+", filename)
+                country = country_match.group(1).strip() if country_match else "Unknown"
+                name_match = re.search(r"RREXP\s+[A-Z\s]+?\s+(.+?)\.txt$", filename)
+                name = (
+                    name_match.group(1).strip()
+                    if name_match
+                    else filename.replace(".txt", "")
+                )
+                description_match = re.search(
+                    r"# Description\s*\n\n(.*?)(?=\n##|\n#|\Z)", content, re.DOTALL
+                )
+                description = (
+                    description_match.group(1).strip() if description_match else ""
+                )
+                description = re.sub(r"\n+", " ", description)
+                description = re.sub(r"\*\*(.*?)\*\*", r"\1", description)
+                description = re.sub(r"\s+", " ", description).strip()
+                technologies = []
                 tech_table_match = re.search(
                     r"\| Technologies \|.*?\n(.*?)(?=\n##|\n#|\Z)", content, re.DOTALL
                 )
@@ -1094,51 +1082,83 @@ async def main():
                             if tech_match:
                                 tech_name = tech_match.group(1).strip()
                                 if tech_name and tech_name != "Technologies":
-                                    all_technologies.add(tech_name)
-            technologies = []
-            for tech_name in sorted(all_technologies):
-                tech_id = str(
+                                    technologies.append(tech_name)
+                node_id = str(
                     uuid.uuid5(
-                        uuid.NAMESPACE_DNS, f"eurobioimaging.technology.{tech_name}"
+                        uuid.NAMESPACE_DNS, f"eurobioimaging.node.{country}.{name}"
                     )
                 )
-                category = "Unknown"
-                if any(
-                    keyword in tech_name.lower()
-                    for keyword in ["microscopy", "imaging", "scan"]
-                ):
-                    category = "Microscopy"
-                elif any(
-                    keyword in tech_name.lower()
-                    for keyword in ["spectroscopy", "raman"]
-                ):
-                    category = "Spectroscopy"
-                elif any(
-                    keyword in tech_name.lower()
-                    for keyword in ["tomography", "tem", "sem"]
-                ):
-                    category = "Electron Microscopy"
-                elif any(
-                    keyword in tech_name.lower()
-                    for keyword in ["clearing", "expansion"]
-                ):
-                    category = "Sample Preparation"
-                technologies.append(
-                    {
-                        "id": tech_id,
-                        "name": tech_name,
-                        "description": f"Bioimaging technology: {tech_name}",
-                        "category": {"name": category},
-                        "entity_type": "technology",
-                    }
-                )
-            return technologies
+                return {
+                    "id": node_id,
+                    "name": name,
+                    "description": description,
+                    "country": {"name": country},
+                    "technologies": technologies,
+                    "entity_type": "node",
+                }
 
-        nodes_data = [parse_node_file(f) for f in node_files]
-        tech_data = extract_technologies_from_files(node_files)
-        print(
-            f"  ✅ Parsed {len(nodes_data)} nodes and {len(tech_data)} unique technologies from submodule text files"
-        )
+            def extract_technologies_from_files(file_paths):
+                all_technologies = set()
+                for file_path in file_paths:
+                    content = file_path.read_text(encoding="utf-8")
+                    tech_table_match = re.search(
+                        r"\| Technologies \|.*?\n(.*?)(?=\n##|\n#|\Z)",
+                        content,
+                        re.DOTALL,
+                    )
+                    if tech_table_match:
+                        table_content = tech_table_match.group(1)
+                        for line in table_content.split("\n"):
+                            if "|" in line and not line.strip().startswith("|---"):
+                                tech_match = re.search(r"\|\s*([^|]+?)\s*\|", line)
+                                if tech_match:
+                                    tech_name = tech_match.group(1).strip()
+                                    if tech_name and tech_name != "Technologies":
+                                        all_technologies.add(tech_name)
+                technologies = []
+                for tech_name in sorted(all_technologies):
+                    tech_id = str(
+                        uuid.uuid5(
+                            uuid.NAMESPACE_DNS, f"eurobioimaging.technology.{tech_name}"
+                        )
+                    )
+                    category = "Unknown"
+                    if any(
+                        keyword in tech_name.lower()
+                        for keyword in ["microscopy", "imaging", "scan"]
+                    ):
+                        category = "Microscopy"
+                    elif any(
+                        keyword in tech_name.lower()
+                        for keyword in ["spectroscopy", "raman"]
+                    ):
+                        category = "Spectroscopy"
+                    elif any(
+                        keyword in tech_name.lower()
+                        for keyword in ["tomography", "tem", "sem"]
+                    ):
+                        category = "Electron Microscopy"
+                    elif any(
+                        keyword in tech_name.lower()
+                        for keyword in ["clearing", "expansion"]
+                    ):
+                        category = "Sample Preparation"
+                    technologies.append(
+                        {
+                            "id": tech_id,
+                            "name": tech_name,
+                            "description": f"Bioimaging technology: {tech_name}",
+                            "category": {"name": category},
+                            "entity_type": "technology",
+                        }
+                    )
+                return technologies
+
+            nodes_data = [parse_node_file(f) for f in node_files]
+            tech_data = extract_technologies_from_files(node_files)
+            print(
+                f"  ✅ Parsed {len(nodes_data)} nodes and {len(tech_data)} unique technologies from downloaded text files"
+            )
     else:
         # Fetch the JSON data from APIs
         print("📖 Fetching data from APIs...")
